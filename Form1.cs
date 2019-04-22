@@ -22,7 +22,9 @@ namespace Modelowanie_GUI
         
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(numericUpDown3.Value.ToString());
+            Board board = new Board((int)numericUpDown1.Value, (int)numericUpDown2.Value,(int)numericUpDown3.Value);
+            //board.prepareBoard();           
+            MessageBox.Show(board.prepareBoard());
         }
     }
 }
