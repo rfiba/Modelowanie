@@ -26,7 +26,7 @@ namespace Modelowanie_GUI
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Grid grid = new Grid(10, 10);
+            Grid grid = new Grid();
             Pen pen = new Pen(Color.Black, 1f);
             grid.draw(panel1.Width, panel1.Height, e.Graphics, pen);
         }

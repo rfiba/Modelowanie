@@ -10,13 +10,9 @@ namespace Modelowanie_GUI
 {
     class Grid
     {
-        private int horizontalCells;
-        private int verticalCells ;
         private int cellSize;
-        public Grid(int horizontalCells, int verticalCells, int cellSize=10)
+        public Grid(int cellSize=10)
         {
-            this.horizontalCells = horizontalCells;
-            this.verticalCells = verticalCells;
             this.cellSize = cellSize;
         }
 
