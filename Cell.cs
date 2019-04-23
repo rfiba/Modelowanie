@@ -13,17 +13,7 @@ namespace Modelowanie_GUI
         {
             state = false;
         }
-        public bool State
-        {
-            get
-            {
-                return state;
-            }
-
-            set
-            {
-                state = value;
-            }
-        }
+        public bool State { get; set; }
+        
     }
 }
