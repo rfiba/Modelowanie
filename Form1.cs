@@ -15,20 +15,26 @@ namespace Modelowanie_GUI
         public Form1()
         {
             InitializeComponent();
+            
         }
         
         private void button1_Click(object sender, EventArgs e)
         {
             Board board = new Board((int)numericUpDown1.Value, (int)numericUpDown2.Value,(int)numericUpDown3.Value);
             //board.prepareBoard();           
-            MessageBox.Show(board.prepareBoard());
+            //MessageBox.Show(board.prepareBoard());
+            Grid grid = new Grid();
+            Pen pen = new Pen(Color.Black, 1f);
+            Graphics graphics = panel1.CreateGraphics();
+            grid.draw(panel1.Width, panel1.Height, graphics, pen);
+            
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Grid grid = new Grid();
-            Pen pen = new Pen(Color.Black, 1f);
-            grid.draw(panel1.Width, panel1.Height, e.Graphics, pen);
+            //Console.WriteLine(sender);
+            //MessageBox.Show(e.ToString());
+            
         }
     }
 }
