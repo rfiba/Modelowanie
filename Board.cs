@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,15 @@ namespace Modelowanie_GUI
             return result;
         }
 
+
+
+        public void drawOnGraphics(SolidBrush brush, Graphics graphics)
+        {
+            for(int i = 0; i < numberOfCells; i++)
+            {
+                
+            }
+        }
         public bool getValue(int x, int y)
         {
             return board[x, y].State;

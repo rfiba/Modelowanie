@@ -6,6 +6,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        
 
         /// <summary>
         /// Clean up any resources being used.
@@ -95,7 +96,7 @@
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(88, 14);
+            this.numericUpDown1.Size = new System.Drawing.Size(88, 20);
             this.numericUpDown1.TabIndex = 8;
             this.numericUpDown1.Value = new decimal(new int[] {
             10,
@@ -117,7 +118,7 @@
             0,
             0});
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(88, 14);
+            this.numericUpDown2.Size = new System.Drawing.Size(88, 20);
             this.numericUpDown2.TabIndex = 9;
             this.numericUpDown2.Value = new decimal(new int[] {
             10,
@@ -139,7 +140,7 @@
             0,
             0});
             this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(60, 14);
+            this.numericUpDown3.Size = new System.Drawing.Size(60, 20);
             this.numericUpDown3.TabIndex = 10;
             this.numericUpDown3.Value = new decimal(new int[] {
             30,
@@ -157,13 +158,11 @@
             this.panel1.Size = new System.Drawing.Size(844, 350);
             this.panel1.TabIndex = 11;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            //this.panel1.Hide();
             // 
             // numericUpDown4
             // 
             this.numericUpDown4.Location = new System.Drawing.Point(607, 14);
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(63, 20);
-            this.numericUpDown4.TabIndex = 12;
             this.numericUpDown4.Maximum = new decimal(new int[] {
             255,
             0,
@@ -174,6 +173,9 @@
             0,
             0,
             0});
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(63, 20);
+            this.numericUpDown4.TabIndex = 12;
             this.numericUpDown4.Value = new decimal(new int[] {
             10,
             0,
@@ -204,8 +206,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(888, 453);
+            this.MinimumSize = new System.Drawing.Size(888, 453);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
