@@ -9,8 +9,8 @@ namespace Modelowanie_GUI
     class Board
     {
         Cell[,] board;
-        int numberOfIteration;
-        int numberOfCells;
+        public int numberOfIteration { get; }
+        public int numberOfCells { get; }
         int rule;
 
         public Board(int numberOfIteration, int numberOfCells, int rule)
@@ -56,6 +56,11 @@ namespace Modelowanie_GUI
                 result += "\n";
             }
             return result;
+        }
+
+        public bool getValue(int x, int y)
+        {
+            return board[x, y].State;
         }
 
         static int boolsToDecimal(bool a, bool b, bool c)

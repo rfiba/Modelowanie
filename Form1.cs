@@ -23,17 +23,27 @@ namespace Modelowanie_GUI
             Board board = new Board((int)numericUpDown1.Value, (int)numericUpDown2.Value,(int)numericUpDown3.Value);
             //board.prepareBoard();           
             //MessageBox.Show(board.prepareBoard());
-            Grid grid = new Grid();
+            Grid grid = new Grid((int)numericUpDown4.Value);
             Pen pen = new Pen(Color.Black, 1f);
             Graphics graphics = panel1.CreateGraphics();
             grid.draw(panel1.Width, panel1.Height, graphics, pen);
+            for(int i = 0; i < board.numberOfIteration; i++)
+            {
+                for(int j = 0; j < board.numberOfCells; j++)
+                {
+                    if (board.getValue(i, j) == true)
+                    {
+
+                    }
+                    else
+                        j++;
+                }
+            }
             
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            //Console.WriteLine(sender);
-            //MessageBox.Show(e.ToString());
             
         }
     }
