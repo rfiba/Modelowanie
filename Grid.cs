@@ -10,18 +10,18 @@ namespace Modelowanie_GUI
 {
     class Grid
     {
-        private int cellSize;
-        public Grid(int cellSize=10)
+        public int cellSize { get; set; }
+        public Grid(int panelWidth, int numberOfCells)
         {
-            this.cellSize = cellSize;
+            this.cellSize = panelWidth/numberOfCells;
         }
 
         public void draw(int panelWidth, int panelHeight, Graphics canva, Pen pen)
         {
-            for (int it = cellSize; it < panelWidth; it += cellSize)
+            for (int it = 0; it < panelWidth; it += cellSize)
                 canva.DrawLine(pen, it, 0, it, panelHeight);
 
-            for (int it = cellSize; it < panelHeight; it += cellSize)
+            for (int it = 0; it < panelHeight; it += cellSize)
                 canva.DrawLine(pen, 0, it, panelWidth, it);
         }
     }

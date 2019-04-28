@@ -25,7 +25,7 @@ namespace Modelowanie_GUI
             board.prepareBoard();           
             //MessageBox.Show(board.prepareBoard());
             int sizeOfGrain = (int)numericUpDown4.Value;
-            Grid grid = new Grid((int)numericUpDown4.Value);
+            Grid grid = new Grid(panel1.Width, (int)numericUpDown2.Value);
             Pen pen = new Pen(Color.Black, 1f);
             SolidBrush brush = new SolidBrush(Color.Red);
             Graphics graphics = panel1.CreateGraphics();
@@ -37,7 +37,7 @@ namespace Modelowanie_GUI
                 {
                     if (board.getValue(i, j) == true)
                     {
-                        graphics.FillRectangle(brush,j* sizeOfGrain+1, i* sizeOfGrain+1, sizeOfGrain-1, sizeOfGrain-1);
+                        graphics.FillRectangle(brush,j* grid.cellSize+1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                     }
                 }
             }

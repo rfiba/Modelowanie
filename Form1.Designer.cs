@@ -150,7 +150,6 @@
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(16, 52);
             this.panel1.MaximumSize = new System.Drawing.Size(844, 350);
             this.panel1.MinimumSize = new System.Drawing.Size(844, 350);
@@ -158,7 +157,6 @@
             this.panel1.Size = new System.Drawing.Size(844, 350);
             this.panel1.TabIndex = 11;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            //this.panel1.Hide();
             // 
             // numericUpDown4
             // 
