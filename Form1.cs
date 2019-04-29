@@ -20,30 +20,32 @@ namespace Modelowanie_GUI
         
         private void button1_Click(object sender, EventArgs e)
         {
-            panel1.Refresh();
+            pictureBox1.Refresh();
             Board board = new Board((int)numericUpDown1.Value, (int)numericUpDown2.Value,(int)numericUpDown3.Value);
             board.prepareBoard();           
             //MessageBox.Show(board.prepareBoard());
-            int sizeOfGrain = (int)numericUpDown4.Value;
-            Grid grid = new Grid(panel1.Width, (int)numericUpDown2.Value);
+            
+            Bitmap image = new Bitmap(844, 350);
+            Grid grid = new Grid(pictureBox1.Width, (int)numericUpDown2.Value);
             Pen pen = new Pen(Color.Black, 1f);
             SolidBrush brush = new SolidBrush(Color.Red);
-            Graphics graphics = panel1.CreateGraphics();
-            grid.draw(panel1.Width, panel1.Height, graphics, pen);
+            Graphics graphics = Graphics.FromImage(image);
+            grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
 
             for (int i = 0; i < board.numberOfIteration; i++)
             {
-                for(int j = 0; j < board.numberOfCells; j++)
+                for (int j = 0; j < board.numberOfCells; j++)
                 {
                     if (board.getValue(i, j) == true)
                     {
-                        graphics.FillRectangle(brush,j* grid.cellSize+1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+                        graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                     }
                 }
             }
             
+
+            pictureBox1.Image = image;
             
-           
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
