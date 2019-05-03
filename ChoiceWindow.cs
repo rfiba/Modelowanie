@@ -24,5 +24,13 @@ namespace Modelowanie_GUI
             automaton.Show();
             this.Hide();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GameOfLife gameOfLife = new GameOfLife();
+            gameOfLife.Closed += (s, args) => this.Close();
+            gameOfLife.Show();
+            this.Hide();
+        }
     }
 }

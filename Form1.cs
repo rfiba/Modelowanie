@@ -25,7 +25,7 @@ namespace Modelowanie_GUI
             board.prepareBoard();           
             //MessageBox.Show(board.prepareBoard());
             
-            Bitmap image = new Bitmap(844, 350);
+            Bitmap image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Grid grid = new Grid(pictureBox1.Width, (int)numericUpDown2.Value);
             Pen pen = new Pen(Color.Black, 1f);
             SolidBrush brush = new SolidBrush(Color.Red);
@@ -34,6 +34,9 @@ namespace Modelowanie_GUI
 
             for (int i = 0; i < board.sizeM; i++)
             {
+                if ((pictureBox1.Height / grid.cellSize) * grid.cellSize < i * grid.cellSize + 1)
+                    break;
+
                 for (int j = 0; j < board.sizeN; j++)
                 {
                     if (board.getValue(i, j) == true)
