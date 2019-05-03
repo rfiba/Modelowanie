@@ -32,9 +32,9 @@ namespace Modelowanie_GUI
             Graphics graphics = Graphics.FromImage(image);
             grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
 
-            for (int i = 0; i < board.sizeY; i++)
+            for (int i = 0; i < board.sizeM; i++)
             {
-                for (int j = 0; j < board.sizeX; j++)
+                for (int j = 0; j < board.sizeN; j++)
                 {
                     if (board.getValue(i, j) == true)
                     {
