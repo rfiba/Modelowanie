@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Modelowanie_GUI
 {
-    public partial class Form1 : Form
+    public partial class Automaton : Form
     {
-        public Form1()
+        public Automaton()
         {
             InitializeComponent();
             

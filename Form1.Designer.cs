@@ -1,6 +1,6 @@
 ﻿namespace Modelowanie_GUI
 {
-    partial class Form1
+    partial class Automaton
     {
         /// <summary>
         /// Required designer variable.

@@ -76,14 +76,14 @@ namespace Modelowanie_GUI
             }
         }
 
-    int mod(int x, int max)
-    {
-        if (x >= 0 && x < max)
-            return x;
-        else if (x < 0)
-            return max - 1;
-        else
-            return (x - max);
-    }
+        int mod(int x, int max)
+        {
+            if (x >= 0 && x < max)
+                return x;
+            else if (x < 0)
+                return max - 1;
+            else
+                return (x - max);
+        }
     }
 }
