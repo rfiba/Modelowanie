@@ -1,77 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Modelowanie_GUI
 {
     class BoardGameOfLife
     {
-        Board boardA;
+        Board []board;
         Board boardB;
-        int sizeX;
-        int sizeY;
+        int sizeM;
+        int sizeN;
         int rule; // 0 - Moore neighbourhood
+        short currentBoard = 0;
 
-        public BoardGameOfLife(int sizeX, int sizeY, int shape, int rule = 0)
+
+        public BoardGameOfLife(int sizeM, int sizeN, string shape, int rule = 0)
         {
+            board = new Board[2];
             this.rule = rule;
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-
-            int center = boardA.sizeN / 2;
+            this.sizeM = sizeM;
+            this.sizeN = sizeN;
+            board[0] = new Board(this.sizeM, this.sizeN);
+            board[1] = new Board(this.sizeM, this.sizeN);
+            int center = board[0].sizeN / 2;
             switch (shape)
             {
-                case 0:
-                    boardA.prepareBeeHive();
+                case "Niezmienny":
+                    board[0].prepareBeeHive();
                     break;
-                case 1:
-                    boardA.prepareBlinker();
+                case "Oscylator":
+                    board[0].prepareBlinker();
                     break;
-                case 2:
-                    boardA.prepareGlider();
+                case "Glider":
+                    board[0].prepareGlider();
                     break;
-                case 3:
-                    boardA.prepareRandom();
+                case "Losowy":
+                    board[0].prepareRandom();
                     break;
             }
         }
 
-        public void computeStep(int rule)
+        public void computeStep(int numberOfBoard, int rule=0)
         {
-            for (int i = 0; i < boardA.sizeM; i++)
+            for (int i = 0; i < board[numberOfBoard].sizeM; i++)
             {
-                for (int j = 0; j < boardA.sizeN; j++)
+                for (int j = 0; j < board[numberOfBoard].sizeN; j++)
                 {
                     int alives = 0;
                    
-                    var tmp = boardA.getValue(mod(i - 1,boardA.sizeM), j) ? alives++ : 0;
-                    tmp = boardA.getValue(mod(i - 1, boardA.sizeM), mod(j + 1, boardA.sizeN)) ? alives++ : 0;
-                    tmp = boardA.getValue(mod(i - 1, boardA.sizeM), mod(j - 1, boardA.sizeN)) ? alives++ : 0;
-                    tmp = boardA.getValue(mod(i + 1, boardA.sizeM), j) ? alives++ : 0;
-                    tmp = boardA.getValue(mod(i + 1, boardA.sizeM), mod(j + 1, boardA.sizeN)) ? alives++ : 0;
-                    tmp = boardA.getValue(mod(i + 1, boardA.sizeM), mod(j - 1, boardA.sizeN)) ? alives++ : 0;
-                    tmp = boardA.getValue(i, mod(j + 1, boardA.sizeN)) ? alives++ : 0;
-                    tmp = boardA.getValue(i, mod(j - 1, boardA.sizeN)) ? alives++ : 0;
+                    var tmp = board[numberOfBoard].getValue(mod(i - 1, board[numberOfBoard].sizeM), j) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(mod(i - 1, board[numberOfBoard].sizeM), mod(j + 1, board[numberOfBoard].sizeN)) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(mod(i - 1, board[numberOfBoard].sizeM), mod(j - 1, board[numberOfBoard].sizeN)) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(mod(i + 1, board[numberOfBoard].sizeM), j) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(mod(i + 1, board[numberOfBoard].sizeM), mod(j + 1, board[numberOfBoard].sizeN)) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(mod(i + 1, board[numberOfBoard].sizeM), mod(j - 1, board[numberOfBoard].sizeN)) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(i, mod(j + 1, board[numberOfBoard].sizeN)) ? alives++ : 0;
+                    tmp = board[numberOfBoard].getValue(i, mod(j - 1, board[numberOfBoard].sizeN)) ? alives++ : 0;
 
-                    if (boardA.getValue(i,j))
+                    if (board[numberOfBoard].getValue(i,j))
                     {
                         if (alives != 2 && alives != 3)
                         {
-                            boardB.set(i, j,false); 
+                            board[(numberOfBoard+1)%2].set(i, j,false); 
                             continue;
                         }
                     }
                     else {
                         if (alives == 3)
                         {
-                            boardB.set(i, j, true);
+                            board[(numberOfBoard + 1) % 2].set(i, j, true);
                             continue;
                         }
                     }
 
-                    boardB.set(i, j, boardA.getValue(i, j));
+                    board[(numberOfBoard + 1) % 2].set(i, j, board[numberOfBoard].getValue(i, j));
                 }
             }
         }
@@ -84,6 +90,23 @@ namespace Modelowanie_GUI
                 return max - 1;
             else
                 return (x - max);
+        }
+        
+        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
+        {
+            for (int i = 0; i < board[numberOfBoard].sizeM; i++)
+            {
+                if ((pictureBox.Height / grid.cellSize) * grid.cellSize < i * grid.cellSize + 1)
+                    ;//continue;
+
+                for (int j = 0; j < board[numberOfBoard].sizeN; j++)
+                {
+                    if (board[numberOfBoard].getValue(i, j) == true)
+                    {
+                        graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+                    }
+                }
+            }
         }
     }
 }

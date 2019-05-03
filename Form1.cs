@@ -15,7 +15,6 @@ namespace Modelowanie_GUI
         public Automaton()
         {
             InitializeComponent();
-            
         }
         
         private void button1_Click(object sender, EventArgs e)
@@ -23,7 +22,6 @@ namespace Modelowanie_GUI
             pictureBox1.Refresh();
             Board board = new Board((int)numericUpDown1.Value, (int)numericUpDown2.Value,(int)numericUpDown3.Value);
             board.prepareBoard();           
-            //MessageBox.Show(board.prepareBoard());
             
             Bitmap image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Grid grid = new Grid(pictureBox1.Width, (int)numericUpDown2.Value);
@@ -46,9 +44,7 @@ namespace Modelowanie_GUI
                 }
             }
             
-
             pictureBox1.Image = image;
-            
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
