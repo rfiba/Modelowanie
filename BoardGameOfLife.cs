@@ -12,8 +12,8 @@ namespace Modelowanie_GUI
     {
         Board []board;
         Board boardB;
-        int sizeM;
-        int sizeN;
+        public int sizeM { get; }
+        public int sizeN { get; }
         int rule; // 0 - Moore neighbourhood
         //short currentBoard = 0;
 

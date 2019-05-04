@@ -77,6 +77,8 @@ namespace Modelowanie_GUI
                 MouseEventArgs me = (MouseEventArgs)e;
                 if (me.Button == MouseButtons.Left)
                 {
+                    if (me.X >= board.sizeN * grid.cellSize || me.Y >= board.sizeM * grid.cellSize)
+                        return;
                     //MessageBox.Show($"{me.X} {me.Y}");
                     board.setValueBasedOnCoordinates(me.X, me.Y, true, grid, boardCounter % 2);
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -88,6 +90,10 @@ namespace Modelowanie_GUI
 
                 if (me.Button == MouseButtons.Right)
                 {
+                    MessageBox.Show($"{me.X} {me.Y}");
+                    if (me.X >= board.sizeN * grid.cellSize || me.Y >= board.sizeM * grid.cellSize)
+                        return;
+
                     if (board.getValueBasedOnCoordinates(me.X, me.Y, grid, boardCounter % 2) == true)
                     {
                         board.setValueBasedOnCoordinates(me.X, me.Y, false, grid, boardCounter % 2);
