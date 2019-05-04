@@ -19,6 +19,7 @@ namespace Modelowanie_GUI
         SolidBrush brush;
         Graphics graphics;
         int boardCounter = 0;
+        bool manualMode;
 
         public GameOfLife()
         {
@@ -38,6 +39,11 @@ namespace Modelowanie_GUI
             boardCounter = 0;
             if(board == null)
                 board = new BoardGameOfLife(pictureBox1.Height / 10, pictureBox1.Width / 10, listBox1.SelectedItem.ToString());
+            else
+            {
+                if (manualMode == false)
+                    board.setDefaultShape(listBox1.SelectedItem.ToString());
+            }
             pictureBox1.Image = image;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
@@ -66,30 +72,39 @@ namespace Modelowanie_GUI
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            MouseEventArgs me = (MouseEventArgs)e;
-            if (me.Button == MouseButtons.Left)
+            if (manualMode == true)
             {
-                //MessageBox.Show($"{me.X} {me.Y}");
-                board.setValueBasedOnCoordinates(me.X, me.Y, true, grid, boardCounter % 2);
-                image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                graphics = Graphics.FromImage(image);
-                board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-                grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
-                pictureBox1.Image = image;
-            }
-
-            if (me.Button == MouseButtons.Right)
-            {
-                if (board.getValueBasedOnCoordinates(me.X, me.Y, grid, boardCounter % 2) == true)
+                MouseEventArgs me = (MouseEventArgs)e;
+                if (me.Button == MouseButtons.Left)
                 {
-                    board.setValueBasedOnCoordinates(me.X, me.Y, false, grid, boardCounter % 2);
+                    //MessageBox.Show($"{me.X} {me.Y}");
+                    board.setValueBasedOnCoordinates(me.X, me.Y, true, grid, boardCounter % 2);
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                     graphics = Graphics.FromImage(image);
                     board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
                     grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
                     pictureBox1.Image = image;
                 }
+
+                if (me.Button == MouseButtons.Right)
+                {
+                    if (board.getValueBasedOnCoordinates(me.X, me.Y, grid, boardCounter % 2) == true)
+                    {
+                        board.setValueBasedOnCoordinates(me.X, me.Y, false, grid, boardCounter % 2);
+                        image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                        graphics = Graphics.FromImage(image);
+                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                        grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
+                        pictureBox1.Image = image;
+                    }
+                }
             }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem.ToString() == "Ręczna definicja")
+                manualMode = true;
         }
     }
 }

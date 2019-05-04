@@ -53,6 +53,25 @@ namespace Modelowanie_GUI
             board[1] = new Board(this.sizeM, this.sizeN);           
         }
 
+        public void setDefaultShape(string shape)
+        {
+            switch (shape)
+            {
+                case "Niezmienny":
+                    board[0].prepareBeeHive();
+                    break;
+                case "Oscylator":
+                    board[0].prepareBlinker();
+                    break;
+                case "Glider":
+                    board[0].prepareGlider();
+                    break;
+                case "Losowy":
+                    board[0].prepareRandom();
+                    break;
+            }
+        }
+
         public void computeStep(int numberOfBoard, int rule=0)
         {
             for (int i = 0; i < board[numberOfBoard].sizeM; i++)
