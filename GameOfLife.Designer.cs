@@ -48,6 +48,7 @@ namespace Modelowanie_GUI
             this.pictureBox1.Size = new System.Drawing.Size(896, 388);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // listBox1
             // 
@@ -62,6 +63,7 @@ namespace Modelowanie_GUI
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(126, 30);
             this.listBox1.TabIndex = 1;
+            this.listBox1.SelectedItem = 4;
             // 
             // button1
             // 
@@ -81,6 +83,7 @@ namespace Modelowanie_GUI
             this.button2.TabIndex = 3;
             this.button2.Text = "Wznów";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 

@@ -15,7 +15,7 @@ namespace Modelowanie_GUI
         int sizeM;
         int sizeN;
         int rule; // 0 - Moore neighbourhood
-        short currentBoard = 0;
+        //short currentBoard = 0;
 
 
         public BoardGameOfLife(int sizeM, int sizeN, string shape, int rule = 0)
@@ -26,7 +26,6 @@ namespace Modelowanie_GUI
             this.sizeN = sizeN;
             board[0] = new Board(this.sizeM, this.sizeN);
             board[1] = new Board(this.sizeM, this.sizeN);
-            int center = board[0].sizeN / 2;
             switch (shape)
             {
                 case "Niezmienny":
@@ -42,6 +41,16 @@ namespace Modelowanie_GUI
                     board[0].prepareRandom();
                     break;
             }
+        }
+
+        public BoardGameOfLife(int sizeM, int sizeN, int rule = 0)
+        {
+            board = new Board[2];
+            this.rule = rule;
+            this.sizeM = sizeM;
+            this.sizeN = sizeN;
+            board[0] = new Board(this.sizeM, this.sizeN);
+            board[1] = new Board(this.sizeM, this.sizeN);           
         }
 
         public void computeStep(int numberOfBoard, int rule=0)
@@ -82,6 +91,11 @@ namespace Modelowanie_GUI
             }
         }
 
+        public bool getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard)
+        {
+            return board[numberOfBoard].getValue(y / grid.cellSize, x / grid.cellSize);
+        }
+
         int mod(int x, int max)
         {
             if (x >= 0 && x < max)
@@ -107,6 +121,16 @@ namespace Modelowanie_GUI
                     }
                 }
             }
+        }
+
+        public void setValue(int m, int n, bool value, int numberOfBoard)
+        {
+            board[numberOfBoard].set(m, n, value);
+        }
+
+        public void setValueBasedOnCoordinates(int x, int y, bool value, Grid grid, int numberOfBoard)
+        {
+            board[numberOfBoard].set(y / grid.cellSize,x / grid.cellSize, value);
         }
     }
 }

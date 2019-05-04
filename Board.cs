@@ -32,7 +32,7 @@ namespace Modelowanie_GUI
         {
             this.sizeM = sizeM;
             this.sizeN = sizeN;
-            board = new Cell[sizeM, sizeN];
+            board = new Cell[this.sizeM, this.sizeN];
             for (int i = 0; i < this.sizeM; i++)
             {
                 for (int j = 0; j < this.sizeN; j++)
