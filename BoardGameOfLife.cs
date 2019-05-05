@@ -53,7 +53,7 @@ namespace Modelowanie_GUI
             board[1] = new Board(this.sizeM, this.sizeN);           
         }
 
-        public void setDefaultShape(string shape)
+        public void setDefaultShape(string shape = "Losowy")
         {
             switch (shape)
             {

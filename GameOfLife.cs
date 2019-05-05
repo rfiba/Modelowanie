@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Modelowanie_GUI
@@ -35,7 +29,7 @@ namespace Modelowanie_GUI
             board = new BoardGameOfLife(pictureBox1.Height / 10, pictureBox1.Width / 10);
             timer = new Timer();
             timer.Tick +=  OnTimedEvent;
-            timer.Interval = 800;
+            timer.Interval = 500;
             
         }
 
@@ -50,9 +44,10 @@ namespace Modelowanie_GUI
                 if (manualMode == false)
                     board.setDefaultShape(listBox1.SelectedItem.ToString());
             }
-            timer.Start();
+            
             button1.Enabled = false;
             listBox1.Enabled = false;
+            timer.Start();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -115,6 +110,7 @@ namespace Modelowanie_GUI
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            button1.Enabled = true;
             if (listBox1.SelectedItem.ToString() == "Ręczna definicja")
                 manualMode = true;
         }
