@@ -35,7 +35,7 @@ namespace Modelowanie_GUI
             board = new BoardGameOfLife(pictureBox1.Height / 10, pictureBox1.Width / 10);
             timer = new Timer();
             timer.Tick +=  OnTimedEvent;
-            timer.Interval = 1000;
+            timer.Interval = 800;
             
         }
 
@@ -52,15 +52,19 @@ namespace Modelowanie_GUI
             }
             timer.Start();
             button1.Enabled = false;
+            listBox1.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             timer.Stop();
+            manualMode = true;
+            boardCounter--;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            
             timer.Start();
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
@@ -75,12 +79,14 @@ namespace Modelowanie_GUI
         {
             if (manualMode == true)
             {
+                
+
                 MouseEventArgs me = (MouseEventArgs)e;
                 if (me.Button == MouseButtons.Left)
                 {
                     if (me.X >= board.sizeN * grid.cellSize || me.Y >= board.sizeM * grid.cellSize)
                         return;
-                    //MessageBox.Show($"{me.X} {me.Y}");
+
                     board.setValueBasedOnCoordinates(me.X, me.Y, true, grid, boardCounter % 2);
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                     graphics = Graphics.FromImage(image);
@@ -91,7 +97,6 @@ namespace Modelowanie_GUI
 
                 if (me.Button == MouseButtons.Right)
                 {
-                    MessageBox.Show($"{me.X} {me.Y}");
                     if (me.X >= board.sizeN * grid.cellSize || me.Y >= board.sizeM * grid.cellSize)
                         return;
 
@@ -117,6 +122,7 @@ namespace Modelowanie_GUI
         private void OnTimedEvent(Object source, EventArgs e)
         {
             timer.Stop();
+            
             pictureBox1.Image = image;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
@@ -127,7 +133,6 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
             board.computeStep(boardCounter % 2);
             boardCounter++;
-            
             timer.Start();
         }
     }
