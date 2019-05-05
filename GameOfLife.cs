@@ -20,6 +20,7 @@ namespace Modelowanie_GUI
         Graphics graphics;
         int boardCounter = 0;
         bool manualMode;
+        static Timer timer;
 
         public GameOfLife()
         {
@@ -32,10 +33,15 @@ namespace Modelowanie_GUI
             brush = new SolidBrush(Color.Red);
             pictureBox1.Image = image;
             board = new BoardGameOfLife(pictureBox1.Height / 10, pictureBox1.Width / 10);
+            timer = new Timer();
+            timer.Tick +=  OnTimedEvent;
+            timer.Interval = 1000;
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             boardCounter = 0;
             if(board == null)
                 board = new BoardGameOfLife(pictureBox1.Height / 10, pictureBox1.Width / 10, listBox1.SelectedItem.ToString());
@@ -44,23 +50,18 @@ namespace Modelowanie_GUI
                 if (manualMode == false)
                     board.setDefaultShape(listBox1.SelectedItem.ToString());
             }
-            pictureBox1.Image = image;
-            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            graphics = Graphics.FromImage(image);
-            grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
-            pictureBox1.Refresh();
-            
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, 0);
-            pictureBox1.Image = image;
+            timer.Start();
+            button1.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            timer.Stop();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            timer.Start();
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             board.computeStep(boardCounter % 2);
@@ -111,6 +112,23 @@ namespace Modelowanie_GUI
         {
             if (listBox1.SelectedItem.ToString() == "Ręczna definicja")
                 manualMode = true;
+        }
+
+        private void OnTimedEvent(Object source, EventArgs e)
+        {
+            timer.Stop();
+            pictureBox1.Image = image;
+            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(image);
+            grid.draw(pictureBox1.Width, pictureBox1.Height, graphics, pen);
+            pictureBox1.Refresh();
+
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter%2);
+            pictureBox1.Image = image;
+            board.computeStep(boardCounter % 2);
+            boardCounter++;
+            
+            timer.Start();
         }
     }
 }
