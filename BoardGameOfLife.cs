@@ -151,5 +151,7 @@ namespace Modelowanie_GUI
         {
             board[numberOfBoard].set(y / grid.cellSize,x / grid.cellSize, value);
         }
+
+        
     }
 }
