@@ -14,6 +14,7 @@ namespace Modelowanie_GUI
         Graphics graphics;
         int boardCounter = 0;
         bool manualMode;
+        bool additionMode = false;
         static Timer timer;
 
         public GameOfLife()
@@ -33,39 +34,26 @@ namespace Modelowanie_GUI
             
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            boardCounter = 0;
-            if (board == null)
-            {
-                grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value , (int)numericUpDown2.Value);
-                grid.drawSpecificNumberOfCells((int)numericUpDown1.Value,(int)numericUpDown2.Value, graphics, pen);
-                pictureBox1.Image = image;
-                board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value, listBox1.SelectedItem.ToString());
-
-            }
-            else
-            {
-                if (manualMode == false)
-                    board.setDefaultShape(listBox1.SelectedItem.ToString());
-            }
-            
-            button1.Enabled = false;
-            listBox1.Enabled = false;
-            timer.Start();
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             timer.Stop();
+            listBox1.Enabled = true;
+            button3.Enabled = true;
+            button4.Enabled = true;
+            button5.Enabled = true;
             manualMode = true;
+            additionMode = true;
             boardCounter--;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            manualMode = false;   
             timer.Start();
+            button3.Enabled = true;
+            button4.Enabled = false;
+            button5.Enabled = false;
+            listBox1.Enabled = false;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             board.computeStep(boardCounter % 2);
@@ -115,9 +103,7 @@ namespace Modelowanie_GUI
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button1.Enabled = true;
-            if (listBox1.SelectedItem.ToString() == "Ręczna definicja")
-                manualMode = true;
+            
         }
 
         private void OnTimedEvent(Object source, EventArgs e)
@@ -135,6 +121,33 @@ namespace Modelowanie_GUI
             board.computeStep(boardCounter % 2);
             boardCounter++;
             timer.Start();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button2.Enabled = true;
+            manualMode = true;
+            additionMode = true;
+            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(image);
+            grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            pictureBox1.Image = image;
+            board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (additionMode && listBox1.SelectedItem != null)
+            {
+                board.drawShape(listBox1.SelectedItem.ToString());
+                image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                graphics = Graphics.FromImage(image);
+                grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                //pictureBox1.Refresh();
+                board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                pictureBox1.Image = image;
+            }
         }
     }
 }

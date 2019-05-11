@@ -11,7 +11,6 @@ namespace Modelowanie_GUI
     class BoardGameOfLife
     {
         Board []board;
-        Board boardB;
         public int sizeM { get; }
         public int sizeN { get; }
         int rule; // 0 - Moore neighbourhood
@@ -53,7 +52,7 @@ namespace Modelowanie_GUI
             board[1] = new Board(this.sizeM, this.sizeN);           
         }
 
-        public void setDefaultShape(string shape = "Losowy")
+        public void drawShape(string shape = "Losowy")
         {
             switch (shape)
             {
@@ -129,8 +128,8 @@ namespace Modelowanie_GUI
         {
             for (int i = 0; i < board[numberOfBoard].sizeM; i++)
             {
-                if ((pictureBox.Height / grid.cellSize) * grid.cellSize < i * grid.cellSize + 1)
-                    ;//continue;
+                //if ((pictureBox.Height / grid.cellSize) * grid.cellSize < i * grid.cellSize + 1)
+                //    ;//continue;
 
                 for (int j = 0; j < board[numberOfBoard].sizeN; j++)
                 {

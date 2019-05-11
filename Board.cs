@@ -77,24 +77,30 @@ namespace Modelowanie_GUI
         }
 
         public void prepareBeeHive() {
-            int start = sizeN / 2;
-            board[0, start + 1].State = board[0, start + 2].State = true;
-            board[1, start].State = board[1, start + 3].State = true;
-            board[2, start + 1].State = board[2, start + 2].State = true;
+            Random random = new Random();
+            int m = random.Next(0, sizeM -3);
+            int n = random.Next(0, sizeN -3);
+            board[m, n + 1].State = board[m, n + 2].State = true;
+            board[m+1, n].State = board[m + 1, n + 3].State = true;
+            board[m+2, n + 1].State = board[m + 2, n + 2].State = true;
         }
 
         public void prepareBlinker()
         {
-            int start = sizeN / 2;
-            board[0, start].State = board[1, start].State = board[2, start].State = true;
+            Random random = new Random();
+            int m = random.Next(0, sizeM - 3);
+            int n = random.Next(0, sizeN - 3);
+            board[m, n].State = board[m+1, n].State = board[m+2, n].State = true;
         }
 
         public void prepareGlider()
         {
-            int start = sizeN / 2;
-            board[0, start + 1].State = board[0, start + 2].State = true;
-            board[1, start].State = board[1, start + 1].State = true;
-            board[2, start + 2].State = true;
+            Random random = new Random();
+            int m = random.Next(0, sizeM - 3);
+            int n = random.Next(0, sizeN - 3);
+            board[m, n + 1].State = board[m, n + 2].State = true;
+            board[m+1, n].State = board[m+1, n + 1].State = true;
+            board[m+2, n + 2].State = true;
         }
 
         public void prepareRandom(int numberOfCells = 15)
@@ -103,8 +109,8 @@ namespace Modelowanie_GUI
             Random random = new Random();
             for (int i = 0; i < numberOfCells; i++)
             {
-                m = random.Next(0, sizeM/5);
-                n = random.Next(0, sizeN/5);
+                m = random.Next(0, sizeM);
+                n = random.Next(0, sizeN);
                 board[m, n].State = true;
             }
         }
