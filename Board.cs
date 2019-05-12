@@ -66,11 +66,8 @@ namespace Modelowanie_GUI
                 for (int j = 0; j < sizeN; j++)
                 {
                     result += boolToInt(board[i, j].State);
-                    //Console.Write(boolToInt(board[i, j].State));
-                    //Console.Write(" ");
                     result += " ";
                 }
-                //Console.WriteLine();
                 result += "\n";
             }
             return result;
@@ -115,13 +112,6 @@ namespace Modelowanie_GUI
             }
         }
 
-        public void drawOnGraphics(SolidBrush brush, Graphics graphics)
-        {
-            for(int i = 0; i < sizeN; i++)
-            {
-                
-            }
-        }
         public bool getValue(int n, int m)
         {
             return board[n, m].State;

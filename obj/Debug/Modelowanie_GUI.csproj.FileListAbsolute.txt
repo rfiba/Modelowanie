@@ -8,3 +8,4 @@ D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_G
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.csproj.GenerateResource.Cache
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.exe
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.pdb
+D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.csprojResolveAssemblyReference.cache
