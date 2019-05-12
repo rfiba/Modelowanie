@@ -21,10 +21,10 @@ namespace Modelowanie_GUI
             boards[1] = new AdvancedBoard(sizeM, sizeN);
         }
 
-        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
-            for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
+        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int absorbingBoundaryCondition = 0, bool Moore=false) {
+            for (int i = absorbingBoundaryCondition; i < boards[numberOfBoard].SizeM - absorbingBoundaryCondition; i++)
             {
-                for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
+                for (int j = absorbingBoundaryCondition; j < boards[numberOfBoard].SizeN- absorbingBoundaryCondition; j++)
                 {
                     int[] arr = new int[8];
 
@@ -46,51 +46,43 @@ namespace Modelowanie_GUI
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
-                    boards[(numberOfBoard + 1) % 2].setValue(i,j, mode);
+                    if (mode != 0 || (maxCount == 4 && !Moore) || (maxCount == 8 && Moore))
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
+                    else
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
+
                 }
             }
         }
 
         public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, bool Moore = false)
         {
-            //Nie będzie działać dla rogów
-            for (int i = 1; i < boards[numberOfBoard].SizeM-1; i++)
+            for (int i = 1; i < boards[numberOfBoard].SizeM -1; i++)
             {
-                for (int j = 1; j < boards[numberOfBoard].SizeN-1; j++)
+                for (int j = 1; j < boards[numberOfBoard].SizeN -1; j++)
                 {
                     int[] arr = new int[8];
 
-                    if(i -1 > 0)
-                        arr[0] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j);
-                    if (i + 1 < boards[numberOfBoard].SizeM - 1)
-                        arr[1] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j);
-                    if (j + 1 < boards[numberOfBoard].SizeN - 1)
-                        arr[2] = boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
-                    if (j - 1 > 0)
-                        arr[3] = boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN));
+                    arr[0] = boards[numberOfBoard].getValue(i - 1, j);
+                    arr[1] = boards[numberOfBoard].getValue(i + 1, j);
+                    arr[2] = boards[numberOfBoard].getValue(i, j + 1);
+                    arr[3] = boards[numberOfBoard].getValue(i, j - 1);
                     if (Moore)
                     {
-                        if (i - 1 > 0 && j - 1 > 0)
-                            arr[4] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN));
-                        if (i + 1 < boards[numberOfBoard].SizeM - 1  && j - 1 > 0)
-                            arr[5] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN));
-                        if (i - 1 > 0 && j + 1 < boards[numberOfBoard].SizeN - 1)
-                            arr[6] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
-                        if (i + 1 < boards[numberOfBoard].SizeM - 1 && j + 1 < boards[numberOfBoard].SizeN - 1)
-                            arr[7] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
+                        arr[4] = boards[numberOfBoard].getValue(i - 1, j - 1);
+                        arr[5] = boards[numberOfBoard].getValue(i + 1, j - 1);
+                        arr[6] = boards[numberOfBoard].getValue(i - 1, j + 1);
+                        arr[7] = boards[numberOfBoard].getValue(i + 1, j + 1);
                     }
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
-                    boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
+                    if (mode != 0 || (maxCount == 4 && !Moore) || (maxCount == 8 && Moore))
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
+                    else
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max()); 
                 }
             }
         }
-
-        ch
     }
 }
