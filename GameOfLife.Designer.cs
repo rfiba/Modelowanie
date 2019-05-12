@@ -74,11 +74,11 @@ namespace Modelowanie_GUI
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(730, 12);
+            this.button2.Location = new System.Drawing.Point(710, 12);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(95, 23);
             this.button2.TabIndex = 3;
-            this.button2.Text = "Wznów";
+            this.button2.Text = "Wznów/Start";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -177,7 +177,7 @@ namespace Modelowanie_GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(946, 488);
+            this.ClientSize = new System.Drawing.Size(930, 449);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);
@@ -189,6 +189,9 @@ namespace Modelowanie_GUI
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.pictureBox1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(946, 488);
+            this.MinimumSize = new System.Drawing.Size(946, 488);
             this.Name = "GameOfLife";
             this.Text = "GameOfLife";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

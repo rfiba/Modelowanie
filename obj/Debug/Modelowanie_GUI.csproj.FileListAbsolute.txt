@@ -8,3 +8,4 @@ D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_G
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.ChoiceWindow.resources
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.Automaton.resources
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.GameOfLife.resources
+D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.csprojResolveAssemblyReference.cache
