@@ -9,10 +9,10 @@ namespace Modelowanie_GUI
 {
     class Board
     {
-        Cell[,] board;
+        private Cell[,] board;
         public int sizeM { get; }
         public int sizeN { get; }
-        int rule;
+        private int rule;
 
         public Board(int numberOfIteration, int numberOfCells, int rule)
         {
