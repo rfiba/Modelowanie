@@ -8,11 +8,13 @@ namespace Modelowanie_GUI
 {
     class AdvancedCell
     {
-        public int state { get; set; }
+        private int state;
 
         public AdvancedCell()
         {
             this.state = 0;
         }
+
+        public int State => state;
     }
 }

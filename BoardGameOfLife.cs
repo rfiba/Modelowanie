@@ -114,7 +114,7 @@ namespace Modelowanie_GUI
             return board[numberOfBoard].getValue(y / grid.cellSize, x / grid.cellSize);
         }
 
-        int mod(int x, int max)
+        public static int mod(int x, int max)
         {
             if (x >= 0 && x < max)
                 return x;

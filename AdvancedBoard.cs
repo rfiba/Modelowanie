@@ -18,5 +18,13 @@ namespace Modelowanie_GUI
             this.sizeN = numberOfXCells;
             board = new AdvancedCell[sizeM, sizeN];
         }
+
+        public int SizeM => sizeM;
+        public int SizeN => sizeN;
+        public int getValue(int m, int n)
+        {
+            return board[m, n].State;
+        }
+
     }
 }
