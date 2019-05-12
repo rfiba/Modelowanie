@@ -15,6 +15,10 @@ namespace Modelowanie_GUI
             this.state = 0;
         }
 
-        public int State => state;
+        public int State
+        {
+            get { return this.state; }
+            set { this.state = value; }
+        }
     }
 }

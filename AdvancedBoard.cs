@@ -26,5 +26,10 @@ namespace Modelowanie_GUI
             return board[m, n].State;
         }
 
+        public void setValue(int m, int n, int value)
+        {
+            board[m, n].State = value;
+        }
+
     }
 }
