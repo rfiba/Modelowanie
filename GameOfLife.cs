@@ -20,18 +20,14 @@ namespace Modelowanie_GUI
         public GameOfLife()
         {
             InitializeComponent();
-            //grid = new Grid(10);
             pen = new Pen(Color.Black, 1f);
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
-            
             brush = new SolidBrush(Color.Red);
             pictureBox1.Image = image;
-            //board = new BoardGameOfLife(pictureBox1.Height / 10, pictureBox1.Width / 10);
             timer = new Timer();
             timer.Tick +=  OnTimedEvent;
             timer.Interval = 500;
-            
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -67,8 +63,6 @@ namespace Modelowanie_GUI
         {
             if (manualMode == true)
             {
-                
-
                 MouseEventArgs me = (MouseEventArgs)e;
                 if (me.Button == MouseButtons.Left)
                 {
@@ -144,10 +138,15 @@ namespace Modelowanie_GUI
                 image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                 graphics = Graphics.FromImage(image);
                 grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
-                //pictureBox1.Refresh();
+                pictureBox1.Refresh();
                 board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
                 pictureBox1.Image = image;
             }
+        }
+
+        private void GameOfLife_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

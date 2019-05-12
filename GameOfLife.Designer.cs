@@ -177,7 +177,7 @@ namespace Modelowanie_GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(930, 449);
+            this.ClientSize = new System.Drawing.Size(914, 485);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);
@@ -190,10 +190,11 @@ namespace Modelowanie_GUI
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.pictureBox1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(946, 488);
-            this.MinimumSize = new System.Drawing.Size(946, 488);
+            this.MaximumSize = new System.Drawing.Size(930, 524);
+            this.MinimumSize = new System.Drawing.Size(930, 524);
             this.Name = "GameOfLife";
             this.Text = "GameOfLife";
+            this.Load += new System.EventHandler(this.GameOfLife_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
