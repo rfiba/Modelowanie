@@ -49,6 +49,7 @@
     <Compile Include="AdvancedBoard.cs" />
     <Compile Include="AdvancedCell.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="BoardCA.cs" />
     <Compile Include="BoardGameOfLife.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="ChoiceWindow.cs">
