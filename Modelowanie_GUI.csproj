@@ -79,6 +79,9 @@
     <Compile Include="Grid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CAWindow.resx">
+      <DependentUpon>CAWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChoiceWindow.resx">
       <DependentUpon>ChoiceWindow.cs</DependentUpon>
     </EmbeddedResource>
