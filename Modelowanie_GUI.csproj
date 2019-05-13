@@ -51,6 +51,12 @@
     <Compile Include="Board.cs" />
     <Compile Include="BoardCA.cs" />
     <Compile Include="BoardGameOfLife.cs" />
+    <Compile Include="CAWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CAWindow.Designer.cs">
+      <DependentUpon>CAWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cell.cs" />
     <Compile Include="ChoiceWindow.cs">
       <SubType>Form</SubType>

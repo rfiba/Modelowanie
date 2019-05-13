@@ -32,5 +32,13 @@ namespace Modelowanie_GUI
             gameOfLife.Show();
             this.Hide();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CAWindow cAWindow = new CAWindow();
+            cAWindow.Closed += (s, args) => this.Close();
+            cAWindow.Show();
+            this.Hide();
+        }
     }
 }
