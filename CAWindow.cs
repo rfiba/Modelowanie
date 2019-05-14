@@ -101,25 +101,48 @@ namespace Modelowanie_GUI
 
         private void button1_Click(object sender, EventArgs e) //generuj plansze
         {
+
             button2.Enabled = true;
-            numericUpDown4.Maximum = numericUpDown3.Value;
-            numericUpDown4.Enabled = true;
+            board = new BoardCA((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(image);
+            grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            if (listBox1.SelectedItem.ToString() == "Ręczna definicja")
+            {
+                numericUpDown4.Maximum = numericUpDown3.Value;
+                numericUpDown4.Enabled = true;
+                manualMode = true;
+            }
+
+            if (listBox1.SelectedItem.ToString() == "Losowe")
+            {
+                Random rnd = new Random();
+                int x, y;
+                for(int i = 0; i <  (int)numericUpDown3.Value; i++)
+                {
+                    x = rnd.Next(board.SizeN);
+                    y = rnd.Next(board.SizeM);
+                    board.setValue(x, y, i+1, boardCounter % 2);
+                }
+                
+                board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                boardCounter++;
+            }
+
             if (radioButton1.Checked)
                 offset = 1;
             
             //button2.Enabled = true;
-            manualMode = true;
+            
             //additionMode = true;
-            board = new BoardCA((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            
             //MessageBox.Show($"{numericUpDown1.Value} {numericUpDown2.Value} {board.SizeN} {board.SizeM}");
-            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            graphics = Graphics.FromImage(image);
-            grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            
             grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
             pictureBox1.Image = image;
             //board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
             numericUpDown3.Enabled = false;
-            colorOffset = int.MaxValue / (int)numericUpDown3.Value;
+            //colorOffset = int.MaxValue / (int)numericUpDown3.Value;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

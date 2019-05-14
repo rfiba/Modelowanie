@@ -130,7 +130,7 @@ namespace Modelowanie_GUI
                     var tmp = boards[numberOfBoard].getValue(i, j);
                     if (tmp >0)
                     {
-                        brush.Color = Color.FromArgb(100 + tmp * colorOffset);
+                        //brush.Color = Color.FromArgb(100 + tmp * colorOffset);
                         //byte red = (byte)(tmp & 0x000000FF);
                         //byte green = (byte)((tmp & 0x0000FF00) >> 08);
                         //byte blue = (byte)((tmp & 0x00FF0000) >> 16);
@@ -150,6 +150,11 @@ namespace Modelowanie_GUI
         public void setValueBasedOnCoordinates(int x, int y, int value, Grid grid, int numberOfBoard)
         {
             boards[numberOfBoard].setValue(y / grid.cellSize, x / grid.cellSize, value);
+        }
+
+        public void setValue(int x, int y, int value, int numberOfBoard)
+        {
+            boards[numberOfBoard].setValue(y , x , value);
         }
     }
 }
