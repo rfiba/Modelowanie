@@ -205,7 +205,6 @@ namespace Modelowanie_GUI
             this.Controls.Add(this.pictureBox1);
             this.Name = "CAWindow";
             this.Text = "CAWindow";
-            this.Load += new System.EventHandler(this.CAWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();

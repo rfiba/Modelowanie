@@ -38,21 +38,25 @@ namespace Modelowanie_GUI
             }
         }
 
-        public BoardCA(int sizeM, int sizeN)
+        public BoardCA(int xCells, int yCells)
         {
             boards = new AdvancedBoard[2];
-            this.sizeM = sizeM;
-            this.sizeN = sizeN;
+            this.sizeM = yCells;
+            this.sizeN = xCells;
             boards[0] = new AdvancedBoard(sizeM, sizeN);
             boards[1] = new AdvancedBoard(sizeM, sizeN);
         }
 
-        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int absorbingBoundaryCondition = 0, bool Moore=false) {
-            for (int i = absorbingBoundaryCondition; i < boards[numberOfBoard].SizeM - absorbingBoundaryCondition; i++)
+        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
+            for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
-                for (int j = absorbingBoundaryCondition; j < boards[numberOfBoard].SizeN- absorbingBoundaryCondition; j++)
+                for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
                 {
-                    int[] arr = new int[8];
+                    int[] arr;
+                    if (Moore)
+                        arr = new int[8];
+                    else
+                        arr = new int[4];
 
                     arr[0] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j) ;
                     arr[1] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j) ;
@@ -72,11 +76,13 @@ namespace Modelowanie_GUI
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
-                    if (mode != 0 || (maxCount == 4 && !Moore) || (maxCount == 8 && Moore))
+                    var tmp = arr.Max();
+                    if (mode != 0 && ((maxCount == 4 && !Moore) || (maxCount == 8 && Moore)))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
+                    else if(arr.Max()==0)
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j)); 
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
-
                 }
             }
         }
@@ -106,7 +112,9 @@ namespace Modelowanie_GUI
                     if (mode != 0 || (maxCount == 4 && !Moore) || (maxCount == 8 && Moore))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
                     else
-                        boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max()); 
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
+
+                    boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                 }
             }
         }

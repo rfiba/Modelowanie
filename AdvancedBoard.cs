@@ -12,10 +12,10 @@ namespace Modelowanie_GUI
         private int sizeM;
         private int sizeN;
 
-        public AdvancedBoard(int numberOfXCells, int numberOfYCells)
+        public AdvancedBoard(int sizeM, int sizeN)
         {
-            this.sizeM = numberOfYCells;
-            this.sizeN = numberOfXCells;
+            this.sizeM = sizeM;
+            this.sizeN = sizeN;
             board = new AdvancedCell[sizeM, sizeN];
             for (int i = 0; i < sizeM; i++)
             {

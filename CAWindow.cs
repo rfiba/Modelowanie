@@ -34,18 +34,32 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
             timer = new Timer();
             timer.Tick += OnTimedEvent;
-            timer.Interval = 500;
+            timer.Interval = 700;
         }
 
         private void OnTimedEvent(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            timer.Stop();
+
+            pictureBox1.Image = image;
+            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(image);
+            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            pictureBox1.Refresh();
+
+            
+            pictureBox1.Image = image;
+            if (radioButton1.Checked)
+                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
+            else
+                board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            boardCounter++;
+            timer.Start();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
-            
             if (manualMode == true)
             {
                 MouseEventArgs me = (MouseEventArgs)e;
@@ -81,11 +95,10 @@ namespace Modelowanie_GUI
                         pictureBox1.Image = image;
                     }
                 }
-
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //generuj plansze
         {
             if (radioButton1.Checked)
                 offset = 1;
@@ -94,6 +107,7 @@ namespace Modelowanie_GUI
             manualMode = true;
             //additionMode = true;
             board = new BoardCA((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            //MessageBox.Show($"{numericUpDown1.Value} {numericUpDown2.Value} {board.SizeN} {board.SizeM}");
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
@@ -106,16 +120,6 @@ namespace Modelowanie_GUI
         {
             if (listBox1.SelectedIndex.ToString() == "Ręczny wybór pozycji")
                 throw new NotImplementedException();
-        }
-
-        private void CAWindow_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -134,25 +138,41 @@ namespace Modelowanie_GUI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //start
         {
             button1.Enabled = false;
+            button1.Enabled = true;
             button4.Enabled = false;
             listBox1.Enabled = false;
             radioButton1.Enabled = false;
             numericUpDown1.Enabled = false;
             numericUpDown2.Enabled = false;
             manualMode = false;
-
+            button2.Enabled = false;
+            timer.Start();
+            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(image);
+            if (radioButton1.Checked)
+                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
+            else
+                board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            pictureBox1.Image = image;
+            boardCounter++;
+            //boardCounter++;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e) //stop
         {
+            timer.Stop();
             button4.Enabled = true;
+            button2.Enabled = true;
+            boardCounter--;
         }
 
         
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e) //ustaw
         {
             button3.Enabled = false;
             button1.Enabled = true;

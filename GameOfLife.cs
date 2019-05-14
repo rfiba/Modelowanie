@@ -30,7 +30,7 @@ namespace Modelowanie_GUI
             timer.Interval = 500;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e) //wstrzymaj
         {
             timer.Stop();
             listBox1.Enabled = true;
@@ -42,7 +42,7 @@ namespace Modelowanie_GUI
             boardCounter--;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //start/wznów
         {
             manualMode = false;   
             timer.Start();
@@ -117,7 +117,7 @@ namespace Modelowanie_GUI
             timer.Start();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e) //generuj plansze
         {
             button2.Enabled = true;
             manualMode = true;
@@ -130,7 +130,7 @@ namespace Modelowanie_GUI
             board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) //Dodaj
         {
             if (additionMode && listBox1.SelectedItem != null)
             {
