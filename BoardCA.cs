@@ -109,12 +109,12 @@ namespace Modelowanie_GUI
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
-                    if (mode != 0 || (maxCount == 4 && !Moore) || (maxCount == 8 && Moore))
+                    if (mode != 0 && ((maxCount == 4 && !Moore) || (maxCount == 8 && Moore)))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
+                    else if (arr.Max() == 0)
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
-
-                    boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                 }
             }
         }

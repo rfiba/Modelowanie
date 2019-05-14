@@ -100,6 +100,7 @@ namespace Modelowanie_GUI
 
         private void button1_Click(object sender, EventArgs e) //generuj plansze
         {
+            button2.Enabled = true;
             if (radioButton1.Checked)
                 offset = 1;
             
