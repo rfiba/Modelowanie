@@ -121,14 +121,21 @@ namespace Modelowanie_GUI
 
         
 
-        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
+        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard, int colorOffset)
         {
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
                 {
-                    if (boards[numberOfBoard].getValue(i, j) >0)
+                    var tmp = boards[numberOfBoard].getValue(i, j);
+                    if (tmp >0)
                     {
+                        brush.Color = Color.FromArgb(100 + tmp * colorOffset);
+                        //byte red = (byte)(tmp & 0x000000FF);
+                        //byte green = (byte)((tmp & 0x0000FF00) >> 08);
+                        //byte blue = (byte)((tmp & 0x00FF0000) >> 16);
+                        //brush.Color = Color.FromArgb(red, green, blue);
+
                         graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                     }
                 }

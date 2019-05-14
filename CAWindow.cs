@@ -24,6 +24,7 @@ namespace Modelowanie_GUI
         private int boardCounter = 0;
         private int offset = 0;
         private bool radioButtonIsChecked = false;
+        private int colorOffset = 1;
         public CAWindow()
         {
             InitializeComponent();
@@ -49,11 +50,11 @@ namespace Modelowanie_GUI
 
             
             pictureBox1.Image = image;
-            if (radioButton1.Checked)
+            if (offset>0)
                 board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
             boardCounter++;
             timer.Start();
         }
@@ -69,10 +70,10 @@ namespace Modelowanie_GUI
                         return;
                     if (offset > 0 && (me.X < grid.cellSize || me.Y < grid.cellSize))
                         return;
-                    board.setValueBasedOnCoordinates(me.X, me.Y, 5, grid, boardCounter % 2);
+                    board.setValueBasedOnCoordinates(me.X, me.Y, (int)numericUpDown4.Value, grid, boardCounter % 2);
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                     graphics = Graphics.FromImage(image);
-                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
                     grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
                     pictureBox1.Image = image;
                 }
@@ -90,7 +91,7 @@ namespace Modelowanie_GUI
                         board.setValueBasedOnCoordinates(me.X, me.Y, 0, grid, boardCounter % 2);
                         image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                         graphics = Graphics.FromImage(image);
-                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
                         grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
                         pictureBox1.Image = image;
                     }
@@ -101,6 +102,8 @@ namespace Modelowanie_GUI
         private void button1_Click(object sender, EventArgs e) //generuj plansze
         {
             button2.Enabled = true;
+            numericUpDown4.Maximum = numericUpDown3.Value;
+            numericUpDown4.Enabled = true;
             if (radioButton1.Checked)
                 offset = 1;
             
@@ -115,6 +118,8 @@ namespace Modelowanie_GUI
             grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
             pictureBox1.Image = image;
             //board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
+            numericUpDown3.Enabled = false;
+            colorOffset = int.MaxValue / (int)numericUpDown3.Value;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -148,16 +153,18 @@ namespace Modelowanie_GUI
             radioButton1.Enabled = false;
             numericUpDown1.Enabled = false;
             numericUpDown2.Enabled = false;
+            numericUpDown3.Enabled = false;
+            numericUpDown4.Enabled = false;
             manualMode = false;
             button2.Enabled = false;
             timer.Start();
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
-            if (radioButton1.Checked)
+            if (offset>0)
                 board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
             grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
             pictureBox1.Image = image;
             boardCounter++;
@@ -183,6 +190,14 @@ namespace Modelowanie_GUI
             numericUpDown2.Enabled = true;
             radioButton1.Enabled = true;
             manualMode = true;
-        } 
+            numericUpDown3.Enabled = true;
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+       
     }
 }
