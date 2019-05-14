@@ -17,6 +17,11 @@ namespace Modelowanie_GUI
             this.sizeM = numberOfYCells;
             this.sizeN = numberOfXCells;
             board = new AdvancedCell[sizeM, sizeN];
+            for (int i = 0; i < sizeM; i++)
+            {
+                for (int j = 0; j < sizeN; j++)
+                    board[i, j] = new AdvancedCell();
+            }
         }
 
         public int SizeM => sizeM;

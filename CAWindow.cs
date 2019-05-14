@@ -15,12 +15,14 @@ namespace Modelowanie_GUI
         private Grid grid;
         private Bitmap image;
         private Pen pen;
-        private BoardGameOfLife board;
+        private BoardCA board;
         private SolidBrush brush;
         private Graphics graphics;
         private bool manualMode = false;
         private bool settingMode = true;
         static Timer timer;
+        private int boardCounter = 0;
+        private int offset = 0;
         private bool radioButtonIsChecked = false;
         public CAWindow()
         {
@@ -42,16 +44,42 @@ namespace Modelowanie_GUI
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            
+            
             if (manualMode == true)
             {
                 MouseEventArgs me = (MouseEventArgs)e;
                 if (me.Button == MouseButtons.Left)
                 {
+                    if (me.X >= board.SizeN * (grid.cellSize-offset) || me.Y >= board.SizeM * (grid.cellSize-offset))
+                        return;
+                    if (offset > 0 && (me.X < grid.cellSize || me.Y < grid.cellSize))
+                        return;
+                    board.setValueBasedOnCoordinates(me.X, me.Y, 5, grid, boardCounter % 2);
+                    image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                    graphics = Graphics.FromImage(image);
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                    grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                    pictureBox1.Image = image;
                 }
 
                 if (me.Button == MouseButtons.Right)
                 {
+                    if (me.X >= board.SizeN * (grid.cellSize - offset) || me.Y >= board.SizeM * (grid.cellSize - offset))
+                        return;
 
+                    if (offset > 0 && (me.X < grid.cellSize || me.Y < grid.cellSize))
+                        return;
+
+                    if (board.getValueBasedOnCoordinates(me.X, me.Y, grid, boardCounter % 2) > 0)
+                    {
+                        board.setValueBasedOnCoordinates(me.X, me.Y, 0, grid, boardCounter % 2);
+                        image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                        graphics = Graphics.FromImage(image);
+                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                        grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                        pictureBox1.Image = image;
+                    }
                 }
 
             }
@@ -59,9 +87,13 @@ namespace Modelowanie_GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (radioButton1.Checked)
+                offset = 1;
+            
             //button2.Enabled = true;
             manualMode = true;
             //additionMode = true;
+            board = new BoardCA((int)numericUpDown1.Value, (int)numericUpDown2.Value);
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
@@ -128,6 +160,7 @@ namespace Modelowanie_GUI
             radioButton1.Enabled = true;
             numericUpDown1.Enabled = true;
             numericUpDown2.Enabled = true;
+            radioButton1.Enabled = true;
             manualMode = true;
         } 
     }

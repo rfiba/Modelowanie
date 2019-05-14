@@ -1,16 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Modelowanie_GUI
 {
     class BoardCA
     {
-        AdvancedBoard[] boards;
-        int sizeM;
-        int sizeN;
+        private AdvancedBoard[] boards;
+        private int sizeM;
+        private int sizeN;
+
+        public int SizeM
+        {
+            get
+            {
+                return sizeM;
+            }
+            set
+            {
+                sizeM = value;
+            }
+        }
+
+        public int SizeN
+        {
+            get
+            {
+                return sizeN;
+            }
+            set
+            {
+                sizeN = value;
+            }
+        }
 
         public BoardCA(int sizeM, int sizeN)
         {
@@ -83,6 +109,32 @@ namespace Modelowanie_GUI
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max()); 
                 }
             }
+        }
+
+        
+
+        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
+        {
+            for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
+            {
+                for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
+                {
+                    if (boards[numberOfBoard].getValue(i, j) >0)
+                    {
+                        graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+                    }
+                }
+            }
+        }
+
+        public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard)
+        {
+            return boards[numberOfBoard].getValue(y / grid.cellSize, x / grid.cellSize);
+        }
+
+        public void setValueBasedOnCoordinates(int x, int y, int value, Grid grid, int numberOfBoard)
+        {
+            boards[numberOfBoard].setValue(y / grid.cellSize, x / grid.cellSize, value);
         }
     }
 }
