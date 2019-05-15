@@ -115,6 +115,8 @@ namespace Modelowanie_GUI
             grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
             if (radioButton1.Checked)
                 offset = 1;
+            else
+                offset = 0;
 
             if (listBox1.SelectedItem.ToString() == "Ręczny wybór pozycji")
             {
@@ -139,24 +141,28 @@ namespace Modelowanie_GUI
 
             if (listBox1.SelectedItem.ToString() == "Jednorodne")
             {
-                int xDistance = board.SizeN / (int)numericUpDown3.Value;
-                int yDistance = board.SizeM / (int)numericUpDown4.Value;
+                int xDistance = (board.SizeN - 2 * offset)  / (int)numericUpDown3.Value;
+                int yDistance = (board.SizeM - 2 * offset) / (int)numericUpDown4.Value;
+
                 int distance = 0;
                 if (yDistance <  xDistance)
                     distance = yDistance;
                 else
                     distance = xDistance;
-                //MessageBox.Show($"Dla {numericUpDown3.Value} {numericUpDown4.Value} dyst {distance} ");
-                if (offset == 0)
+                if (board.SizeN - (int)numericUpDown3.Value * xDistance >= (int)numericUpDown3.Value)
+                    xDistance++;
+                if (board.SizeM - (int)numericUpDown4.Value * yDistance >= (int)numericUpDown4.Value)
+                    yDistance++;
+                if (true)
                 {
-                    for (int i = 0, x = 0, y = 0; i < ((int)numericUpDown3.Value* (int)numericUpDown4.Value); i++)
+                    for (int i = 0, x = offset, y = offset; i < ((int)numericUpDown3.Value* (int)numericUpDown4.Value); i++)
                     {
                         
                         board.setValue(x, y, i + 1, boardCounter % 2);
                         if ((i+1)% (int)numericUpDown3.Value == 0)
                         {
                             y += yDistance;
-                            x = 0;
+                            x = offset;
                         }
                         else
                             x += xDistance;
@@ -251,7 +257,7 @@ namespace Modelowanie_GUI
             numericUpDown1.Enabled = true;
             numericUpDown2.Enabled = true;
             radioButton1.Enabled = true;
-            manualMode = true;
+            //manualMode = true;
             numericUpDown3.Enabled = true;
             offset = 0;
         }
