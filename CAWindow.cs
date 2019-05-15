@@ -137,15 +137,40 @@ namespace Modelowanie_GUI
                 board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
             }
 
-            if (radioButton1.Checked)
-                offset = 1;
-            
+            if (listBox1.SelectedItem.ToString() == "Jednorodne")
+            {
+                int xDistance = board.SizeN / (int)numericUpDown3.Value;
+                int yDistance = board.SizeM / (int)numericUpDown4.Value;
+                int distance = 0;
+                if (yDistance <  xDistance)
+                    distance = yDistance;
+                else
+                    distance = xDistance;
+                //MessageBox.Show($"Dla {numericUpDown3.Value} {numericUpDown4.Value} dyst {distance} ");
+                if (offset == 0)
+                {
+                    for (int i = 0, x = 0, y = 0; i < ((int)numericUpDown3.Value* (int)numericUpDown4.Value); i++)
+                    {
+                        
+                        board.setValue(x, y, i + 1, boardCounter % 2);
+                        if ((i+1)% (int)numericUpDown3.Value == 0)
+                        {
+                            y += yDistance;
+                            x = 0;
+                        }
+                        else
+                            x += xDistance;
+                    }
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                }
+            }
+
             //button2.Enabled = true;
-            
+
             //additionMode = true;
-            
+
             //MessageBox.Show($"{numericUpDown1.Value} {numericUpDown2.Value} {board.SizeN} {board.SizeM}");
-            
+
             grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
             pictureBox1.Image = image;
             //board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
@@ -156,7 +181,9 @@ namespace Modelowanie_GUI
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedIndex.ToString() == "Ręczny wybór pozycji")
-                throw new NotImplementedException();
+                this.label4.Text = "Ilośc rodzajów ziaren";
+            if (listBox1.SelectedIndex.ToString() == "Losowe")
+                this.label4.Text = "Ilośc rodzajów ziaren do wylosowania";
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

@@ -195,7 +195,7 @@ namespace Modelowanie_GUI
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(617, 48);
+            this.numericUpDown3.Location = new System.Drawing.Point(623, 48);
             this.numericUpDown3.Minimum = new decimal(new int[] {
             1,
             0,
@@ -216,9 +216,9 @@ namespace Modelowanie_GUI
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(512, 51);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(99, 13);
+            this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 17;
-            this.label4.Text = "Ilosc rodzjow ziaren";
+            this.label4.Text = "Ilosc rodzajów ziaren";
             // 
             // numericUpDown4
             // 
