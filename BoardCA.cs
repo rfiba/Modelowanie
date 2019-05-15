@@ -14,6 +14,9 @@ namespace Modelowanie_GUI
         private int sizeM;
         private int sizeN;
         private Color[] colorTable;
+        private bool changesFlag;
+
+        public bool ChangesFlag { get { return changesFlag; } }
 
         public int SizeM
         {
@@ -52,16 +55,19 @@ namespace Modelowanie_GUI
             colorTable[2] = Color.Red;
             colorTable[3] = Color.Yellow;
             colorTable[4] = Color.Green;
+            changesFlag = true;
 
         }
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
+            int skippingCounter = 0;
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
                 {
                     if (boards[numberOfBoard].getValue(i, j) != 0)
                     {
+                        skippingCounter++;
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
                     }
@@ -96,10 +102,14 @@ namespace Modelowanie_GUI
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
                 }
             }
+            if (skippingCounter == sizeM * sizeN)
+                changesFlag = false;
+
         }
 
         public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, bool Moore = false)
         {
+            int skippingCounter = 0;
             for (int i = 1; i < boards[numberOfBoard].SizeM -1; i++)
             {
                 for (int j = 1; j < boards[numberOfBoard].SizeN -1; j++)
@@ -107,6 +117,7 @@ namespace Modelowanie_GUI
 
                     if (boards[numberOfBoard].getValue(i, j) != 0)
                     {
+                        skippingCounter++;
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
                     }
@@ -132,6 +143,8 @@ namespace Modelowanie_GUI
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
                 }
             }
+            if (skippingCounter == (sizeM - 2) * (sizeN - 2))
+                changesFlag = false;
         }
 
         

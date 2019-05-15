@@ -43,7 +43,11 @@ namespace Modelowanie_GUI
         private void OnTimedEvent(object sender, EventArgs e)
         {
             timer.Stop();
-
+            if (board.ChangesFlag == false)
+            {
+                stop();
+                return;
+            }
             pictureBox1.Image = image;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
@@ -109,6 +113,9 @@ namespace Modelowanie_GUI
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            if (radioButton1.Checked)
+                offset = 1;
+
             if (listBox1.SelectedItem.ToString() == "Ręczny wybór pozycji")
             {
                 numericUpDown4.Maximum = numericUpDown3.Value;
@@ -122,13 +129,12 @@ namespace Modelowanie_GUI
                 int x, y;
                 for(int i = 0; i <  (int)numericUpDown3.Value; i++)
                 {
-                    x = rnd.Next(board.SizeN);
-                    y = rnd.Next(board.SizeM);
+                    x = rnd.Next(offset, board.SizeN-offset);
+                    y = rnd.Next(offset, board.SizeM-offset);
                     board.setValue(x, y, i+1, boardCounter % 2);
                 }
                 
                 board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
-                boardCounter++;
             }
 
             if (radioButton1.Checked)
@@ -172,7 +178,7 @@ namespace Modelowanie_GUI
         private void button2_Click(object sender, EventArgs e) //start
         {
             button1.Enabled = false;
-            button1.Enabled = true;
+            button3.Enabled = true;
             button4.Enabled = false;
             listBox1.Enabled = false;
             radioButton1.Enabled = false;
@@ -198,12 +204,16 @@ namespace Modelowanie_GUI
 
         private void button3_Click(object sender, EventArgs e) //stop
         {
+            stop();
+        }
+
+        private void stop()
+        {
             timer.Stop();
             button4.Enabled = true;
             button2.Enabled = true;
             boardCounter--;
         }
-
         
         private void button4_Click(object sender, EventArgs e) //ustaw
         {
@@ -216,6 +226,7 @@ namespace Modelowanie_GUI
             radioButton1.Enabled = true;
             manualMode = true;
             numericUpDown3.Enabled = true;
+            offset = 0;
         }
 
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
