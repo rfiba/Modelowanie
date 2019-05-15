@@ -13,6 +13,7 @@ namespace Modelowanie_GUI
         private AdvancedBoard[] boards;
         private int sizeM;
         private int sizeN;
+        private Color[] colorTable;
 
         public int SizeM
         {
@@ -45,6 +46,13 @@ namespace Modelowanie_GUI
             this.sizeN = xCells;
             boards[0] = new AdvancedBoard(sizeM, sizeN);
             boards[1] = new AdvancedBoard(sizeM, sizeN);
+            colorTable = new Color[5];
+            colorTable[0] = Color.Aqua;
+            colorTable[1] = Color.Brown;
+            colorTable[2] = Color.Red;
+            colorTable[3] = Color.Yellow;
+            colorTable[4] = Color.Green;
+
         }
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
@@ -52,6 +60,11 @@ namespace Modelowanie_GUI
             {
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
                 {
+                    if (boards[numberOfBoard].getValue(i, j) != 0)
+                    {
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
+                        continue;
+                    }
                     int[] arr;
                     if (Moore)
                         arr = new int[8];
@@ -79,8 +92,6 @@ namespace Modelowanie_GUI
                     var tmp = arr.Max();
                     if (mode != 0 && ((maxCount == 4 && !Moore) || (maxCount == 8 && Moore)))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
-                    else if(arr.Max()==0)
-                        boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j)); 
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
                 }
@@ -93,6 +104,12 @@ namespace Modelowanie_GUI
             {
                 for (int j = 1; j < boards[numberOfBoard].SizeN -1; j++)
                 {
+
+                    if (boards[numberOfBoard].getValue(i, j) != 0)
+                    {
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
+                        continue;
+                    }
                     int[] arr = new int[8];
 
                     arr[0] = boards[numberOfBoard].getValue(i - 1, j);
@@ -110,9 +127,7 @@ namespace Modelowanie_GUI
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
                     if (mode != 0 && ((maxCount == 4 && !Moore) || (maxCount == 8 && Moore)))
-                        boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
-                    else if (arr.Max() == 0)
-                        boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
+                        boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);                    
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
                 }
@@ -130,7 +145,7 @@ namespace Modelowanie_GUI
                     var tmp = boards[numberOfBoard].getValue(i, j);
                     if (tmp >0)
                     {
-                        //brush.Color = Color.FromArgb(100 + tmp * colorOffset);
+                        brush.Color = colorTable[tmp % 5];
                         //byte red = (byte)(tmp & 0x000000FF);
                         //byte green = (byte)((tmp & 0x0000FF00) >> 08);
                         //byte blue = (byte)((tmp & 0x00FF0000) >> 16);

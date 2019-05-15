@@ -24,7 +24,8 @@ namespace Modelowanie_GUI
         private int boardCounter = 0;
         private int offset = 0;
         private bool radioButtonIsChecked = false;
-        private int colorOffset = 1;
+        private int colorOffset = 50;
+        
         public CAWindow()
         {
             InitializeComponent();
@@ -36,6 +37,7 @@ namespace Modelowanie_GUI
             timer = new Timer();
             timer.Tick += OnTimedEvent;
             timer.Interval = 700;
+            
         }
 
         private void OnTimedEvent(object sender, EventArgs e)
@@ -107,7 +109,7 @@ namespace Modelowanie_GUI
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
-            if (listBox1.SelectedItem.ToString() == "Ręczna definicja")
+            if (listBox1.SelectedItem.ToString() == "Ręczny wybór pozycji")
             {
                 numericUpDown4.Maximum = numericUpDown3.Value;
                 numericUpDown4.Enabled = true;
