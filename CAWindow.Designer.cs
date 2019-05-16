@@ -31,8 +31,8 @@ namespace Modelowanie_GUI
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.OX = new System.Windows.Forms.NumericUpDown();
+            this.OY = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -42,15 +42,15 @@ namespace Modelowanie_GUI
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.D1 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.D2 = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.D1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.D2)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -64,35 +64,35 @@ namespace Modelowanie_GUI
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // numericUpDown1
+            // OX
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(321, 15);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.OX.Location = new System.Drawing.Point(321, 15);
+            this.OX.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(74, 20);
-            this.numericUpDown1.TabIndex = 6;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.OX.Name = "OX";
+            this.OX.Size = new System.Drawing.Size(74, 20);
+            this.OX.TabIndex = 6;
+            this.OX.Value = new decimal(new int[] {
             20,
             0,
             0,
             0});
             // 
-            // numericUpDown2
+            // OY
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(507, 15);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.OY.Location = new System.Drawing.Point(507, 15);
+            this.OY.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(77, 20);
-            this.numericUpDown2.TabIndex = 7;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.OY.Name = "OY";
+            this.OY.Size = new System.Drawing.Size(77, 20);
+            this.OY.TabIndex = 7;
+            this.OY.Value = new decimal(new int[] {
             20,
             0,
             0,
@@ -193,23 +193,23 @@ namespace Modelowanie_GUI
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // numericUpDown3
+            // D1
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(623, 48);
-            this.numericUpDown3.Minimum = new decimal(new int[] {
+            this.D1.Location = new System.Drawing.Point(623, 48);
+            this.D1.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(44, 20);
-            this.numericUpDown3.TabIndex = 16;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.D1.Name = "D1";
+            this.D1.Size = new System.Drawing.Size(44, 20);
+            this.D1.TabIndex = 16;
+            this.D1.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
+            this.D1.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // label4
             // 
@@ -220,18 +220,18 @@ namespace Modelowanie_GUI
             this.label4.TabIndex = 17;
             this.label4.Text = "Ilosc rodzajów ziaren";
             // 
-            // numericUpDown4
+            // D2
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(788, 48);
-            this.numericUpDown4.Minimum = new decimal(new int[] {
+            this.D2.Location = new System.Drawing.Point(788, 48);
+            this.D2.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(58, 20);
-            this.numericUpDown4.TabIndex = 18;
-            this.numericUpDown4.Value = new decimal(new int[] {
+            this.D2.Name = "D2";
+            this.D2.Size = new System.Drawing.Size(58, 20);
+            this.D2.TabIndex = 18;
+            this.D2.Value = new decimal(new int[] {
             5,
             0,
             0,
@@ -252,9 +252,9 @@ namespace Modelowanie_GUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(914, 485);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.numericUpDown4);
+            this.Controls.Add(this.D2);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.numericUpDown3);
+            this.Controls.Add(this.D1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -264,16 +264,16 @@ namespace Modelowanie_GUI
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.OY);
+            this.Controls.Add(this.OX);
             this.Controls.Add(this.pictureBox1);
             this.Name = "CAWindow";
             this.Text = "CAWindow";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.D1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.D2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,8 +288,8 @@ namespace Modelowanie_GUI
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown OX;
+        private System.Windows.Forms.NumericUpDown OY;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
@@ -299,9 +299,9 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown D1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.NumericUpDown D2;
         private System.Windows.Forms.Label label5;
     }
 }

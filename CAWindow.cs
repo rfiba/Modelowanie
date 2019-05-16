@@ -26,6 +26,7 @@ namespace Modelowanie_GUI
         private bool radioButtonIsChecked = false;
         private int colorOffset = 50;
         
+        
         public CAWindow()
         {
             InitializeComponent();
@@ -51,7 +52,7 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
-            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Refresh();
 
             
@@ -76,11 +77,11 @@ namespace Modelowanie_GUI
                         return;
                     if (offset > 0 && (me.X < grid.cellSize || me.Y < grid.cellSize))
                         return;
-                    board.setValueBasedOnCoordinates(me.X, me.Y, (int)numericUpDown4.Value, grid, boardCounter % 2);
+                    board.setValueBasedOnCoordinates(me.X, me.Y, (int)D2.Value, grid, boardCounter % 2);
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                     graphics = Graphics.FromImage(image);
                     board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
-                    grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                    grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
                     pictureBox1.Image = image;
                 }
 
@@ -98,7 +99,7 @@ namespace Modelowanie_GUI
                         image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                         graphics = Graphics.FromImage(image);
                         board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
-                        grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                        grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
                         pictureBox1.Image = image;
                     }
                 }
@@ -109,64 +110,92 @@ namespace Modelowanie_GUI
         {
 
             button2.Enabled = true;
-            board = new BoardCA((int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            board = new BoardCA((int)OX.Value, (int)OY.Value);
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
-            grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
+            grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)OX.Value, (int)OY.Value);
             if (radioButton1.Checked)
                 offset = 1;
             else
                 offset = 0;
-
-            if (listBox1.SelectedItem.ToString() == "Ręczny wybór pozycji")
+            if (listBox1.SelectedItem != null)
             {
-                numericUpDown4.Maximum = numericUpDown3.Value;
-                numericUpDown4.Enabled = true;
-                manualMode = true;
-            }
-
-            if (listBox1.SelectedItem.ToString() == "Losowe")
-            {
-                Random rnd = new Random();
-                int x, y;
-                for(int i = 0; i <  (int)numericUpDown3.Value; i++)
+                if (listBox1.SelectedItem.ToString() == "Ręczny wybór pozycji")
                 {
-                    x = rnd.Next(offset, board.SizeN-offset);
-                    y = rnd.Next(offset, board.SizeM-offset);
-                    board.setValue(x, y, i+1, boardCounter % 2);
+                    D2.Maximum = D1.Value;
+                    D2.Enabled = true;
+                    manualMode = true;
                 }
-                
-                board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
-            }
 
-            if (listBox1.SelectedItem.ToString() == "Jednorodne")
-            {
-                int xDistance = (board.SizeN - 2 * offset)  / (int)numericUpDown3.Value;
-                int yDistance = (board.SizeM - 2 * offset) / (int)numericUpDown4.Value;
-
-                int distance = 0;
-                if (yDistance <  xDistance)
-                    distance = yDistance;
-                else
-                    distance = xDistance;
-                if (board.SizeN - (int)numericUpDown3.Value * xDistance >= (int)numericUpDown3.Value)
-                    xDistance++;
-                if (board.SizeM - (int)numericUpDown4.Value * yDistance >= (int)numericUpDown4.Value)
-                    yDistance++;
-                if (true)
+                if (listBox1.SelectedItem.ToString() == "Losowe")
                 {
-                    for (int i = 0, x = offset, y = offset; i < ((int)numericUpDown3.Value* (int)numericUpDown4.Value); i++)
+                    Random rnd = new Random();
+                    int x, y;
+                    for (int i = 0; i < (int)D1.Value; i++)
+                    {
+                        x = rnd.Next(offset, board.SizeN - offset);
+                        y = rnd.Next(offset, board.SizeM - offset);
+                        board.setValue(x, y, i + 1, boardCounter % 2);
+                    }
+
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                }
+
+                if (listBox1.SelectedItem.ToString() == "Jednorodne")
+                {
+                    int xDistance = (board.SizeN - 2 * offset) / (int)D1.Value;
+                    int yDistance = (board.SizeM - 2 * offset) / (int)D2.Value;
+
+                    int distance = 0;
+                    if (yDistance < xDistance)
+                        distance = yDistance;
+                    else
+                        distance = xDistance;
+                    if (board.SizeN - (int)D1.Value * xDistance >= (int)D1.Value)
+                        xDistance++;
+                    if (board.SizeM - (int)D2.Value * yDistance >= (int)D2.Value)
+                        yDistance++;
+                    if (true)
+                    {
+                        for (int i = 0, x = offset, y = offset; i < ((int)D1.Value * (int)D2.Value); i++)
+                        {
+
+                            board.setValue(x, y, i + 1, boardCounter % 2);
+                            if ((i + 1) % (int)D1.Value == 0)
+                            {
+                                y += yDistance;
+                                x = offset;
+                            }
+                            else
+                                x += xDistance;
+                        }
+                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                    }
+                }
+
+                if(listBox1.SelectedItem.ToString() == "Z promieniem") {
+                    Random rnd = new Random();
+                    int x, y;
+                  
+                    for (int i = 0; i < (int)D1.Value; i++)
                     {
                         
-                        board.setValue(x, y, i + 1, boardCounter % 2);
-                        if ((i+1)% (int)numericUpDown3.Value == 0)
+                        bool result = true;                        
+                        for (int j = 0; j < 10; j++)
                         {
-                            y += yDistance;
-                            x = offset;
+                            x = rnd.Next(offset, board.SizeN - offset);
+                            y = rnd.Next(offset, board.SizeM - offset);
+                            result = board.setValueWithRadian(x, y, i + 1, boardCounter % 2, (int)D2.Value, grid.cellSize);
+                            if (result)
+                                break;
                         }
-                        else
-                            x += xDistance;
+                        if(result == false)
+                        {
+                            MessageBox.Show("Nie udało sie wygenerowac pozycji ziaren.");
+                            return;
+                        }
                     }
+
                     board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
                 }
             }
@@ -177,10 +206,10 @@ namespace Modelowanie_GUI
 
             //MessageBox.Show($"{numericUpDown1.Value} {numericUpDown2.Value} {board.SizeN} {board.SizeM}");
 
-            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Image = image;
             //board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
-            numericUpDown3.Enabled = false;
+            D1.Enabled = false;
             //colorOffset = int.MaxValue / (int)numericUpDown3.Value;
         }
 
@@ -215,10 +244,10 @@ namespace Modelowanie_GUI
             button4.Enabled = false;
             listBox1.Enabled = false;
             radioButton1.Enabled = false;
-            numericUpDown1.Enabled = false;
-            numericUpDown2.Enabled = false;
-            numericUpDown3.Enabled = false;
-            numericUpDown4.Enabled = false;
+            OX.Enabled = false;
+            OY.Enabled = false;
+            D1.Enabled = false;
+            D2.Enabled = false;
             manualMode = false;
             button2.Enabled = false;
             timer.Start();
@@ -229,7 +258,7 @@ namespace Modelowanie_GUI
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
-            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Image = image;
             boardCounter++;
             //boardCounter++;
@@ -254,11 +283,11 @@ namespace Modelowanie_GUI
             button1.Enabled = true;
             listBox1.Enabled = true;
             radioButton1.Enabled = true;
-            numericUpDown1.Enabled = true;
-            numericUpDown2.Enabled = true;
+            OX.Enabled = true;
+            OY.Enabled = true;
             radioButton1.Enabled = true;
             //manualMode = true;
-            numericUpDown3.Enabled = true;
+            D1.Enabled = true;
             offset = 0;
         }
 

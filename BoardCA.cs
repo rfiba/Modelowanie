@@ -15,6 +15,7 @@ namespace Modelowanie_GUI
         private int sizeN;
         private Color[] colorTable;
         private bool changesFlag;
+        private List<Point> points;
 
         public bool ChangesFlag { get { return changesFlag; } }
 
@@ -56,7 +57,7 @@ namespace Modelowanie_GUI
             colorTable[3] = Color.Yellow;
             colorTable[4] = Color.Green;
             changesFlag = true;
-
+            points = new List<Point>();
         }
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
@@ -183,6 +184,29 @@ namespace Modelowanie_GUI
         public void setValue(int x, int y, int value, int numberOfBoard)
         {
             boards[numberOfBoard].setValue(y , x , value);
+        }
+
+        public bool setValueWithRadian(int x, int y, int value, int numberOfBoard, int radian, int cellSize)
+        {
+            if (points.Count == 0)
+            {
+                boards[numberOfBoard].setValue(y, x, value);
+                points.Add(new Point(x, y));
+                //return true;
+            }
+            else
+            {
+                foreach(var i in points)
+                {
+                    double tmp = Math.Sqrt(Math.Pow(i.X - x, 2) + Math.Pow(i.Y - y, 2));
+                    if (tmp <= radian)
+                        return false;
+                    //return true;
+                }
+                boards[numberOfBoard].setValue(y, x, value);
+                points.Add(new Point(x, y));
+            }
+            return true;
         }
     }
 }
