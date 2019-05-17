@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Modelowanie_GUI
         private AdvancedBoard[] boards;
         private int sizeM;
         private int sizeN;
-        private Color[] colorTable;
+        
         private bool changesFlag;
         private List<Point> points;
 
@@ -50,12 +51,7 @@ namespace Modelowanie_GUI
             this.sizeN = xCells;
             boards[0] = new AdvancedBoard(sizeM, sizeN);
             boards[1] = new AdvancedBoard(sizeM, sizeN);
-            colorTable = new Color[5];
-            colorTable[0] = Color.Aqua;
-            colorTable[1] = Color.Brown;
-            colorTable[2] = Color.Red;
-            colorTable[3] = Color.Yellow;
-            colorTable[4] = Color.Green;
+            
             changesFlag = true;
             points = new List<Point>();
         }
@@ -150,21 +146,18 @@ namespace Modelowanie_GUI
 
         
 
-        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard, int colorOffset)
+        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard, string[] colors)
         {
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
                 {
                     var tmp = boards[numberOfBoard].getValue(i, j);
+                    var colorHex = colors[tmp];
                     if (tmp >0)
                     {
-                        brush.Color = colorTable[tmp % 5];
-                        //byte red = (byte)(tmp & 0x000000FF);
-                        //byte green = (byte)((tmp & 0x0000FF00) >> 08);
-                        //byte blue = (byte)((tmp & 0x00FF0000) >> 16);
-                        //brush.Color = Color.FromArgb(red, green, blue);
-
+                        brush.Color = System.Drawing.ColorTranslator.FromHtml(colors[tmp]);
+          
                         graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                     }
                 }

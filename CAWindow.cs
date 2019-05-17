@@ -25,8 +25,10 @@ namespace Modelowanie_GUI
         private int offset = 0;
         private bool radioButtonIsChecked = false;
         private int colorOffset = 50;
-        
-        
+        private string[] colors;
+
+
+
         public CAWindow()
         {
             InitializeComponent();
@@ -38,7 +40,7 @@ namespace Modelowanie_GUI
             timer = new Timer();
             timer.Tick += OnTimedEvent;
             timer.Interval = 700;
-            
+            colors = System.IO.File.ReadAllLines(@"Colors.txt");
         }
 
         private void OnTimedEvent(object sender, EventArgs e)
@@ -61,7 +63,7 @@ namespace Modelowanie_GUI
                 board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
             boardCounter++;
             timer.Start();
         }
@@ -80,7 +82,7 @@ namespace Modelowanie_GUI
                     board.setValueBasedOnCoordinates(me.X, me.Y, (int)D2.Value, grid, boardCounter % 2);
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                     graphics = Graphics.FromImage(image);
-                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
                     grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
                     pictureBox1.Image = image;
                 }
@@ -98,7 +100,7 @@ namespace Modelowanie_GUI
                         board.setValueBasedOnCoordinates(me.X, me.Y, 0, grid, boardCounter % 2);
                         image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                         graphics = Graphics.FromImage(image);
-                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
                         grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
                         pictureBox1.Image = image;
                     }
@@ -138,7 +140,7 @@ namespace Modelowanie_GUI
                         board.setValue(x, y, i + 1, boardCounter % 2);
                     }
 
-                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
                 }
 
                 if (listBox1.SelectedItem.ToString() == "Jednorodne")
@@ -169,7 +171,7 @@ namespace Modelowanie_GUI
                             else
                                 x += xDistance;
                         }
-                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                        board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
                     }
                 }
 
@@ -197,7 +199,7 @@ namespace Modelowanie_GUI
                         }
                     }
 
-                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+                    board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
                 }
             }
 
@@ -278,7 +280,7 @@ namespace Modelowanie_GUI
                 board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colorOffset);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
             grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Image = image;
             boardCounter++;
