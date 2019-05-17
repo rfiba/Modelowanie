@@ -12,6 +12,7 @@ namespace Modelowanie_GUI
     {
 
         public int cellSize { get; set; }
+
         public Grid(int panelWidth, int panelHeight, int numberOfXCells, int numberOfYCells)
         {
             int tmpX = panelWidth / numberOfXCells;

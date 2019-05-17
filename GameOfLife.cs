@@ -54,7 +54,7 @@ namespace Modelowanie_GUI
             graphics = Graphics.FromImage(image);
             board.computeStep(boardCounter % 2);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            grid.drawSpecificNumberOfCells(board.sizeN, board.sizeM, graphics, pen);
             pictureBox1.Image = image;
             boardCounter++;
         }
@@ -73,7 +73,7 @@ namespace Modelowanie_GUI
                     image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                     graphics = Graphics.FromImage(image);
                     board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-                    grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                    grid.drawSpecificNumberOfCells(board.sizeN, board.sizeM, graphics, pen);
                     pictureBox1.Image = image;
                 }
 
@@ -88,7 +88,7 @@ namespace Modelowanie_GUI
                         image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                         graphics = Graphics.FromImage(image);
                         board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-                        grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                        grid.drawSpecificNumberOfCells(board.sizeN, board.sizeM, graphics, pen);
                         pictureBox1.Image = image;
                     }
                 }
@@ -107,7 +107,7 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
-            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+            grid.drawSpecificNumberOfCells(board.sizeN, board.sizeM, graphics, pen);
             pictureBox1.Refresh();
 
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter%2);
@@ -125,9 +125,10 @@ namespace Modelowanie_GUI
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             grid = new Grid(pictureBox1.Width, pictureBox1.Height, (int)numericUpDown1.Value, (int)numericUpDown2.Value);
-            grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
-            pictureBox1.Image = image;
             board = new BoardGameOfLife((int)numericUpDown2.Value, (int)numericUpDown1.Value);
+            grid.drawSpecificNumberOfCells(board.sizeN, board.sizeM, graphics, pen);
+            pictureBox1.Image = image;
+            
         }
 
         private void button5_Click(object sender, EventArgs e) //Dodaj
@@ -137,7 +138,7 @@ namespace Modelowanie_GUI
                 board.drawShape(boardCounter % 2, listBox1.SelectedItem.ToString());
                 image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                 graphics = Graphics.FromImage(image);
-                grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);
+                grid.drawSpecificNumberOfCells(board.sizeN, board.sizeM, graphics, pen);
                 pictureBox1.Refresh();
                 board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
                 pictureBox1.Image = image;
