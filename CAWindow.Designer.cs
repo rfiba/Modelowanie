@@ -118,7 +118,7 @@ namespace Modelowanie_GUI
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(377, 45);
+            this.button1.Location = new System.Drawing.Point(271, 45);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(124, 23);
             this.button1.TabIndex = 10;
@@ -214,15 +214,16 @@ namespace Modelowanie_GUI
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(512, 51);
+            this.label4.Location = new System.Drawing.Point(423, 51);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 13);
             this.label4.TabIndex = 17;
             this.label4.Text = "Ilosc rodzajów ziaren";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // D2
             // 
-            this.D2.Location = new System.Drawing.Point(788, 48);
+            this.D2.Location = new System.Drawing.Point(807, 46);
             this.D2.Minimum = new decimal(new int[] {
             1,
             0,
@@ -240,7 +241,7 @@ namespace Modelowanie_GUI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(701, 50);
+            this.label5.Location = new System.Drawing.Point(673, 51);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 13);
             this.label5.TabIndex = 19;

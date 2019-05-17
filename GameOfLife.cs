@@ -134,7 +134,7 @@ namespace Modelowanie_GUI
         {
             if (additionMode && listBox1.SelectedItem != null)
             {
-                board.drawShape(listBox1.SelectedItem.ToString());
+                board.drawShape(boardCounter % 2, listBox1.SelectedItem.ToString());
                 image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
                 graphics = Graphics.FromImage(image);
                 grid.drawSpecificNumberOfCells((int)numericUpDown1.Value, (int)numericUpDown2.Value, graphics, pen);

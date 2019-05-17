@@ -52,21 +52,21 @@ namespace Modelowanie_GUI
             board[1] = new Board(this.sizeM, this.sizeN);           
         }
 
-        public void drawShape(string shape = "Losowy")
+        public void drawShape(int boardCounter, string shape = "Losowy")
         {
             switch (shape)
             {
                 case "Niezmienny":
-                    board[0].prepareBeeHive();
+                    board[boardCounter].prepareBeeHive();
                     break;
                 case "Oscylator":
-                    board[0].prepareBlinker();
+                    board[boardCounter].prepareBlinker();
                     break;
                 case "Glider":
-                    board[0].prepareGlider();
+                    board[boardCounter].prepareGlider();
                     break;
                 case "Losowy":
-                    board[0].prepareRandom();
+                    board[boardCounter].prepareRandom();
                     break;
             }
         }

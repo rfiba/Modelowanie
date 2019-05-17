@@ -174,6 +174,7 @@ namespace Modelowanie_GUI
                 }
 
                 if(listBox1.SelectedItem.ToString() == "Z promieniem") {
+                    D2.Enabled = true;
                     Random rnd = new Random();
                     int x, y;
                   
@@ -215,10 +216,30 @@ namespace Modelowanie_GUI
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex.ToString() == "Ręczny wybór pozycji")
-                this.label4.Text = "Ilośc rodzajów ziaren";
-            if (listBox1.SelectedIndex.ToString() == "Losowe")
-                this.label4.Text = "Ilośc rodzajów ziaren do wylosowania";
+            if (listBox1.SelectedItem.ToString() == "Ręczny wybór pozycji")
+            {
+                label4.Text = "Ilośc rodzajów ziaren";
+                D2.Enabled = false;
+            }
+            if (listBox1.SelectedItem.ToString() == "Z promieniem")
+            {
+                label4.Text = "Ilośc rodzajów ziaren do wylosowania";
+                label5.Text = "Promień";
+                D2.Enabled = true;
+            }
+            if (listBox1.SelectedItem.ToString() == "Jednorodne")
+            {
+                label4.Text = "Ilośc ziaren w wierszu";
+                label5.Text = "Ilośc ziaren w kolumnie";
+                D2.Enabled = true;
+            }
+            if (listBox1.SelectedItem.ToString() == "Losowe")
+            {
+                label4.Text = "Ilośc rodzajów ziaren do wylosowania";
+                D2.Enabled = false;
+            }
+            label5.Refresh();
+            label4.Refresh();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
