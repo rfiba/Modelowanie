@@ -14,10 +14,10 @@ namespace Modelowanie_GUI
         private AdvancedBoard[] boards;
         private int sizeM;
         private int sizeN;
-        
         private bool changesFlag;
         private List<Point> points;
-
+        Dictionary<int, Color> colors;
+        Random rnd;
         public bool ChangesFlag { get { return changesFlag; } }
 
         public int SizeM
@@ -51,9 +51,10 @@ namespace Modelowanie_GUI
             this.sizeN = xCells;
             boards[0] = new AdvancedBoard(sizeM, sizeN);
             boards[1] = new AdvancedBoard(sizeM, sizeN);
-            
+            rnd = new Random();
             changesFlag = true;
             points = new List<Point>();
+            colors = new Dictionary<int, Color>();
         }
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
@@ -153,10 +154,10 @@ namespace Modelowanie_GUI
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
                 {
                     var tmp = boards[numberOfBoard].getValue(i, j);
-                    var colorHex = colors[tmp];
+                    
                     if (tmp >0)
                     {
-                        brush.Color = Color.Aqua;
+                        brush.Color = getColorForValue(tmp);
           
                         graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                     }
@@ -200,6 +201,28 @@ namespace Modelowanie_GUI
                 points.Add(new Point(x, y));
             }
             return true;
+        }
+
+        private Color getColorForValue(int value)
+        {
+            if (colors.ContainsKey(value))
+            {
+                return colors[value];
+            }
+            else
+            {
+                int r, g, b;
+                Color color;
+                do
+                {
+                    r = rnd.Next(0, 255);
+                    g = rnd.Next(0, 255);
+                    b = rnd.Next(0, 255);
+                    color = Color.FromArgb(r, g, b);
+                } while (colors.ContainsValue(color));
+                colors.Add(value, color);
+                return color;
+            }
         }
     }
 }
