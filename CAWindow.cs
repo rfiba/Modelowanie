@@ -178,8 +178,8 @@ namespace Modelowanie_GUI
                 if(listBox1.SelectedItem.ToString() == "Z promieniem") {
                     D2.Enabled = true;
                     Random rnd = new Random();
-                    int x, y;
-                  
+                    int x, y, unsuccess = 0;
+                                      
                     for (int i = 0; i < (int)D1.Value; i++)
                     {
                         
@@ -194,11 +194,13 @@ namespace Modelowanie_GUI
                         }
                         if(result == false)
                         {
-                            MessageBox.Show("Nie udało sie wygenerowac pozycji ziaren.");
-                            return;
+                            unsuccess++;
+                           
+                           
                         }
                     }
-
+                    if(unsuccess>0)
+                        MessageBox.Show($"Nie udało sie wygenerowac pozycji {unsuccess} ziaren.");
                     board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2, colors);
                 }
             }

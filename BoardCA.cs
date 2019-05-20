@@ -156,7 +156,7 @@ namespace Modelowanie_GUI
                     var colorHex = colors[tmp];
                     if (tmp >0)
                     {
-                        brush.Color = System.Drawing.ColorTranslator.FromHtml(colors[tmp]);
+                        brush.Color = Color.Aqua;
           
                         graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                     }
