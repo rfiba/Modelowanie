@@ -57,7 +57,7 @@ namespace Modelowanie_GUI
             colors = new Dictionary<int, Color>();
         }
 
-        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, bool Moore=false) {
+        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int neighbourhood = 0) {
             int skippingCounter = 0;
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
@@ -70,7 +70,7 @@ namespace Modelowanie_GUI
                         continue;
                     }
                     int[] arr;
-                    if (Moore)
+                    if (neighbourhood == 1)
                         arr = new int[8];
                     else
                         arr = new int[4];
@@ -79,7 +79,7 @@ namespace Modelowanie_GUI
                     arr[1] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j) ;
                     arr[2] = boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
                     arr[3] = boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)) ;
-                    if (Moore)
+                    if (neighbourhood == 1)
                     {
                         arr[4] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
                             BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN));
@@ -94,7 +94,7 @@ namespace Modelowanie_GUI
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
                     var tmp = arr.Max();
-                    if (mode != 0 && ((maxCount == 4 && !Moore) || (maxCount == 8 && Moore)))
+                    if (mode != 0 && ((maxCount == 4 && neighbourhood != 1) || (maxCount == 8 && neighbourhood == 1)))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
@@ -105,16 +105,13 @@ namespace Modelowanie_GUI
 
         }
 
-        public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, bool Moore = false)
+        public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, int neighbourhood = 0)
         {
             int skippingCounter = 0;
-            for (int i = 1; i < boards[numberOfBoard].SizeM -1; i++)
-            {
-                for (int j = 1; j < boards[numberOfBoard].SizeN -1; j++)
-                {
+            for (int i = 1; i < boards[numberOfBoard].SizeM -1; i++){
+                for (int j = 1; j < boards[numberOfBoard].SizeN -1; j++){
 
-                    if (boards[numberOfBoard].getValue(i, j) != 0)
-                    {
+                    if (boards[numberOfBoard].getValue(i, j) != 0){
                         skippingCounter++;
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
@@ -125,8 +122,7 @@ namespace Modelowanie_GUI
                     arr[1] = boards[numberOfBoard].getValue(i + 1, j);
                     arr[2] = boards[numberOfBoard].getValue(i, j + 1);
                     arr[3] = boards[numberOfBoard].getValue(i, j - 1);
-                    if (Moore)
-                    {
+                    if (neighbourhood == 1){
                         arr[4] = boards[numberOfBoard].getValue(i - 1, j - 1);
                         arr[5] = boards[numberOfBoard].getValue(i + 1, j - 1);
                         arr[6] = boards[numberOfBoard].getValue(i - 1, j + 1);
@@ -135,7 +131,7 @@ namespace Modelowanie_GUI
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
-                    if (mode != 0 && ((maxCount == 4 && !Moore) || (maxCount == 8 && Moore)))
+                    if (mode != 0 && ((maxCount == 4 && neighbourhood != 1) || (maxCount == 8 && neighbourhood == 1)))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);                    
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());

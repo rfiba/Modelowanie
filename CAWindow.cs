@@ -24,6 +24,7 @@ namespace Modelowanie_GUI
         private int offset = 0;
         private bool radioButtonIsChecked = false;
         private bool advacedMode;
+        private int neighbourhood;
 
         public CAWindow(bool advacedMode = false) {
             InitializeComponent();
@@ -49,13 +50,12 @@ namespace Modelowanie_GUI
             graphics = Graphics.FromImage(image);
             grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Refresh();
-
             
             pictureBox1.Image = image;
             if (offset>0)
-                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
+                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, neighbourhood);
             else
-                board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
+                board.computeStepPeriodicBoundaryCondition(boardCounter % 2, neighbourhood);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             boardCounter++;
             timer.Start();
@@ -217,6 +217,14 @@ namespace Modelowanie_GUI
         }
 
         private void button2_Click(object sender, EventArgs e){ //start
+            if (listBox2.SelectedItem != null){
+                if (listBox2.SelectedItem.ToString() == "von Neumann"){
+                    neighbourhood = 0;
+                }
+                else if (listBox2.SelectedItem.ToString() == "Moore"){
+                    neighbourhood = 1;
+                }
+            }
             button1.Enabled = false;
             button3.Enabled = true;
             button4.Enabled = false;
@@ -232,9 +240,9 @@ namespace Modelowanie_GUI
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
             if (offset>0)
-                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2);
+                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, neighbourhood);
             else
-                board.computeStepPeriodicBoundaryCondition(boardCounter % 2);
+                board.computeStepPeriodicBoundaryCondition(boardCounter % 2, neighbourhood);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Image = image;
