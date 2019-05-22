@@ -69,32 +69,29 @@ namespace Modelowanie_GUI
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
                     }
-                    int[] arr;
-                    if (neighbourhood == 1)
-                        arr = new int[8];
-                    else
-                        arr = new int[4];
-
-                    arr[0] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j) ;
-                    arr[1] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j) ;
-                    arr[2] = boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
-                    arr[3] = boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)) ;
+                    
+                    var arr = new List<int>();
+                   
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j) );
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j) );
+                    arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                    arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
                     if (neighbourhood == 1)
                     {
-                        arr[4] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN));
-                        arr[5] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN));
-                        arr[6] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
-                        arr[7] = boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN));
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
                     }
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
                     var tmp = arr.Max();
-                    if (mode != 0 && ((maxCount == 4 && neighbourhood != 1) || (maxCount == 8 && neighbourhood == 1)))
+                    if (mode != 0 && (maxCount == arr.Count))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
@@ -116,22 +113,22 @@ namespace Modelowanie_GUI
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
                     }
-                    int[] arr = new int[8];
-
-                    arr[0] = boards[numberOfBoard].getValue(i - 1, j);
-                    arr[1] = boards[numberOfBoard].getValue(i + 1, j);
-                    arr[2] = boards[numberOfBoard].getValue(i, j + 1);
-                    arr[3] = boards[numberOfBoard].getValue(i, j - 1);
+                    
+                    var arr = new List<int>();
+                    arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+                    arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+                    arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+                    arr.Add(boards[numberOfBoard].getValue(i, j - 1));
                     if (neighbourhood == 1){
-                        arr[4] = boards[numberOfBoard].getValue(i - 1, j - 1);
-                        arr[5] = boards[numberOfBoard].getValue(i + 1, j - 1);
-                        arr[6] = boards[numberOfBoard].getValue(i - 1, j + 1);
-                        arr[7] = boards[numberOfBoard].getValue(i + 1, j + 1);
+                        arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
+                        arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
+                        arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+                        arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
                     }
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
                     int mode = groups.First(g => g.Count() == maxCount).Key;
-                    if (mode != 0 && ((maxCount == 4 && neighbourhood != 1) || (maxCount == 8 && neighbourhood == 1)))
+                    if (mode != 0 && (maxCount == arr.Count))
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);                    
                     else
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());

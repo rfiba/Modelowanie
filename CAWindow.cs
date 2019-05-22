@@ -98,6 +98,7 @@ namespace Modelowanie_GUI
 
         private void button1_Click(object sender, EventArgs e){ //generuj plansze
             button2.Enabled = true;
+            radioButton1.Enabled = false;
             board = new BoardCA((int)OX.Value, (int)OY.Value);
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
