@@ -46,6 +46,8 @@ namespace Modelowanie_GUI
             this.label4 = new System.Windows.Forms.Label();
             this.D2 = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.listBox2 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
@@ -55,7 +57,7 @@ namespace Modelowanie_GUI
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 88);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 84);
             this.pictureBox1.MaximumSize = new System.Drawing.Size(896, 388);
             this.pictureBox1.MinimumSize = new System.Drawing.Size(896, 388);
             this.pictureBox1.Name = "pictureBox1";
@@ -209,7 +211,6 @@ namespace Modelowanie_GUI
             0,
             0,
             0});
-            this.D1.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // label4
             // 
@@ -247,11 +248,38 @@ namespace Modelowanie_GUI
             this.label5.TabIndex = 19;
             this.label5.Text = "Wybrane ziarno";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 499);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Sąsiedztwo";
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Items.AddRange(new object[] {
+            "Moore",
+            "von Neumann",
+            "Heksagonalne lewe",
+            "Heksagonalne prawe",
+            "Heksagonalne losowe",
+            "Pentagonalne losowe",
+            "Z promieniem",});
+            this.listBox2.Location = new System.Drawing.Point(93, 491);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(126, 30);
+            this.listBox2.TabIndex = 21;
+            // 
             // CAWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(914, 485);
+            this.ClientSize = new System.Drawing.Size(950, 556);
+            this.Controls.Add(this.listBox2);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.D2);
             this.Controls.Add(this.label4);
@@ -277,7 +305,6 @@ namespace Modelowanie_GUI
             ((System.ComponentModel.ISupportInitialize)(this.D2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         
@@ -304,5 +331,7 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown D2;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ListBox listBox2;
     }
 }

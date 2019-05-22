@@ -147,7 +147,7 @@ namespace Modelowanie_GUI
 
         
 
-        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard, string[] colors)
+        public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
         {
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
