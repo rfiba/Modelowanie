@@ -25,6 +25,7 @@ namespace Modelowanie_GUI
         private bool radioButtonIsChecked = false;
         private bool advacedMode;
         private int neighbourhood;
+        private Random rnd;
 
         public CAWindow(bool advacedMode = false) {
             InitializeComponent();
@@ -37,6 +38,7 @@ namespace Modelowanie_GUI
             timer.Tick += OnTimedEvent;
             timer.Interval = 700;            
             this.advacedMode = advacedMode;
+            rnd = new Random();
         }
 
         private void OnTimedEvent(object sender, EventArgs e){
@@ -155,7 +157,7 @@ namespace Modelowanie_GUI
                 }
                 else if(listBox1.SelectedItem.ToString() == "Z promieniem") {
                     D2.Enabled = true;
-                    Random rnd = new Random();
+                    
                     int x, y, unsuccess = 0;
                                       
                     for (int i = 0; i < (int)D1.Value; i++){
@@ -227,10 +229,10 @@ namespace Modelowanie_GUI
                     neighbourhood = 2;
                 else if (listBox2.SelectedItem.ToString() == "Heksagonalne prawe")
                     neighbourhood = 3;
-                else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe"){
-                    Random rnd = new Random();
-                    neighbourhood = rnd.Next(1,2);
-                }
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe")
+                    neighbourhood = rnd.Next() % 2 + 2;
+                else if (listBox2.SelectedItem.ToString() == "Pentagonalne losowe")  
+                    neighbourhood = rnd.Next()%2 + 4;
             }
             button1.Enabled = false;
             button3.Enabled = true;

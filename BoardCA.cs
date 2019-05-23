@@ -18,6 +18,8 @@ namespace Modelowanie_GUI
         private List<Point> points;
         Dictionary<int, Color> colors;
         Random rnd;
+        int exponent;
+        bool exponentCalculated;
         public bool ChangesFlag { get { return changesFlag; } }
 
         public int SizeM
@@ -55,6 +57,7 @@ namespace Modelowanie_GUI
             changesFlag = true;
             points = new List<Point>();
             colors = new Dictionary<int, Color>();
+            exponentCalculated = false;
         }
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int neighbourhood = 0) {
@@ -122,12 +125,13 @@ namespace Modelowanie_GUI
                     }
                     
                     var arr = new List<int>();
-                    arr.Add(boards[numberOfBoard].getValue(i - 1, j));
-                    arr.Add(boards[numberOfBoard].getValue(i + 1, j));
-                    arr.Add(boards[numberOfBoard].getValue(i, j + 1));
-                    arr.Add(boards[numberOfBoard].getValue(i, j - 1));
+                    
                     if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
                     {
+                        arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+                        arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+                        arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+                        arr.Add(boards[numberOfBoard].getValue(i, j - 1));
                         if (neighbourhood == 1 || neighbourhood == 2) {
                             arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
                             arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
@@ -136,6 +140,24 @@ namespace Modelowanie_GUI
                         if (neighbourhood == 1 || neighbourhood == 3){
                             arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
                             arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+                        }
+                    }
+                    else{
+                        
+                        int multiplier = (int)Math.Pow(-1, generateExponent());
+                        if (neighbourhood == 4){
+                            arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+                            arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+                            arr.Add(boards[numberOfBoard].getValue(i, j + multiplier));
+                            arr.Add(boards[numberOfBoard].getValue(i - 1, j + multiplier ));
+                            arr.Add(boards[numberOfBoard].getValue(i + 1, j + multiplier));
+                        }
+                        else{
+                            arr.Add(boards[numberOfBoard].getValue(i, j - 1));
+                            arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+                            arr.Add(boards[numberOfBoard].getValue(i + multiplier, j));
+                            arr.Add(boards[numberOfBoard].getValue(i + multiplier, j - 1));
+                            arr.Add(boards[numberOfBoard].getValue(i + multiplier, j + 1));
                         }
                     }
                     var groups = arr.GroupBy(v => v);
@@ -192,7 +214,6 @@ namespace Modelowanie_GUI
             {
                 boards[numberOfBoard].setValue(y, x, value);
                 points.Add(new Point(x, y));
-                //return true;
             }
             else
             {
@@ -201,7 +222,6 @@ namespace Modelowanie_GUI
                     double tmp = Math.Sqrt(Math.Pow(i.X - x, 2) + Math.Pow(i.Y - y, 2));
                     if (tmp <= radian)
                         return false;
-                    //return true;
                 }
                 boards[numberOfBoard].setValue(y, x, value);
                 points.Add(new Point(x, y));
@@ -209,18 +229,14 @@ namespace Modelowanie_GUI
             return true;
         }
 
-        private Color getColorForValue(int value)
-        {
-            if (colors.ContainsKey(value))
-            {
+        private Color getColorForValue(int value){
+            if (colors.ContainsKey(value)){
                 return colors[value];
             }
-            else
-            {
+            else{
                 int r, g, b;
                 Color color;
-                do
-                {
+                do{
                     r = rnd.Next(0, 255);
                     g = rnd.Next(0, 255);
                     b = rnd.Next(0, 255);
@@ -228,6 +244,15 @@ namespace Modelowanie_GUI
                 } while (colors.ContainsValue(color));
                 colors.Add(value, color);
                 return color;
+            }
+        }
+
+        private int generateExponent() {
+            if (exponentCalculated)
+                return exponent;
+            else{
+                exponentCalculated = true;
+                return rnd.Next() % 2 + 1;
             }
         }
     }
