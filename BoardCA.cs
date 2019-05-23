@@ -76,16 +76,23 @@ namespace Modelowanie_GUI
                     arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j) );
                     arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
                     arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
-                    if (neighbourhood == 1)
+                    if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
                     {
-                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
-                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
-                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
-                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                            BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+
+                        if (neighbourhood == 1 || neighbourhood == 2)
+                        {
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        }
+
+                        if (neighbourhood == 1 || neighbourhood == 3) { 
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                        }
                     }
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());

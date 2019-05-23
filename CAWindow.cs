@@ -219,11 +219,17 @@ namespace Modelowanie_GUI
 
         private void button2_Click(object sender, EventArgs e){ //start
             if (listBox2.SelectedItem != null){
-                if (listBox2.SelectedItem.ToString() == "von Neumann"){
+                if (listBox2.SelectedItem.ToString() == "von Neumann")
                     neighbourhood = 0;
-                }
-                else if (listBox2.SelectedItem.ToString() == "Moore"){
+                else if (listBox2.SelectedItem.ToString() == "Moore")
                     neighbourhood = 1;
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne lewe")
+                    neighbourhood = 2;
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne prawe")
+                    neighbourhood = 3;
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe"){
+                    Random rnd = new Random();
+                    neighbourhood = rnd.Next(1,2);
                 }
             }
             button1.Enabled = false;
@@ -269,7 +275,6 @@ namespace Modelowanie_GUI
             OX.Enabled = true;
             OY.Enabled = true;
             radioButton1.Enabled = true;
-            //manualMode = true;
             D1.Enabled = true;
             offset = 0;
         }
