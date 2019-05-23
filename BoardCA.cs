@@ -75,13 +75,13 @@ namespace Modelowanie_GUI
                     
                     var arr = new List<int>();
                    
-                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j) );
-                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j) );
-                    arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
-                    arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                    
                     if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
                     {
-
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                        arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
                         if (neighbourhood == 1 || neighbourhood == 2)
                         {
                             arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
@@ -95,6 +95,27 @@ namespace Modelowanie_GUI
                                 BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
                             arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
                                 BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                        }
+                    }
+                    else {
+                        int multiplier = (int)Math.Pow(-1, generateExponent());
+                        if (neighbourhood == 4){
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + multiplier, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + multiplier, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + multiplier, boards[numberOfBoard].SizeN)));
+                        }
+                        else {
+                            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
                         }
                     }
                     var groups = arr.GroupBy(v => v);
