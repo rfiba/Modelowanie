@@ -126,11 +126,17 @@ namespace Modelowanie_GUI
                     arr.Add(boards[numberOfBoard].getValue(i + 1, j));
                     arr.Add(boards[numberOfBoard].getValue(i, j + 1));
                     arr.Add(boards[numberOfBoard].getValue(i, j - 1));
-                    if (neighbourhood == 1){
-                        arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
-                        arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
-                        arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
-                        arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
+                    if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
+                    {
+                        if (neighbourhood == 1 || neighbourhood == 2) {
+                            arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
+                            arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
+                        }
+
+                        if (neighbourhood == 1 || neighbourhood == 3){
+                            arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
+                            arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+                        }
                     }
                     var groups = arr.GroupBy(v => v);
                     int maxCount = groups.Max(g => g.Count());
