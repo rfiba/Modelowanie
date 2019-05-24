@@ -60,7 +60,7 @@ namespace Modelowanie_GUI
             exponentCalculated = false;
         }
 
-        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int neighbourhood = 0) {
+        public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int radius = 0, int neighbourhood = 0) {
             int skippingCounter = 0;
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
@@ -97,7 +97,7 @@ namespace Modelowanie_GUI
                                 BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
                         }
                     }
-                    else {
+                    else if(neighbourhood == 4 || neighbourhood == 5){
                         int multiplier = (int)Math.Pow(-1, generateExponent());
                         if (neighbourhood == 4){
                             arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
@@ -116,6 +116,14 @@ namespace Modelowanie_GUI
                                 BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
                             arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM),
                                 BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        }
+                    }
+                    else{
+                        double xLength, yLength;
+                        for(int k = i - radius; k < i + radius; k++){
+                            for(int l = j - radius; l < j + radius; j++){
+                                //odpowiednie calclulateDistanceBetweenCentres
+                            }
                         }
                     }
                     var groups = arr.GroupBy(v => v);
@@ -275,6 +283,17 @@ namespace Modelowanie_GUI
                 exponentCalculated = true;
                 return rnd.Next() % 2 + 1;
             }
+        }
+
+        private double calclulateDistanceBetweenCentres(double n1Center, double n2Center, int n1, int n2) {
+            double result;
+            if (n1 - n2 > 0)
+                result = n1Center + 1 - n2Center + n1 - n2 - 1;
+            else if (n1 - n2 == 0)
+                result = Math.Abs(n1Center-n2Center);//jeden nad drugim;
+            else
+                result = 1 - n1Center + n2Center + n2 - n1 - 1;//x po prawej
+            return result;
         }
     }
 }
