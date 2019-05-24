@@ -9,16 +9,22 @@ namespace Modelowanie_GUI
     class AdvancedCell
     {
         private int state;
+        public double xCenter { get; set; }
+        public double yCenter { get; set; }
 
         public AdvancedCell()
         {
             this.state = 0;
         }
 
-        public int State
-        {
-            get { return this.state; }
-            set { this.state = value; }
+        public AdvancedCell(double xCenter, double yCenter) {
+            this.state = 0;
+            this.xCenter = xCenter;
+            this.yCenter = yCenter;
         }
+
+        public int State{
+            get { return this.state; }
+            set { this.state = value; }}
     }
 }
