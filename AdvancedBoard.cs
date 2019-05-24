@@ -36,5 +36,12 @@ namespace Modelowanie_GUI
             board[m, n].State = value;
         }
 
+        public double getXValueCenter(int m, int n) {
+            return board[m, n].xCenter;
+        }
+
+        public double getYValueCenter(int m, int n) {
+            return board[m, n].yCenter;
+        }
     }
 }

@@ -119,10 +119,17 @@ namespace Modelowanie_GUI
                         }
                     }
                     else{
-                        double xLength, yLength;
+                        double xLength, yLength, distance;
+                        int modK, modL;
                         for(int k = i - radius; k < i + radius; k++){
                             for(int l = j - radius; l < j + radius; j++){
-                                //odpowiednie calclulateDistanceBetweenCentres
+                                modK = BoardGameOfLife.mod(k, boards[numberOfBoard].SizeM);
+                                modL = BoardGameOfLife.mod(l, boards[numberOfBoard].SizeN);
+                                xLength = calclulateDistanceBetweenCentres(i, modK, boards[numberOfBoard].getXValueCenter(i, j), boards[numberOfBoard].getXValueCenter(modK, modL));
+                                yLength = calclulateDistanceBetweenCentres(j, modL, boards[numberOfBoard].getYValueCenter(i, j), boards[numberOfBoard].getYValueCenter(modK, modL));
+                                distance = Math.Sqrt(xLength * xLength + yLength * yLength);
+                                if (distance < radius)
+                                    arr.Add(boards[numberOfBoard].getValue(k, l));
                             }
                         }
                     }
@@ -285,7 +292,7 @@ namespace Modelowanie_GUI
             }
         }
 
-        private double calclulateDistanceBetweenCentres(double n1Center, double n2Center, int n1, int n2) {
+        private double calclulateDistanceBetweenCentres(int n1, int n2, double n1Center, double n2Center) {
             double result;
             if (n1 - n2 > 0)
                 result = n1Center + 1 - n2Center + n1 - n2 - 1;
