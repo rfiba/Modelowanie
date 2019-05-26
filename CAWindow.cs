@@ -99,7 +99,7 @@ namespace Modelowanie_GUI
         }
 
         private void button1_Click(object sender, EventArgs e){ //generuj plansze
-            button2.Enabled = true;
+            
             radioButton1.Enabled = false;
             board = new BoardCA((int)OX.Value, (int)OY.Value);
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -220,29 +220,11 @@ namespace Modelowanie_GUI
         }
 
         private void button2_Click(object sender, EventArgs e){ //start
-            if (listBox2.SelectedItem != null){
-                if (listBox2.SelectedItem.ToString() == "von Neumann")
-                    neighbourhood = 0;
-                else if (listBox2.SelectedItem.ToString() == "Moore")
-                    neighbourhood = 1;
-                else if (listBox2.SelectedItem.ToString() == "Heksagonalne lewe")
-                    neighbourhood = 2;
-                else if (listBox2.SelectedItem.ToString() == "Heksagonalne prawe")
-                    neighbourhood = 3;
-                else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe")
-                    neighbourhood = rnd.Next() % 2 + 2;
-                else if (listBox2.SelectedItem.ToString() == "Pentagonalne losowe")
-                    neighbourhood = rnd.Next() % 2 + 4;
-                else if (listBox2.SelectedItem.ToString() == "Z promieniem")
-                {
-                    neighbourhood = 11;
-                    label7.Visible = true;
-                    numericUpDown1.Visible = true;
-                }
-            }
+            
             button1.Enabled = false;
             button3.Enabled = true;
             button4.Enabled = false;
+            button5.Enabled = false;
             listBox1.Enabled = false;
             radioButton1.Enabled = false;
             OX.Enabled = false;
@@ -280,6 +262,7 @@ namespace Modelowanie_GUI
         
         private void button4_Click(object sender, EventArgs e){ //ustaw
             button3.Enabled = false;
+            button5.Enabled = true;
             button1.Enabled = true;
             listBox1.Enabled = true;
             radioButton1.Enabled = true;
@@ -300,6 +283,32 @@ namespace Modelowanie_GUI
                 label7.Visible = false;
                 numericUpDown1.Visible = false;
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e) {
+            if (listBox2.SelectedItem != null)
+            {
+                if (listBox2.SelectedItem.ToString() == "von Neumann")
+                    neighbourhood = 0;
+                else if (listBox2.SelectedItem.ToString() == "Moore")
+                    neighbourhood = 1;
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne lewe")
+                    neighbourhood = 2;
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne prawe")
+                    neighbourhood = 3;
+                else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe")
+                    neighbourhood = rnd.Next() % 2 + 2;
+                else if (listBox2.SelectedItem.ToString() == "Pentagonalne losowe")
+                    neighbourhood = rnd.Next() % 2 + 4;
+                else if (listBox2.SelectedItem.ToString() == "Z promieniem")
+                {
+                    neighbourhood = 11;
+                    label7.Visible = true;
+                    numericUpDown1.Visible = true;
+                }
+            }
+
+            button2.Enabled = true;
         }
     }
 }

@@ -50,6 +50,7 @@ namespace Modelowanie_GUI
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.label7 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
@@ -303,11 +304,22 @@ namespace Modelowanie_GUI
             0,
             0});
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(453, 494);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(131, 23);
+            this.button5.TabIndex = 24;
+            this.button5.Text = "Ustaw sąsiedztwo";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // CAWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 556);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.listBox2);
@@ -369,5 +381,6 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button button5;
     }
 }
