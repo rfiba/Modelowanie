@@ -55,7 +55,7 @@ namespace Modelowanie_GUI
             pictureBox1.Refresh();
             pictureBox1.Image = image;
             if (offset>0)
-                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, neighbourhood);
+                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2, radius, neighbourhood);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
@@ -258,7 +258,7 @@ namespace Modelowanie_GUI
             if (neighbourhood == 11)
                 radius = (int)numericUpDown1.Value;
             if (offset>0)
-                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, neighbourhood);
+                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
             else
                 board.computeStepPeriodicBoundaryCondition(boardCounter % 2,radius, neighbourhood);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);

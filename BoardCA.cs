@@ -148,7 +148,7 @@ namespace Modelowanie_GUI
 
         }
 
-        public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, int neighbourhood = 0)
+        public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, int radius = 0, int neighbourhood = 0)
         {
             int skippingCounter = 0;
             for (int i = 1; i < boards[numberOfBoard].SizeM -1; i++){
@@ -178,7 +178,8 @@ namespace Modelowanie_GUI
                             arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
                         }
                     }
-                    else{
+                    else if (neighbourhood == 4 || neighbourhood == 5)
+                    {
                         
                         int multiplier = (int)Math.Pow(-1, generateExponent());
                         if (neighbourhood == 4){
@@ -194,6 +195,23 @@ namespace Modelowanie_GUI
                             arr.Add(boards[numberOfBoard].getValue(i + multiplier, j));
                             arr.Add(boards[numberOfBoard].getValue(i + multiplier, j - 1));
                             arr.Add(boards[numberOfBoard].getValue(i + multiplier, j + 1));
+                        }
+                    }
+                    else {
+                        double xLength, yLength, distance;
+                        int modK, modL;
+                        for (int k = modForAbsorbingCondition(i - radius, true), it = 0; it < 2 * radius && k < sizeM - 1; k = modForAbsorbingCondition(k + 1,true), it++)
+                        {
+                            for (int l = modForAbsorbingCondition(j - radius, false), it2 = 0; it2 < 2 * radius && l < sizeM - 1; l = modForAbsorbingCondition(l + 1, false), it2++)
+                            {
+                                modK = modForAbsorbingCondition(k, true);
+                                modL = modForAbsorbingCondition(l, false);
+                                xLength = calclulateDistanceBetweenCentres(i, modK, boards[numberOfBoard].getXValueCenter(i, j), boards[numberOfBoard].getXValueCenter(modK, modL));
+                                yLength = calclulateDistanceBetweenCentres(j, modL, boards[numberOfBoard].getYValueCenter(i, j), boards[numberOfBoard].getYValueCenter(modK, modL));
+                                distance = Math.Sqrt(xLength * xLength + yLength * yLength);
+                                if (distance < radius)
+                                    arr.Add(boards[numberOfBoard].getValue(k, l));
+                            }
                         }
                     }
                     var groups = arr.GroupBy(v => v);
@@ -301,6 +319,17 @@ namespace Modelowanie_GUI
             else
                 result = 1 - n1Center + n2Center + n2 - n1 - 1;//x po prawej
             return result;
+        }
+
+        private int modForAbsorbingCondition(int i, bool sizeM) {
+            if (i < 1)
+                return 1;
+            else if (sizeM && i > this.sizeM - 2)
+                return this.sizeM - 2;
+            else if(!sizeM && i > this.sizeN - 2)
+                return this.sizeM - 2;
+            else
+                return i;
         }
     }
 }
