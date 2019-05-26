@@ -121,8 +121,8 @@ namespace Modelowanie_GUI
                     else{
                         double xLength, yLength, distance;
                         int modK, modL;
-                        for(int k = i - radius; k < i + radius; k++){
-                            for(int l = j - radius; l < j + radius; j++){
+                        for(int k = BoardGameOfLife.mod(i - radius, boards[numberOfBoard].SizeM), it = 0; it < 2* radius; k =BoardGameOfLife.mod(k+1, boards[numberOfBoard].SizeM), it++){
+                            for(int l = BoardGameOfLife.mod(j - radius, boards[numberOfBoard].SizeN), it2 = 0; it2 < 2* radius; l =BoardGameOfLife.mod(l+1, boards[numberOfBoard].SizeN), it2++){
                                 modK = BoardGameOfLife.mod(k, boards[numberOfBoard].SizeM);
                                 modL = BoardGameOfLife.mod(l, boards[numberOfBoard].SizeN);
                                 xLength = calclulateDistanceBetweenCentres(i, modK, boards[numberOfBoard].getXValueCenter(i, j), boards[numberOfBoard].getXValueCenter(modK, modL));

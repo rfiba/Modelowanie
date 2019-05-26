@@ -26,6 +26,7 @@ namespace Modelowanie_GUI
         private bool advacedMode;
         private int neighbourhood;
         private Random rnd;
+        private int radius = 0;
 
         public CAWindow(bool advacedMode = false) {
             InitializeComponent();
@@ -52,12 +53,11 @@ namespace Modelowanie_GUI
             graphics = Graphics.FromImage(image);
             grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Refresh();
-            
             pictureBox1.Image = image;
             if (offset>0)
                 board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, neighbourhood);
             else
-                board.computeStepPeriodicBoundaryCondition(boardCounter % 2, neighbourhood);
+                board.computeStepPeriodicBoundaryCondition(boardCounter % 2, radius, neighbourhood);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             boardCounter++;
             timer.Start();
@@ -231,8 +231,14 @@ namespace Modelowanie_GUI
                     neighbourhood = 3;
                 else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe")
                     neighbourhood = rnd.Next() % 2 + 2;
-                else if (listBox2.SelectedItem.ToString() == "Pentagonalne losowe")  
-                    neighbourhood = rnd.Next()%2 + 4;
+                else if (listBox2.SelectedItem.ToString() == "Pentagonalne losowe")
+                    neighbourhood = rnd.Next() % 2 + 4;
+                else if (listBox2.SelectedItem.ToString() == "Z promieniem")
+                {
+                    neighbourhood = 11;
+                    label7.Visible = true;
+                    numericUpDown1.Visible = true;
+                }
             }
             button1.Enabled = false;
             button3.Enabled = true;
@@ -248,10 +254,13 @@ namespace Modelowanie_GUI
             timer.Start();
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(image);
+            
+            if (neighbourhood == 11)
+                radius = (int)numericUpDown1.Value;
             if (offset>0)
                 board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, neighbourhood);
             else
-                board.computeStepPeriodicBoundaryCondition(boardCounter % 2, neighbourhood);
+                board.computeStepPeriodicBoundaryCondition(boardCounter % 2,radius, neighbourhood);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
             pictureBox1.Image = image;
@@ -279,6 +288,18 @@ namespace Modelowanie_GUI
             radioButton1.Enabled = true;
             D1.Enabled = true;
             offset = 0;
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e) {
+            if (listBox2.SelectedItem.ToString() == "Z promieniem")
+            {
+                label7.Visible = true;
+                numericUpDown1.Visible = true;
+            }
+            else {
+                label7.Visible = false;
+                numericUpDown1.Visible = false;
+            }
         }
     }
 }

@@ -48,11 +48,14 @@ namespace Modelowanie_GUI
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.listBox2 = new System.Windows.Forms.ListBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.D1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.D2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -253,7 +256,7 @@ namespace Modelowanie_GUI
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(12, 499);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.Size = new System.Drawing.Size(61, 13);
             this.label6.TabIndex = 20;
             this.label6.Text = "Sąsiedztwo";
             // 
@@ -267,17 +270,46 @@ namespace Modelowanie_GUI
             "Heksagonalne prawe",
             "Heksagonalne losowe",
             "Pentagonalne losowe",
-            "Z promieniem",});
+            "Z promieniem"});
             this.listBox2.Location = new System.Drawing.Point(93, 491);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(126, 30);
             this.listBox2.TabIndex = 21;
+            this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(237, 499);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Promień";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(302, 497);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 23;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // CAWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 556);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.listBox2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -303,8 +335,10 @@ namespace Modelowanie_GUI
             ((System.ComponentModel.ISupportInitialize)(this.OY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.D1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.D2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         
@@ -333,5 +367,7 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }

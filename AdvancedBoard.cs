@@ -11,16 +11,18 @@ namespace Modelowanie_GUI
         private AdvancedCell[,] board;
         private int sizeM;
         private int sizeN;
+        private Random rnd;
 
         public AdvancedBoard(int sizeM, int sizeN)
         {
+            rnd = new Random();
             this.sizeM = sizeM;
             this.sizeN = sizeN;
             board = new AdvancedCell[sizeM, sizeN];
             for (int i = 0; i < sizeM; i++)
             {
                 for (int j = 0; j < sizeN; j++)
-                    board[i, j] = new AdvancedCell();
+                    board[i, j] = new AdvancedCell(rnd.NextDouble(), rnd.NextDouble());
             }
         }
 
