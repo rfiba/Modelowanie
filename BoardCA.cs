@@ -148,13 +148,13 @@ namespace Modelowanie_GUI
 
         }
 
-        public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, int radius = 0, int neighbourhood = 0)
+        public void computeStepAbsorbingBoundaryCondition(int numberOfBoard, int radius = 0, int neighbourhood = 0, int numberOfCellTypes = 0, double factor = 0)
         {
             int skippingCounter = 0;
             for (int i = 1; i < boards[numberOfBoard].SizeM -1; i++){
                 for (int j = 1; j < boards[numberOfBoard].SizeN -1; j++){
 
-                    if (boards[numberOfBoard].getValue(i, j) != 0){
+                    if (boards[numberOfBoard].getValue(i, j) != 0 && factor == 0){
                         skippingCounter++;
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
@@ -214,13 +214,41 @@ namespace Modelowanie_GUI
                             }
                         }
                     }
-                    var groups = arr.GroupBy(v => v);
-                    int maxCount = groups.Max(g => g.Count());
-                    int mode = groups.First(g => g.Count() == maxCount).Key;
-                    if (mode != 0 && (maxCount == arr.Count))
-                        boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);                    
+                    if (factor == 0)
+                    {
+                        var groups = arr.GroupBy(v => v);
+                        int maxCount = groups.Max(g => g.Count());
+                        int mode = groups.First(g => g.Count() == maxCount).Key;
+                        if (mode != 0 && (maxCount == arr.Count))
+                            boards[(numberOfBoard + 1) % 2].setValue(i, j, mode);
+                        else
+                            boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
+                    }
                     else
-                        boards[(numberOfBoard + 1) % 2].setValue(i, j, arr.Max());
+                    {
+                        int energy = 0;
+                        foreach (var tmp in arr)
+                        {
+                            if (tmp != boards[numberOfBoard].getValue(i, j))
+                                energy++;
+                        }
+
+                        int newValue = rnd.Next(1, numberOfCellTypes);
+                        int newEnergy = 0;
+                        foreach (var tmp in arr)
+                        {
+                            if (tmp != newValue)
+                                newEnergy++;
+                        }
+                        int deltaEnergy = newEnergy - energy;
+                        if (deltaEnergy < 0)
+                            boards[numberOfBoard].setValue(i, j, newEnergy);
+                        else
+                        {
+                            if (Math.Exp(deltaEnergy / factor) > 0.5)
+                                boards[numberOfBoard].setValue(i, j, newEnergy);
+                        }
+                    }
                 }
             }
             if (skippingCounter == (sizeM - 2) * (sizeN - 2))
@@ -228,7 +256,7 @@ namespace Modelowanie_GUI
         }
 
         
-        void computeSmoothStep(int numberOfBoard, int radius, int neighbourhood, int numberOfCellTypes, double factor) {
+        void computeSmoothStepForPeriodicBoundaryCondition(int numberOfBoard, int radius, int neighbourhood, int numberOfCellTypes, double factor) {
 
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
