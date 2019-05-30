@@ -228,6 +228,103 @@ namespace Modelowanie_GUI
         }
 
         
+        void computeSmoothStep(int numberOfBoard, int radius, int neighbourhood, int numberOfCellTypes, double factor) {
+
+            for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
+            {
+                for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
+                {
+                    var arr = new List<int>();
+
+
+                    if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
+                    {
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+                        arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                        arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                        if (neighbourhood == 1 || neighbourhood == 2)
+                        {
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        }
+
+                        if (neighbourhood == 1 || neighbourhood == 3)
+                        {
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                        }
+                    }
+                    else if (neighbourhood == 4 || neighbourhood == 5)
+                    {
+                        int multiplier = (int)Math.Pow(-1, generateExponent());
+                        if (neighbourhood == 4)
+                        {
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + multiplier, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + multiplier, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + multiplier, boards[numberOfBoard].SizeN)));
+                        }
+                        else {
+                            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + multiplier, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                        }
+                    }
+                    else {
+                        double xLength, yLength, distance;
+                        int modK, modL;
+                        for (int k = BoardGameOfLife.mod(i - radius, boards[numberOfBoard].SizeM), it = 0; it < 2 * radius; k = BoardGameOfLife.mod(k + 1, boards[numberOfBoard].SizeM), it++)
+                        {
+                            for (int l = BoardGameOfLife.mod(j - radius, boards[numberOfBoard].SizeN), it2 = 0; it2 < 2 * radius; l = BoardGameOfLife.mod(l + 1, boards[numberOfBoard].SizeN), it2++)
+                            {
+                                modK = BoardGameOfLife.mod(k, boards[numberOfBoard].SizeM);
+                                modL = BoardGameOfLife.mod(l, boards[numberOfBoard].SizeN);
+                                xLength = calclulateDistanceBetweenCentres(i, modK, boards[numberOfBoard].getXValueCenter(i, j), boards[numberOfBoard].getXValueCenter(modK, modL));
+                                yLength = calclulateDistanceBetweenCentres(j, modL, boards[numberOfBoard].getYValueCenter(i, j), boards[numberOfBoard].getYValueCenter(modK, modL));
+                                distance = Math.Sqrt(xLength * xLength + yLength * yLength);
+                                if (distance < radius)
+                                    arr.Add(boards[numberOfBoard].getValue(k, l));
+                            }
+                        }
+                    }
+                    int energy = 0;
+                    foreach (var tmp in arr)
+                    {
+                        if (tmp != boards[numberOfBoard].getValue(i, j))
+                            energy++;
+                    }
+
+                    int newValue = rnd.Next(1, numberOfCellTypes);
+                    int newEnergy = 0;
+                    foreach (var tmp in arr)
+                    {
+                        if (tmp != newValue)
+                            newEnergy++;
+                    }
+                    int deltaEnergy = newEnergy - energy;
+                    if (deltaEnergy < 0)
+                        boards[numberOfBoard].setValue(i, j, newEnergy);
+                    else
+                    {
+                        if(Math.Exp(deltaEnergy / factor) >0.5)
+                            boards[numberOfBoard].setValue(i, j, newEnergy);
+                    }
+                }
+            }
+            
+        }
 
         public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
         {
