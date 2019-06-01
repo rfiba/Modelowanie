@@ -62,6 +62,7 @@ namespace Modelowanie_GUI
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int radius = 0, int neighbourhood = 0) {
             int skippingCounter = 0;
+            int firstNeighbourhood = neighbourhood;
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
             {
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
@@ -72,7 +73,11 @@ namespace Modelowanie_GUI
                         boards[(numberOfBoard + 1) % 2].setValue(i, j, boards[numberOfBoard].getValue(i, j));
                         continue;
                     }
-                    
+
+                    if (firstNeighbourhood == 10)
+                        neighbourhood = rnd.Next() % 2 + 2;
+                    else if (firstNeighbourhood == 12)
+                        neighbourhood = rnd.Next() % 2 + 4;
                     var arr = new List<int>();
                    
                     

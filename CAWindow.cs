@@ -297,9 +297,9 @@ namespace Modelowanie_GUI
                 else if (listBox2.SelectedItem.ToString() == "Heksagonalne prawe")
                     neighbourhood = 3;
                 else if (listBox2.SelectedItem.ToString() == "Heksagonalne losowe")
-                    neighbourhood = rnd.Next() % 2 + 2;
+                    neighbourhood = 10;
                 else if (listBox2.SelectedItem.ToString() == "Pentagonalne losowe")
-                    neighbourhood = rnd.Next() % 2 + 4;
+                    neighbourhood = 12;//Next() % 2 + 4;
                 else if (listBox2.SelectedItem.ToString() == "Z promieniem")
                 {
                     neighbourhood = 11;
