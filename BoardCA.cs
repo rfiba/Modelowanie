@@ -252,6 +252,45 @@ namespace Modelowanie_GUI
             }
         }
 
+        public void computeMonteCarloPeriodicCondition(int numberOfBoard) {
+            int i = rnd.Next(sizeM);
+            int j = rnd.Next(sizeN);
+            var arr = new List<int>();
+            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+
+            var groups = arr.GroupBy(v => v);
+            int maxCount = groups.Max(g => g.Count());
+            int mode = groups.First(g => g.Count() == maxCount).Key;
+        }
+
+        public void computeMonteCarloAbsorbingCondition(int numberOfBoard) {
+
+            int i = rnd.Next(1, sizeM - 1);
+            int j = rnd.Next(1, sizeN - 1);
+            var arr = new List<int>();
+            arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+            arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+            arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+            arr.Add(boards[numberOfBoard].getValue(i, j - 1));
+            arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
+            arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
+            arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
+            arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+            var groups = arr.GroupBy(v => v);
+            int maxCount = groups.Max(g => g.Count());
+            int mode = groups.First(g => g.Count() == maxCount).Key;
+        }
         public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard)
         {
             return boards[numberOfBoard].getValue(y / grid.cellSize, x / grid.cellSize);
