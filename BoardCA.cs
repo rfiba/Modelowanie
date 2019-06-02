@@ -252,7 +252,7 @@ namespace Modelowanie_GUI
             }
         }
 
-        public void computeMonteCarloPeriodicCondition(int numberOfBoard) {
+        public void computeMonteCarloPeriodicCondition(int numberOfBoard, double ktFactor) {
             bool[,] checkedArray = new bool[sizeM, sizeN];
             int i;
             int j;
@@ -280,10 +280,14 @@ namespace Modelowanie_GUI
                     BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
 
                 int energy = arr.Count(x => x != boards[numberOfBoard].getValue(i, j));
-                int temporaryEnergy = arr.Count(x => x != arr[rnd.Next(0, arr.Count - 1)]);
-                if (temporaryEnergy > energy){
-
-                }
+                int temporaryValue = arr[rnd.Next(0, arr.Count - 1)];
+                int temporaryEnergy = arr.Count(x => x != temporaryValue);
+                int deltaEnergy = temporaryEnergy - energy;
+                double p = rnd.NextDouble();
+                if (deltaEnergy < 0)
+                    boards[numberOfBoard].setValue(i, j, temporaryValue);
+                else if (p < Math.Exp(-((deltaEnergy) / (ktFactor))))
+                    boards[numberOfBoard].setValue(i, j, temporaryValue);
             }
         }
 
@@ -312,10 +316,14 @@ namespace Modelowanie_GUI
                 //int maxCount = groups.Max(g => g.Count());
                 //int mode = groups.First(g => g.Count() == maxCount).Key;
                 int energy = arr.Count(x => x != boards[numberOfBoard].getValue(i, j));
-                int temporaryEnergy = arr.Count(x => x != arr[rnd.Next(0, arr.Count - 1)]);
-                if (temporaryEnergy > energy){
-
-                }
+                int temporaryValue = arr[rnd.Next(0, arr.Count - 1)];
+                int temporaryEnergy = arr.Count(x => x != temporaryValue);
+                int deltaEnergy = temporaryEnergy - energy;
+                double p = rnd.NextDouble();
+                if (deltaEnergy<0)
+                    boards[numberOfBoard].setValue(i, j, temporaryValue);
+                else if (p < Math.Exp(-((deltaEnergy) / (ktFactor))))
+                    boards[numberOfBoard].setValue(i, j, temporaryValue);
             }
         }
         public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard)
