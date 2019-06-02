@@ -236,14 +236,11 @@ namespace Modelowanie_GUI
 
         public void drawOnGraphics(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
         {
-            for (int i = 0; i < boards[numberOfBoard].SizeM; i++)
-            {
-                for (int j = 0; j < boards[numberOfBoard].SizeN; j++)
-                {
+            for (int i = 0; i < boards[numberOfBoard].SizeM; i++){
+                for (int j = 0; j < boards[numberOfBoard].SizeN; j++){
                     var tmp = boards[numberOfBoard].getValue(i, j);
                     
-                    if (tmp >0)
-                    {
+                    if (tmp >0){
                         brush.Color = getColorForValue(tmp);
           
                         graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
@@ -252,14 +249,40 @@ namespace Modelowanie_GUI
             }
         }
 
+        public void drawEnergyOnGraphicsPeriodicCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard) {
+            int factor = 255 / 8;
+            for (int i = 0; i < boards[numberOfBoard].SizeM; i++){
+                for (int j = 0; j < boards[numberOfBoard].SizeN; j++){
+                    var tmp = boards[numberOfBoard].getEnergy(i, j);
+                    
+                    brush.Color = Color.FromArgb(factor * (8 - tmp), 0, 0);
+                    graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+                    
+                }
+            }
+        }
+
+        public void drawEnergyOnGraphicsAbsorbingCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard) {
+            int factor = 255 / 8;
+            for (int i = 1; i < boards[numberOfBoard].SizeM-1; i++)
+            {
+                for (int j = 1; j < boards[numberOfBoard].SizeN-1; j++)
+                {
+                    var tmp = boards[numberOfBoard].getEnergy(i, j);
+
+                    brush.Color = Color.FromArgb(factor * (8-tmp), 0, 0);
+                    graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+
+                }
+            }
+        }
+
         public void computeMonteCarloPeriodicCondition(int numberOfBoard, double ktFactor) {
             bool[,] checkedArray = new bool[sizeM, sizeN];
             int i;
             int j;
-            for (int k = 0; k < sizeN * sizeM; k++)
-            {
-                do
-                {
+            for (int k = 0; k < sizeN * sizeM; k++){
+                do{
                     i = rnd.Next(1, sizeM - 1);
                     j = rnd.Next(1, sizeN - 1);
                 } while (checkedArray[i, j]);
@@ -295,10 +318,8 @@ namespace Modelowanie_GUI
             bool[,] checkedArray= new bool[sizeM, sizeN];
             int i; 
             int j;
-            for (int k = 0; k < (sizeN - 2) * (sizeM - 2); k++)
-            {
-                do
-                {
+            for (int k = 0; k < (sizeN - 2) * (sizeM - 2); k++){
+                do{
                     i = rnd.Next(1, sizeM - 1);
                     j = rnd.Next(1, sizeN - 1);
                 } while (checkedArray[i, j]);
@@ -323,32 +344,25 @@ namespace Modelowanie_GUI
                     boards[numberOfBoard].setValue(i, j, temporaryValue);
             }
         }
-        public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard)
-        {
+        public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard){
             return boards[numberOfBoard].getValue(y / grid.cellSize, x / grid.cellSize);
         }
 
-        public void setValueBasedOnCoordinates(int x, int y, int value, Grid grid, int numberOfBoard)
-        {
+        public void setValueBasedOnCoordinates(int x, int y, int value, Grid grid, int numberOfBoard){
             boards[numberOfBoard].setValue(y / grid.cellSize, x / grid.cellSize, value);
         }
 
-        public void setValue(int x, int y, int value, int numberOfBoard)
-        {
+        public void setValue(int x, int y, int value, int numberOfBoard){
             boards[numberOfBoard].setValue(y , x , value);
         }
 
-        public bool setValueWithRadian(int x, int y, int value, int numberOfBoard, int radian, int cellSize)
-        {
-            if (points.Count == 0)
-            {
+        public bool setValueWithRadian(int x, int y, int value, int numberOfBoard, int radian, int cellSize){
+            if (points.Count == 0){
                 boards[numberOfBoard].setValue(y, x, value);
                 points.Add(new Point(x, y));
             }
-            else
-            {
-                foreach(var i in points)
-                {
+            else{
+                foreach(var i in points){
                     double tmp = Math.Sqrt(Math.Pow(i.X - x, 2) + Math.Pow(i.Y - y, 2));
                     if (tmp <= radian)
                         return false;
@@ -408,11 +422,9 @@ namespace Modelowanie_GUI
                 return i;
         }
 
-        private void calculateEnergyAbsorbingCondition(int numberOfBoard) {
-            for(int i = 1; i < sizeM - 1; i++)
-            {
-                for(int j = 1; j < sizeN -1; j++)
-                {
+        public void calculateEnergyAbsorbingCondition(int numberOfBoard) {
+            for(int i = 1; i < sizeM - 1; i++){
+                for(int j = 1; j < sizeN -1; j++){
                     var arr = new List<int>();
                     arr.Add(boards[numberOfBoard].getValue(i - 1, j));
                     arr.Add(boards[numberOfBoard].getValue(i + 1, j));
@@ -427,11 +439,9 @@ namespace Modelowanie_GUI
             }
         }
 
-        private void calculateEnergyPeriodicCondition(int numberOfBoard) {
-            for (int i = 0; i < sizeM; i++)
-            {
-                for (int j = 0; j < sizeN; j++)
-                {
+        public void calculateEnergyPeriodicCondition(int numberOfBoard) {
+            for (int i = 0; i < sizeM; i++){
+                for (int j = 0; j < sizeN; j++){
                     var arr = new List<int>();
                     arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
                     arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));

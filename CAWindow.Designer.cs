@@ -52,6 +52,8 @@ namespace Modelowanie_GUI
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
@@ -317,6 +319,7 @@ namespace Modelowanie_GUI
             // 
             // button6
             // 
+            this.button6.Enabled = false;
             this.button6.Location = new System.Drawing.Point(605, 494);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
@@ -324,13 +327,36 @@ namespace Modelowanie_GUI
             this.button6.Text = "MC";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
-            this.button6.Enabled = false;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(702, 494);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(163, 23);
+            this.button7.TabIndex = 26;
+            this.button7.Text = "Widok podstawowy";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Enabled = false;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(702, 523);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(163, 23);
+            this.button8.TabIndex = 27;
+            this.button8.Text = "Widok energii";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Enabled = false;
             // 
             // CAWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 556);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.numericUpDown1);
@@ -396,5 +422,7 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

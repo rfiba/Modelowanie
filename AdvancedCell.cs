@@ -15,6 +15,7 @@ namespace Modelowanie_GUI
         public AdvancedCell()
         {
             this.state = 0;
+            this.energy = 01;
         }
 
         public AdvancedCell(double xCenter, double yCenter) {

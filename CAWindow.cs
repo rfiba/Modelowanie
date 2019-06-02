@@ -66,6 +66,7 @@ namespace Modelowanie_GUI
         private void finalStop() {
             stop();
             button6.Enabled = true;
+            button8.Enabled = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e){
@@ -325,6 +326,32 @@ namespace Modelowanie_GUI
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             pictureBox1.Image = image;
             button6.Enabled = false;
+            button7.Enabled = false;
+            button8.Enabled = true;
+        }
+
+        private void button7_Click(object sender, EventArgs e) {
+            button7.Enabled = false;
+            button8.Enabled = true;
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
+            pictureBox1.Image = image;
+        }
+
+        private void button8_Click(object sender, EventArgs e) {
+            button7.Enabled = true;
+            button8.Enabled = false;
+            if (offset > 0)
+            {
+                board.calculateEnergyAbsorbingCondition(boardCounter % 2);
+                board.drawEnergyOnGraphicsAbsorbingCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            }
+            else {
+                board.calculateEnergyPeriodicCondition(boardCounter % 2);
+                board.drawEnergyOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            }
+            
+            pictureBox1.Image = image;
         }
     }
 }
