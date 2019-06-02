@@ -253,43 +253,70 @@ namespace Modelowanie_GUI
         }
 
         public void computeMonteCarloPeriodicCondition(int numberOfBoard) {
-            int i = rnd.Next(sizeM);
-            int j = rnd.Next(sizeN);
-            var arr = new List<int>();
-            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
-            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
-            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
-            arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
-            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
-            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
-            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
-                                BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
-            arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
-                BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+            bool[,] checkedArray = new bool[sizeM, sizeN];
+            int i;
+            int j;
+            for (int k = 0; k < sizeN * sizeM; k++)
+            {
+                do
+                {
+                    i = rnd.Next(1, sizeM - 1);
+                    j = rnd.Next(1, sizeN - 1);
+                } while (checkedArray[i, j]);
+                i = rnd.Next(sizeM);
+                j = rnd.Next(sizeN);
+                var arr = new List<int>();
+                arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+                arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                    BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                    BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                    BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                    BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
 
-            var groups = arr.GroupBy(v => v);
-            int maxCount = groups.Max(g => g.Count());
-            int mode = groups.First(g => g.Count() == maxCount).Key;
+                int energy = arr.Count(x => x != boards[numberOfBoard].getValue(i, j));
+                int temporaryEnergy = arr.Count(x => x != arr[rnd.Next(0, arr.Count - 1)]);
+                if (temporaryEnergy > energy){
+
+                }
+            }
         }
 
-        public void computeMonteCarloAbsorbingCondition(int numberOfBoard) {
+        public void computeMonteCarloAbsorbingCondition(int numberOfBoard, double ktFactor) {
+            bool[,] checkedArray= new bool[sizeM, sizeN];
+            int i; 
+            int j;
+            for (int k = 0; k < (sizeN - 2) * (sizeM - 2); k++)
+            {
+                do
+                {
+                    i = rnd.Next(1, sizeM - 1);
+                    j = rnd.Next(1, sizeN - 1);
+                } while (checkedArray[i, j]);
 
-            int i = rnd.Next(1, sizeM - 1);
-            int j = rnd.Next(1, sizeN - 1);
-            var arr = new List<int>();
-            arr.Add(boards[numberOfBoard].getValue(i - 1, j));
-            arr.Add(boards[numberOfBoard].getValue(i + 1, j));
-            arr.Add(boards[numberOfBoard].getValue(i, j + 1));
-            arr.Add(boards[numberOfBoard].getValue(i, j - 1));
-            arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
-            arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
-            arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
-            arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
-            var groups = arr.GroupBy(v => v);
-            int maxCount = groups.Max(g => g.Count());
-            int mode = groups.First(g => g.Count() == maxCount).Key;
+                var arr = new List<int>();
+                arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+                arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+                arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+                arr.Add(boards[numberOfBoard].getValue(i, j - 1));
+                arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
+                arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
+                arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
+                arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+                //var groups = arr.GroupBy(v => v);
+                //int maxCount = groups.Max(g => g.Count());
+                //int mode = groups.First(g => g.Count() == maxCount).Key;
+                int energy = arr.Count(x => x != boards[numberOfBoard].getValue(i, j));
+                int temporaryEnergy = arr.Count(x => x != arr[rnd.Next(0, arr.Count - 1)]);
+                if (temporaryEnergy > energy){
+
+                }
+            }
         }
         public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard)
         {
