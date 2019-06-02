@@ -167,7 +167,7 @@ namespace Modelowanie_GUI
                     
                     var arr = new List<int>();
                     
-                    if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
+                    if (neighbourhood == 0 || neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
                     {
                         arr.Add(boards[numberOfBoard].getValue(i - 1, j));
                         arr.Add(boards[numberOfBoard].getValue(i + 1, j));
@@ -312,9 +312,6 @@ namespace Modelowanie_GUI
                 arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
                 arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
                 arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
-                //var groups = arr.GroupBy(v => v);
-                //int maxCount = groups.Max(g => g.Count());
-                //int mode = groups.First(g => g.Count() == maxCount).Key;
                 int energy = arr.Count(x => x != boards[numberOfBoard].getValue(i, j));
                 int temporaryValue = arr[rnd.Next(0, arr.Count - 1)];
                 int temporaryEnergy = arr.Count(x => x != temporaryValue);
@@ -410,5 +407,7 @@ namespace Modelowanie_GUI
             else
                 return i;
         }
+
+       
     }
 }

@@ -11,7 +11,7 @@ namespace Modelowanie_GUI
         private int state;
         public double xCenter { get; set; }
         public double yCenter { get; set; }
-
+        private int energy;
         public AdvancedCell()
         {
             this.state = 0;
@@ -26,5 +26,10 @@ namespace Modelowanie_GUI
         public int State{
             get { return this.state; }
             set { this.state = value; }}
+        public int Energy
+        {
+            get { return this.energy; }
+            set { this.energy = value; }
+        }
     }
 }
