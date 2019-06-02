@@ -45,7 +45,7 @@ namespace Modelowanie_GUI
         private void OnTimedEvent(object sender, EventArgs e){
             timer.Stop();
             if (board.ChangesFlag == false){
-                stop();
+                finalStop();
                 return;
             }
             pictureBox1.Image = image;
@@ -61,6 +61,11 @@ namespace Modelowanie_GUI
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             boardCounter++;
             timer.Start();
+        }
+
+        private void finalStop() {
+            stop();
+            button6.Enabled = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e){
@@ -270,6 +275,7 @@ namespace Modelowanie_GUI
             OY.Enabled = true;
             radioButton1.Enabled = true;
             D1.Enabled = true;
+            button6.Enabled = false;
             offset = 0;
         }
 
@@ -309,6 +315,16 @@ namespace Modelowanie_GUI
             }
 
             button2.Enabled = true;
+        }
+
+        private void button6_Click(object sender, EventArgs e) { //MC
+            if (offset > 0)
+                board.computeMonteCarloAbsorbingCondition(boardCounter%2, 1);
+            else
+                board.computeMonteCarloPeriodicCondition(boardCounter%2,1);
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            pictureBox1.Image = image;
+            button6.Enabled = false;
         }
     }
 }
