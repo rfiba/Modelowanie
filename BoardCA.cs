@@ -408,6 +408,47 @@ namespace Modelowanie_GUI
                 return i;
         }
 
-       
+        private void calculateEnergyAbsorbingCondition(int numberOfBoard) {
+            for(int i = 1; i < sizeM - 1; i++)
+            {
+                for(int j = 1; j < sizeN -1; j++)
+                {
+                    var arr = new List<int>();
+                    arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+                    arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+                    arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+                    arr.Add(boards[numberOfBoard].getValue(i, j - 1));
+                    arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
+                    arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
+                    arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
+                    arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+                    boards[numberOfBoard].setEnergy(i,j,arr.Count(x => x != boards[numberOfBoard].getValue(i, j)));
+                }
+            }
+        }
+
+        private void calculateEnergyPeriodicCondition(int numberOfBoard) {
+            for (int i = 0; i < sizeM; i++)
+            {
+                for (int j = 0; j < sizeN; j++)
+                {
+                    var arr = new List<int>();
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                    arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                    arr.Add(boards[numberOfBoard].getValue(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                        BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                        BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                        BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                    arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                        BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                    boards[numberOfBoard].setEnergy(i, j, arr.Count(x => x != boards[numberOfBoard].getValue(i, j)));
+                }
+            }
+        }
+
     }
 }

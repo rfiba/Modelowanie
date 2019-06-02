@@ -38,6 +38,10 @@ namespace Modelowanie_GUI
             board[m, n].State = value;
         }
 
+        public void setEnergy(int m, int n, int energy) {
+            board[m, n].Energy = energy;
+        }
+
         public double getXValueCenter(int m, int n) {
             return board[m, n].xCenter;
         }
