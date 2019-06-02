@@ -81,7 +81,7 @@ namespace Modelowanie_GUI
                     var arr = new List<int>();
                    
                     
-                    if (neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
+                    if (neighbourhood == 0 || neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
                     {
                         arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM), j));
                         arr.Add(boards[numberOfBoard].getValue(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
