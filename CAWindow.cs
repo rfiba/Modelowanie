@@ -319,10 +319,13 @@ namespace Modelowanie_GUI
         }
 
         private void button6_Click(object sender, EventArgs e) { //MC
+            double ktFactor = rnd.NextDouble() * 6;
+            if (ktFactor - 0.1 < 0)
+                ktFactor = 0.1;
             if (offset > 0)
-                board.computeMonteCarloAbsorbingCondition(boardCounter%2, 1);
+                board.computeMonteCarloAbsorbingCondition(boardCounter%2, ktFactor);
             else
-                board.computeMonteCarloPeriodicCondition(boardCounter%2,1);
+                board.computeMonteCarloPeriodicCondition(boardCounter%2, ktFactor);
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             pictureBox1.Image = image;
             button6.Enabled = false;
