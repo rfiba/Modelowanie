@@ -460,15 +460,57 @@ namespace Modelowanie_GUI
             }
         }
 
-        public double calculateRO(double A, double B, double time) {
+        private double calculateRo(double A, double B, double time) {
             return A / B + (1 - A / B) * Math.Exp(-B * time);
         }
 
-        public void scatterROToBoard(int numberOfBoard, double averageRO) {
+        private void scatterAverageRoToBoard(int numberOfBoard, double averageRo) {
             for (int i = 0; i < sizeM; i++){
                 for (int j = 0; j < sizeN; j++)
-                    boards[numberOfBoard].addDislocationDensity(i, j, averageRO);
+                    boards[numberOfBoard].addDislocationDensity(i, j, averageRo);
             }
+        }
+
+        private void scatterRoWithProbability(int numberOfBoard, double ro) {
+            int numberOfPackages = (int)(ro / 0.5);
+            int i, j;
+            double randomed;
+            for(int k = 0; k < numberOfPackages; k++)
+            {
+                i = rnd.Next(0, sizeM);
+                j = rnd.Next(0, sizeN);
+                randomed = rnd.NextDouble();
+                if (boards[numberOfBoard].getEnergy(i, j) != 0){
+                    
+                    if (randomed >= 0.8)
+                        boards[numberOfBoard].addDislocationDensity(i, j, 0.5);
+                    else {
+                        k--;
+                        continue;
+                    }
+                }
+                else{
+                    if(randomed <= 0.2)
+                        boards[numberOfBoard].addDislocationDensity(i, j, 0.5);
+                    else {
+                        k--;
+                        continue;
+                    }
+                }
+            }
+        }
+
+        public void scatterRoToBoard(int numberOfBoard, int numberOfSteps, double A, double B, double timeFactor, double xPercentage) {
+            double previousRo = 0, deltaRo, tmp, roForEqualScatter; ;
+            for (int i = 0; i < numberOfSteps; i++){
+                tmp = calculateRo(A, B, timeFactor*i);
+                deltaRo = tmp - previousRo;
+                roForEqualScatter = (deltaRo / (sizeM * sizeN)) * xPercentage;
+                scatterAverageRoToBoard(numberOfBoard, roForEqualScatter);
+
+                previousRo = tmp;
+            }
+
         }
 
     }
