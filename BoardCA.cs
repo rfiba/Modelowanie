@@ -460,5 +460,9 @@ namespace Modelowanie_GUI
             }
         }
 
+        public double calculateRO(double A, double B, double time) {
+            return A / B + (1 - A / B) * Math.Exp(-B * time);
+        }
+
     }
 }
