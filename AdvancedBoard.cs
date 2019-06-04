@@ -53,5 +53,9 @@ namespace Modelowanie_GUI
         public double getYValueCenter(int m, int n) {
             return board[m, n].yCenter;
         }
-    }
+
+        public void addDislocationDensity(int m, int n, double dislocationDensity) {
+            board[m, n].DislocationDensity += dislocationDensity;
+        }
+        }
 }

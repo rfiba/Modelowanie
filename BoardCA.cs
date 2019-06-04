@@ -464,5 +464,12 @@ namespace Modelowanie_GUI
             return A / B + (1 - A / B) * Math.Exp(-B * time);
         }
 
+        public void scatterROToBoard(int numberOfBoard, double averageRO) {
+            for (int i = 0; i < sizeM; i++){
+                for (int j = 0; j < sizeN; j++)
+                    boards[numberOfBoard].addDislocationDensity(i, j, averageRO);
+            }
+        }
+
     }
 }
