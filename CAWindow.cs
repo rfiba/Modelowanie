@@ -20,6 +20,7 @@ namespace Modelowanie_GUI
         private Graphics graphics;
         private bool manualMode = false;
         static Timer timer;
+        static Timer timerDRX;
         private int boardCounter = 0;
         private int offset = 0;
         private bool radioButtonIsChecked = false;
@@ -27,6 +28,10 @@ namespace Modelowanie_GUI
         private int neighbourhood;
         private Random rnd;
         private int radius = 0;
+        private bool DRX = false;
+        int stepCounter = 0;
+        int numberOfSteps;
+        double time, timeStep;
 
         public CAWindow(bool advacedMode = false) {
             InitializeComponent();
@@ -37,28 +42,60 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
             timer = new Timer();
             timer.Tick += OnTimedEvent;
-            timer.Interval = 700;            
+            timer.Interval = 700;
+            timerDRX = new Timer();
+            timerDRX.Tick += OnTimedEventDRX;
+            timerDRX.Interval = 700;
             this.advacedMode = advacedMode;
             rnd = new Random();
         }
 
+        private void OnTimedEventDRX(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+
         private void OnTimedEvent(object sender, EventArgs e){
             timer.Stop();
-            if (board.ChangesFlag == false){
-                finalStop();
-                return;
+            if (DRX) {
+                if(stepCounter == numberOfSteps)
+                {
+                    finalStop();
+                    MessageBox.Show("finitto");
+                    return;
+                }
+                pictureBox1.Image = image;
+                image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                graphics = Graphics.FromImage(image);
+                grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
+                pictureBox1.Refresh();
+                pictureBox1.Image = image;
+                //MessageBox.Show($"{4.21584E+12 / (board.SizeM * board.SizeN)}");
+                if (offset > 0)
+                    ;// board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
+                else
+                    board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.10, 4.21584E+12 / (board.SizeM * board.SizeN));
+                board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                stepCounter++;
             }
-            pictureBox1.Image = image;
-            image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            graphics = Graphics.FromImage(image);
-            grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
-            pictureBox1.Refresh();
-            pictureBox1.Image = image;
-            if (offset>0)
-                board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
-            else
-                board.computeStepPeriodicBoundaryCondition(boardCounter % 2, radius, neighbourhood);
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            else {
+                if (board.ChangesFlag == false)
+                {
+                    finalStop();
+                    return;
+                }
+                pictureBox1.Image = image;
+                image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                graphics = Graphics.FromImage(image);
+                grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
+                pictureBox1.Refresh();
+                pictureBox1.Image = image;
+                if (offset > 0)
+                    board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
+                else
+                    board.computeStepPeriodicBoundaryCondition(boardCounter % 2, radius, neighbourhood);
+                board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                
+            }
             boardCounter++;
             timer.Start();
         }
@@ -67,6 +104,7 @@ namespace Modelowanie_GUI
             stop();
             button6.Enabled = true;
             button8.Enabled = true;
+            button10.Enabled = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e){
@@ -360,18 +398,20 @@ namespace Modelowanie_GUI
             if (offset > 0)
             {
                 board.calculateEnergyAbsorbingCondition(boardCounter % 2);
+                board.calculateEnergyAbsorbingCondition((boardCounter+1) % 2);
                 board.drawEnergyOnGraphicsAbsorbingCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
             }
             else {
                 board.calculateEnergyPeriodicCondition(boardCounter % 2);
+                board.calculateEnergyPeriodicCondition((boardCounter+1) % 2);
                 board.drawEnergyOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
             }
             
             pictureBox1.Image = image;
         }
 
-        private void button10_Click(object sender, EventArgs e) {
-            double time, timeStep;
+        private void button10_Click(object sender, EventArgs e) { //drx
+            
             try
             {
                 time = double.Parse(textBox2.Text);
@@ -397,7 +437,13 @@ namespace Modelowanie_GUI
                 MessageBox.Show("Czas mniejszy od 0");
                 return;
             }
-
+            numberOfSteps = (int)(time / timeStep);
+            
+            timer = new Timer();
+            timer.Tick += OnTimedEvent;
+            timer.Interval = 200;
+            DRX = true;
+            timer.Start();
         }
     }
 }

@@ -267,11 +267,13 @@ namespace Modelowanie_GUI
         }
 
         public void drawDislocationDensityOnGraphicsPeriodicCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard) {
-            double max = boards[numberOfBoard].getMaxDislocationDensity();
+            double max = boards[numberOfBoard].getMaxDislocationDensity()%10000;
+            if (max == 0)
+                max = 0.001;
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++){
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++){
                     var tmp = boards[numberOfBoard].getDislocationDensity(i, j);
-                    brush.Color = Color.FromArgb((int)(tmp/max*255), 0, 0);
+                    brush.Color = Color.FromArgb((int)((tmp/max*255)%255), 0, 0);
                     graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                 }
             }
@@ -484,26 +486,26 @@ namespace Modelowanie_GUI
         }
 
         private void scatterRoWithProbabilityPeriodicCondition(int numberOfBoard, double ro) {
-            int numberOfPackages = (int)(ro / 0.5);
+            int numberOfPackages = (int)(ro / 100000);
             int i, j;
-            double randomed;
+            int randomed;
             for(int k = 0; k < numberOfPackages; k++)
             {
                 i = rnd.Next(0, sizeM);
                 j = rnd.Next(0, sizeN);
-                randomed = rnd.NextDouble();
+                randomed = rnd.Next(0,100);
                 if (boards[numberOfBoard].getEnergy(i, j) != 0){
                     
-                    if (randomed >= 0.8)
-                        boards[numberOfBoard].addDislocationDensity(i, j, 0.5);
+                    if (randomed >= 20)
+                        boards[numberOfBoard].addDislocationDensity(i, j, 100000);
                     else {
                         k--;
                         continue;
                     }
                 }
                 else{
-                    if(randomed <= 0.2)
-                        boards[numberOfBoard].addDislocationDensity(i, j, 0.5);
+                    if(randomed < 20)
+                        boards[numberOfBoard].addDislocationDensity(i, j, 100000);
                     else {
                         k--;
                         continue;
@@ -562,8 +564,8 @@ namespace Modelowanie_GUI
                     }
                 }
             }
-            recrystalizationBoard = tmpRecrystalizationBoard;  
-           
+            recrystalizationBoard = tmpRecrystalizationBoard;
+            previousRo = deltaRo;
         }
 
         private bool isAnyNeighbourRecrystlizated(int i , int j, int neighbourhood) {
