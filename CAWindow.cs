@@ -369,5 +369,35 @@ namespace Modelowanie_GUI
             
             pictureBox1.Image = image;
         }
+
+        private void button10_Click(object sender, EventArgs e) {
+            double time, timeStep;
+            try
+            {
+                time = double.Parse(textBox2.Text);
+            }
+            catch (Exception exceptcion)
+            {
+                MessageBox.Show("Nie prawidłowa wartość t");
+                return;
+            }
+
+            try
+            {
+                timeStep = double.Parse(textBox3.Text);
+            }
+            catch (Exception exceptcion)
+            {
+                MessageBox.Show("Nie prawidłowa wartość dt");
+                return;
+            }
+
+            if(time < 0 || timeStep < 0)
+            {
+                MessageBox.Show("Czas mniejszy od 0");
+                return;
+            }
+
+        }
     }
 }

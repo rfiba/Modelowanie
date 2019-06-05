@@ -57,5 +57,39 @@ namespace Modelowanie_GUI
         public void addDislocationDensity(int m, int n, double dislocationDensity) {
             board[m, n].DislocationDensity += dislocationDensity;
         }
+
+        public bool checkRecrystalizated(int m, int n) {
+            return board[m, n].Recrystallizated;
         }
+
+        public void makeRecrystalizated(int m, int n) {
+            board[m, n].Recrystallizated = true;
+        }
+
+        public double getDislocationDensity(int m, int n) {
+            return board[m, n].DislocationDensity ;
+        }
+
+        public void setDislocationDensity(int m, int n, double dislocationDensity) {
+            board[m, n].DislocationDensity = dislocationDensity;
+        }
+
+        public TemporaryCell getDislocationDensityAndRecrystalizated(int m, int n) {
+            TemporaryCell result = new TemporaryCell(board[m, n].DislocationDensity, board[m, n].Recrystallizated);
+            return result;
+        }
+
+        public double getMaxDislocationDensity() {
+            double max = 0;
+            for(int i = 0; i < sizeM; i++)
+            {
+                for(int j = 0; j < sizeN; j++)
+                    max = max < board[i, j].DislocationDensity ? board[i, j].DislocationDensity : max;
+            }
+            return max;
+        }
+
+
+
+    }
 }

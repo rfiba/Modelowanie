@@ -79,6 +79,7 @@
     <Compile Include="Grid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemporaryCell.cs" />
     <EmbeddedResource Include="CAWindow.resx">
       <DependentUpon>CAWindow.cs</DependentUpon>
     </EmbeddedResource>
