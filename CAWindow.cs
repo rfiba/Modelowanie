@@ -319,9 +319,22 @@ namespace Modelowanie_GUI
         }
 
         private void button6_Click(object sender, EventArgs e) { //MC
-            double ktFactor = rnd.NextDouble() * 6;
+            double ktFactor;
+            try
+            {
+                ktFactor = double.Parse(textBox1.Text);
+            }
+            catch(Exception exceptcion)
+            {
+                MessageBox.Show("Nie prawidłowa wartość");
+                return;
+            }
+            //double ktFactor = rnd.NextDouble() * 6;
             if (ktFactor - 0.1 < 0)
                 ktFactor = 0.1;
+            else if (6 - ktFactor < 0)
+                ktFactor = 6;
+            textBox1.Text = ktFactor.ToString();
             if (offset > 0)
                 board.computeMonteCarloAbsorbingCondition(boardCounter%2, ktFactor);
             else

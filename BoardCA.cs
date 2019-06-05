@@ -510,7 +510,6 @@ namespace Modelowanie_GUI
 
                 previousRo = tmp;
             }
-
         }
 
     }
