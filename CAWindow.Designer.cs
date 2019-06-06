@@ -62,12 +62,15 @@ namespace Modelowanie_GUI
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.amountMCIteration = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.D1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.D2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.amountMCIteration)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -426,11 +429,44 @@ namespace Modelowanie_GUI
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 35;
             // 
+            // amountMCIteration
+            // 
+            this.amountMCIteration.Location = new System.Drawing.Point(596, 555);
+            this.amountMCIteration.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.amountMCIteration.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.amountMCIteration.Name = "amountMCIteration";
+            this.amountMCIteration.Size = new System.Drawing.Size(100, 20);
+            this.amountMCIteration.TabIndex = 36;
+            this.amountMCIteration.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(522, 557);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(62, 13);
+            this.label11.TabIndex = 37;
+            this.label11.Text = "Ilość iteracji";
+            // 
             // CAWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 586);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.amountMCIteration);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -471,6 +507,7 @@ namespace Modelowanie_GUI
             ((System.ComponentModel.ISupportInitialize)(this.D1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.D2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.amountMCIteration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -516,5 +553,7 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.NumericUpDown amountMCIteration;
+        private System.Windows.Forms.Label label11;
     }
 }

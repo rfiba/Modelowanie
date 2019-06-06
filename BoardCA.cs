@@ -340,6 +340,7 @@ namespace Modelowanie_GUI
                 else if (p < Math.Exp(-((deltaEnergy) / (ktFactor))))
                     boards[numberOfBoard].setValue(i, j, temporaryValue);
             }
+            
         }
 
         public void computeMonteCarloAbsorbingCondition(int numberOfBoard, double ktFactor) {
@@ -370,6 +371,11 @@ namespace Modelowanie_GUI
                     boards[numberOfBoard].setValue(i, j, temporaryValue);
                 else if (p < Math.Exp(-((deltaEnergy) / (ktFactor))))
                     boards[numberOfBoard].setValue(i, j, temporaryValue);
+            }
+            for(i = 0; i< sizeM; i++)
+            {
+                for (j = 0; j < sizeN; j++)
+                    boards[(numberOfBoard+1)%2].setEnergy(i, j, boards[numberOfBoard].getEnergy(i, j)); 
             }
         }
         public int getValueBasedOnCoordinates(int x, int y, Grid grid, int numberOfBoard){
@@ -558,8 +564,8 @@ namespace Modelowanie_GUI
                     
                     if(boards[numberOfBoard].getDislocationDensity(i,j) > criticalRo)
                     {
-                        boards[numberOfBoard].setDislocationDensity(i, j, 0);
-                        boards[numberOfBoard].makeRecrystalizated(i, j);
+                        boards[(numberOfBoard+1)%2].setDislocationDensity(i, j, 0);
+                        boards[(numberOfBoard + 1) % 2].makeRecrystalizated(i, j);
                         tmpRecrystalizationBoard[i, j] = true;
                         continue;
                     }
@@ -572,12 +578,16 @@ namespace Modelowanie_GUI
                         
                         if (arr.Count(x => x.dislocationDensity < boards[numberOfBoard].getDislocationDensity(i, j)) == 4)
                         {
-                            boards[numberOfBoard].setDislocationDensity(i, j, 0);
-                            boards[numberOfBoard].makeRecrystalizated(i, j);
+                            boards[(numberOfBoard+1)%2].setDislocationDensity(i, j, 0);
+                            boards[(numberOfBoard + 1) % 2].makeRecrystalizated(i, j);
                             recrystalizationBoard[(numberOfBoard+1)%2,i, j] = true;
+                            continue;
                         }
                     }
+                    boards[(numberOfBoard + 1) % 2].setDislocationDensity(i, j, boards[numberOfBoard].getDislocationDensity(i, j));
                 }
+
+                
             }
 
             //for (int i = 0; i < sizeM; i++)
@@ -603,6 +613,15 @@ namespace Modelowanie_GUI
         public int getMaxEnergy(int numberOfBoard)
         {
             return boards[numberOfBoard].getMaxEnergy();
+        }
+
+        public void setEnergyBetweenBoard(int numberOfBoard)
+        {
+            for (int i = 0; i < sizeM; i++)
+            {
+                for (int j = 0; j < sizeN; j++)
+                    boards[(numberOfBoard + 1) % 2].setEnergy(i, j, boards[numberOfBoard].getEnergy(i, j));
+            }
         }
     }
 }

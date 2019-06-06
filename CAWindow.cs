@@ -29,9 +29,12 @@ namespace Modelowanie_GUI
         private Random rnd;
         private int radius = 0;
         private bool DRX = false;
+        private bool MC = false;
         int stepCounter = 0;
         int numberOfSteps;
+        int mCIteration = 0;
         double time, timeStep;
+        double ktFactor;
 
         public CAWindow(bool advacedMode = false) {
             InitializeComponent();
@@ -73,8 +76,33 @@ namespace Modelowanie_GUI
                 if (offset > 0)
                     ;// board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
                 else
-                    board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.015, 4.21584E+12 / (board.SizeM * board.SizeN));
+                    board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.05, 4.21584E+12 / (board.SizeM * board.SizeN));
                 board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                stepCounter++;
+                boardCounter++;
+            }
+            else if (MC)
+            {
+                if(stepCounter == mCIteration)
+                {
+                    finalStop();
+                    return;
+                }
+
+                if (offset > 0)
+                {
+                    board.computeMonteCarloAbsorbingCondition(boardCounter % 2, ktFactor);
+                    board.calculateEnergyAbsorbingCondition(boardCounter % 2);
+                }
+                else {
+
+                    board.computeMonteCarloPeriodicCondition(boardCounter % 2, ktFactor);
+                    board.calculateEnergyPeriodicCondition(boardCounter % 2);
+                }
+                board.setEnergyBetweenBoard(boardCounter % 2);
+
+                board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+                pictureBox1.Image = image;
                 stepCounter++;
             }
             else {
@@ -94,9 +122,9 @@ namespace Modelowanie_GUI
                 else
                     board.computeStepPeriodicBoundaryCondition(boardCounter % 2, radius, neighbourhood);
                 board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-                
+                boardCounter++;
             }
-            boardCounter++;
+            
             timer.Start();
         }
 
@@ -357,7 +385,8 @@ namespace Modelowanie_GUI
         }
 
         private void button6_Click(object sender, EventArgs e) { //MC
-            double ktFactor;
+            mCIteration = 0;
+            stepCounter = 0;
             try
             {
                 ktFactor = double.Parse(textBox1.Text);
@@ -373,23 +402,26 @@ namespace Modelowanie_GUI
             else if (6 - ktFactor < 0)
                 ktFactor = 6;
             textBox1.Text = ktFactor.ToString();
-            if (offset > 0)
-            {
-                board.computeMonteCarloAbsorbingCondition(boardCounter % 2, ktFactor);
-                board.calculateEnergyAbsorbingCondition(boardCounter % 2);
-                board.calculateEnergyAbsorbingCondition((boardCounter + 1) % 2);
-            }
-            else {
+            mCIteration = (int)amountMCIteration.Value;
+            MC = true;
+            timer.Start();
+            //if (offset > 0)
+            //{
+            //    board.computeMonteCarloAbsorbingCondition(boardCounter % 2, ktFactor);
+            //    board.calculateEnergyAbsorbingCondition(boardCounter % 2);
+            //}
+            //else {
 
-                board.computeMonteCarloPeriodicCondition(boardCounter % 2, ktFactor);
-                board.calculateEnergyPeriodicCondition(boardCounter % 2);
-                board.calculateEnergyPeriodicCondition((boardCounter + 1) % 2);
-            }
-            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-            pictureBox1.Image = image;
-            button6.Enabled = false;
-            button7.Enabled = false;
-            button8.Enabled = true;
+            //    board.computeMonteCarloPeriodicCondition(boardCounter % 2, ktFactor);
+            //    board.calculateEnergyPeriodicCondition(boardCounter % 2);
+            //}
+            //board.setEnergyBetweenBoard(boardCounter % 2);
+            
+            //board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            ////pictureBox1.Image = image;
+            //button6.Enabled = false;
+            //button7.Enabled = false;
+            //button8.Enabled = true;
         }
 
         private void button7_Click(object sender, EventArgs e) {
