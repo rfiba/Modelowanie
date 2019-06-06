@@ -556,7 +556,7 @@ namespace Modelowanie_GUI
             }
         }
 
-        public void computeRecrystalizationStepPeriodicCondition(int numberOfBoard, double A, double B, double timeStep, double xPercentage, double criticalRo) {
+        public double computeRecrystalizationStepPeriodicCondition(int numberOfBoard, double A, double B, double timeStep, double xPercentage, double criticalRo) {
             bool[,] tmpRecrystalizationBoard = new bool[sizeM, sizeN]; 
             var arr = new List<TemporaryCell>();
             var arrRecrystalizated = new List<bool>();
@@ -608,6 +608,7 @@ namespace Modelowanie_GUI
                     //recrystalizationBoard = tmpRecrystalizationBoard;
 
             previousRo = deltaRo;
+            return ro;
         }
 
         private bool isAnyNeighbourRecrystlizated(int i , int j, int neighbourhood, int numberOfBoard) {

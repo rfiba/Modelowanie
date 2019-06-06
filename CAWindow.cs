@@ -35,6 +35,7 @@ namespace Modelowanie_GUI
         int mCIteration = 0;
         double time, timeStep;
         double ktFactor;
+        private List<double>  roes;
 
         public CAWindow(bool advacedMode = false) {
             InitializeComponent();
@@ -60,12 +61,19 @@ namespace Modelowanie_GUI
         private void OnTimedEvent(object sender, EventArgs e){
             timer.Stop();
             if (DRX) {
-                if(stepCounter == numberOfSteps)
+                if(stepCounter > numberOfSteps)
                 {
                     finalStop();
                     DRX = false;
                     stepCounter = 0;
-                    MessageBox.Show("Zakończono");
+                    List<String> strings = new List<String>();
+                    foreach (Double d in roes)
+                    {
+                        // Apply formatting to the string if necessary
+                        strings.Add(d.ToString());
+                    }
+                    System.IO.File.WriteAllLines(@"C:\Users\rafal\wynik.txt", strings);
+                   MessageBox.Show("Zakończono");
                     return;
                 }
                 pictureBox1.Image = image;
@@ -74,11 +82,13 @@ namespace Modelowanie_GUI
                 grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
                 pictureBox1.Refresh();
                 pictureBox1.Image = image;
+                double tmp = 0;
                 //MessageBox.Show($"{4.21584E+12 / (board.SizeM * board.SizeN)}");
                 if (offset > 0)
                     ;// board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
                 else
-                    board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.05, 4.21584E+12 / (board.SizeM * board.SizeN));
+                    tmp = board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.10, 4.21584E+12 / (board.SizeM * board.SizeN));
+                roes.Add(tmp);
                 board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
                 stepCounter++;
                 boardCounter++;
@@ -418,23 +428,6 @@ namespace Modelowanie_GUI
             mCIteration = (int)amountMCIteration.Value;
             MC = true;
             timer.Start();
-            //if (offset > 0)
-            //{
-            //    board.computeMonteCarloAbsorbingCondition(boardCounter % 2, ktFactor);
-            //    board.calculateEnergyAbsorbingCondition(boardCounter % 2);
-            //}
-            //else {
-
-            //    board.computeMonteCarloPeriodicCondition(boardCounter % 2, ktFactor);
-            //    board.calculateEnergyPeriodicCondition(boardCounter % 2);
-            //}
-            //board.setEnergyBetweenBoard(boardCounter % 2);
-            
-            //board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
-            ////pictureBox1.Image = image;
-            //button6.Enabled = false;
-            //button7.Enabled = false;
-            //button8.Enabled = true;
         }
 
         private void button7_Click(object sender, EventArgs e) {
@@ -501,9 +494,7 @@ namespace Modelowanie_GUI
             }
             numberOfSteps = (int)(time / timeStep);
             
-            timer = new Timer();
-            timer.Tick += OnTimedEvent;
-            timer.Interval = 200;
+            roes = new List<double>();
             DRX = true;
             timer.Start();
         }
