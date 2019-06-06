@@ -63,7 +63,9 @@ namespace Modelowanie_GUI
                 if(stepCounter == numberOfSteps)
                 {
                     finalStop();
-                    MessageBox.Show("finitto");
+                    DRX = false;
+                    stepCounter = 0;
+                    MessageBox.Show("Zakończono");
                     return;
                 }
                 pictureBox1.Image = image;
@@ -86,6 +88,9 @@ namespace Modelowanie_GUI
                 if(stepCounter == mCIteration)
                 {
                     finalStop();
+                    MC = false;
+                    stepCounter = 0;
+                    MessageBox.Show("Zakończono");
                     return;
                 }
 
@@ -297,6 +302,10 @@ namespace Modelowanie_GUI
             button3.Enabled = true;
             button4.Enabled = false;
             button5.Enabled = false;
+            button7.Enabled = false;
+            button8.Enabled = false;
+            button9.Enabled = false;
+            
             listBox1.Enabled = false;
             radioButton1.Enabled = false;
             OX.Enabled = false;
@@ -329,6 +338,9 @@ namespace Modelowanie_GUI
             timer.Stop();
             button4.Enabled = true;
             button2.Enabled = true;
+            button7.Enabled = true;
+            button8.Enabled = true;
+            button9.Enabled = true;
             boardCounter--;
         }
         
@@ -385,6 +397,7 @@ namespace Modelowanie_GUI
         }
 
         private void button6_Click(object sender, EventArgs e) { //MC
+            board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             mCIteration = 0;
             stepCounter = 0;
             try
@@ -429,6 +442,7 @@ namespace Modelowanie_GUI
             button8.Enabled = true;
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             grid.drawSpecificNumberOfCells((int)OX.Value, (int)OY.Value, graphics, pen);
+            pictureBox1.Refresh();
             pictureBox1.Image = image;
         }
 
@@ -448,6 +462,7 @@ namespace Modelowanie_GUI
             }
             
             pictureBox1.Image = image;
+            pictureBox1.Refresh();
         }
 
         private void button9_Click(object sender, EventArgs e)

@@ -460,14 +460,22 @@ namespace Modelowanie_GUI
             for(int i = 1; i < sizeM - 1; i++){
                 for(int j = 1; j < sizeN -1; j++){
                     var arr = new List<int>();
-                    arr.Add(boards[numberOfBoard].getValue(i - 1, j));
-                    arr.Add(boards[numberOfBoard].getValue(i + 1, j));
-                    arr.Add(boards[numberOfBoard].getValue(i, j + 1));
-                    arr.Add(boards[numberOfBoard].getValue(i, j - 1));
-                    arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
-                    arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
-                    arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
-                    arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
+                    if(i != 1)
+                        arr.Add(boards[numberOfBoard].getValue(i - 1, j));
+                    if(i != sizeM-2)
+                        arr.Add(boards[numberOfBoard].getValue(i + 1, j));
+                    if(j != sizeN - 2)
+                        arr.Add(boards[numberOfBoard].getValue(i, j + 1));
+                    if(j!=1)
+                        arr.Add(boards[numberOfBoard].getValue(i, j - 1));
+                    if(i != sizeM -2 && j != sizeN - 2)
+                        arr.Add(boards[numberOfBoard].getValue(i + 1, j + 1));
+                    if(i !=1 && j!=1)
+                        arr.Add(boards[numberOfBoard].getValue(i - 1, j - 1));
+                    if(i != sizeM -2 && j!=1)
+                        arr.Add(boards[numberOfBoard].getValue(i + 1, j - 1));
+                    if(i!=1 && j != sizeN-2)
+                        arr.Add(boards[numberOfBoard].getValue(i - 1, j + 1));
                     boards[numberOfBoard].setEnergy(i,j,arr.Count(x => x != boards[numberOfBoard].getValue(i, j)));
                 }
             }
