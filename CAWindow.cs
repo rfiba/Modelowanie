@@ -42,7 +42,7 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
             timer = new Timer();
             timer.Tick += OnTimedEvent;
-            timer.Interval = 700;
+            timer.Interval = 500;
             timerDRX = new Timer();
             timerDRX.Tick += OnTimedEventDRX;
             timerDRX.Interval = 700;
@@ -73,7 +73,7 @@ namespace Modelowanie_GUI
                 if (offset > 0)
                     ;// board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
                 else
-                    board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.10, 4.21584E+12 / (board.SizeM * board.SizeN));
+                    board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.015, 4.21584E+12 / (board.SizeM * board.SizeN));
                 board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
                 stepCounter++;
             }
@@ -374,9 +374,17 @@ namespace Modelowanie_GUI
                 ktFactor = 6;
             textBox1.Text = ktFactor.ToString();
             if (offset > 0)
-                board.computeMonteCarloAbsorbingCondition(boardCounter%2, ktFactor);
-            else
-                board.computeMonteCarloPeriodicCondition(boardCounter%2, ktFactor);
+            {
+                board.computeMonteCarloAbsorbingCondition(boardCounter % 2, ktFactor);
+                board.calculateEnergyAbsorbingCondition(boardCounter % 2);
+                board.calculateEnergyAbsorbingCondition((boardCounter + 1) % 2);
+            }
+            else {
+
+                board.computeMonteCarloPeriodicCondition(boardCounter % 2, ktFactor);
+                board.calculateEnergyPeriodicCondition(boardCounter % 2);
+                board.calculateEnergyPeriodicCondition((boardCounter + 1) % 2);
+            }
             board.drawOnGraphics(brush, graphics, pictureBox1, grid, boardCounter % 2);
             pictureBox1.Image = image;
             button6.Enabled = false;
@@ -392,7 +400,7 @@ namespace Modelowanie_GUI
             pictureBox1.Image = image;
         }
 
-        private void button8_Click(object sender, EventArgs e) {
+        private void button8_Click(object sender, EventArgs e) { //widok energii
             button7.Enabled = true;
             button8.Enabled = false;
             if (offset > 0)
@@ -407,6 +415,13 @@ namespace Modelowanie_GUI
                 board.drawEnergyOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
             }
             
+            pictureBox1.Image = image;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            //board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            board.drawRecrystalizationOnGraphicsAbsorbingCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
             pictureBox1.Image = image;
         }
 
@@ -431,8 +446,8 @@ namespace Modelowanie_GUI
                 MessageBox.Show("Nie prawidłowa wartość dt");
                 return;
             }
-
-            if(time < 0 || timeStep < 0)
+            MessageBox.Show($"{board.getMaxEnergy(0)} {board.getMaxEnergy(1)}");
+            if (time < 0 || timeStep < 0)
             {
                 MessageBox.Show("Czas mniejszy od 0");
                 return;

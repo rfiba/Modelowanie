@@ -22,7 +22,7 @@ namespace Modelowanie_GUI
         int exponent;
         double previousRo = 0;
         bool exponentCalculated;
-        private bool[,] recrystalizationBoard;
+        private bool[,,] recrystalizationBoard;
         public bool ChangesFlag { get { return changesFlag; } }
 
         public int SizeM
@@ -61,7 +61,7 @@ namespace Modelowanie_GUI
             points = new List<Point>();
             colors = new Dictionary<int, Color>();
             exponentCalculated = false;
-            recrystalizationBoard = new bool[sizeM, sizeN];
+            recrystalizationBoard = new bool[2,sizeM, sizeN];
     }
 
         public void computeStepPeriodicBoundaryCondition(int numberOfBoard, int radius = 0, int neighbourhood = 0) {
@@ -267,13 +267,13 @@ namespace Modelowanie_GUI
         }
 
         public void drawDislocationDensityOnGraphicsPeriodicCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard) {
-            double max = boards[numberOfBoard].getMaxDislocationDensity()%10000;
+            double max = boards[numberOfBoard].getMaxDislocationDensity();
             if (max == 0)
                 max = 0.001;
             for (int i = 0; i < boards[numberOfBoard].SizeM; i++){
                 for (int j = 0; j < boards[numberOfBoard].SizeN; j++){
                     var tmp = boards[numberOfBoard].getDislocationDensity(i, j);
-                    brush.Color = Color.FromArgb((int)((tmp/max*255)%255), 0, 0);
+                    brush.Color = Color.FromArgb((int)(Math.Round((tmp/max),1)*255), 0, 0);
                     graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                 }
             }
@@ -287,6 +287,20 @@ namespace Modelowanie_GUI
 
                     brush.Color = Color.FromArgb(factor * (8-tmp), 0, 0);
                     graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+                }
+            }
+        }
+
+        public void drawRecrystalizationOnGraphicsAbsorbingCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
+        {
+            int factor = 255 / 8;
+            brush.Color = Color.Aqua;
+            for (int i = 0; i < boards[numberOfBoard].SizeM ; i++)
+            {
+                for (int j = 0; j < boards[numberOfBoard].SizeN ; j++)
+                {
+                    if(boards[numberOfBoard].checkRecrystalizated(i,j))
+                        graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                 }
             }
         }
@@ -494,7 +508,8 @@ namespace Modelowanie_GUI
                 i = rnd.Next(0, sizeM);
                 j = rnd.Next(0, sizeN);
                 randomed = rnd.Next(0,100);
-                if (boards[numberOfBoard].getEnergy(i, j) != 0){
+                var tmp = boards[numberOfBoard].getEnergy(i, j);
+                if (tmp != 0){
                     
                     if (randomed >= 20)
                         boards[numberOfBoard].addDislocationDensity(i, j, 100000);
@@ -548,7 +563,7 @@ namespace Modelowanie_GUI
                         tmpRecrystalizationBoard[i, j] = true;
                         continue;
                     }
-                    if (isAnyNeighbourRecrystlizated(i, j, 0))
+                    if (isAnyNeighbourRecrystlizated(i, j, 0, numberOfBoard))
                     {
                         arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i - 1, sizeM), j));
                         arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
@@ -559,22 +574,35 @@ namespace Modelowanie_GUI
                         {
                             boards[numberOfBoard].setDislocationDensity(i, j, 0);
                             boards[numberOfBoard].makeRecrystalizated(i, j);
-                            tmpRecrystalizationBoard[i, j] = true;
+                            recrystalizationBoard[(numberOfBoard+1)%2,i, j] = true;
                         }
                     }
                 }
             }
-            recrystalizationBoard = tmpRecrystalizationBoard;
+
+            //for (int i = 0; i < sizeM; i++)
+            //{
+            //    for (int j = 0; j < sizeN; j++)
+            //    {
+            //        recrystalizationBoard[i, j] = tmpRecrystalizationBoard[i, j];
+            //    }
+            //}
+                    //recrystalizationBoard = tmpRecrystalizationBoard;
+
             previousRo = deltaRo;
         }
 
-        private bool isAnyNeighbourRecrystlizated(int i , int j, int neighbourhood) {
-            if (recrystalizationBoard[BoardGameOfLife.mod(i - 1, sizeM), j]) return true;
-            if (recrystalizationBoard[BoardGameOfLife.mod(i + 1, sizeM), j]) return true;
-            if (recrystalizationBoard[i, BoardGameOfLife.mod(j + 1, sizeN)]) return true;
-            if (recrystalizationBoard[i, BoardGameOfLife.mod(j - 1, sizeN)]) return true;
+        private bool isAnyNeighbourRecrystlizated(int i , int j, int neighbourhood, int numberOfBoard) {
+            if (recrystalizationBoard[numberOfBoard,BoardGameOfLife.mod(i - 1, sizeM), j]) return true;
+            if (recrystalizationBoard[numberOfBoard,BoardGameOfLife.mod(i + 1, sizeM), j]) return true;
+            if (recrystalizationBoard[numberOfBoard,i, BoardGameOfLife.mod(j + 1, sizeN)]) return true;
+            if (recrystalizationBoard[numberOfBoard,i, BoardGameOfLife.mod(j - 1, sizeN)]) return true;
             return false;
         }
 
+        public int getMaxEnergy(int numberOfBoard)
+        {
+            return boards[numberOfBoard].getMaxEnergy();
+        }
     }
 }

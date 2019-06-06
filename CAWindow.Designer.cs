@@ -376,12 +376,13 @@ namespace Modelowanie_GUI
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(0, 0);
+            this.button9.Location = new System.Drawing.Point(702, 552);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
+            this.button9.Size = new System.Drawing.Size(163, 23);
             this.button9.TabIndex = 30;
-            this.button9.Text = "button9";
+            this.button9.Text = "Gęstość dyslokacji";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button10
             // 
@@ -429,7 +430,7 @@ namespace Modelowanie_GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(950, 556);
+            this.ClientSize = new System.Drawing.Size(957, 586);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);

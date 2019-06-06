@@ -10,3 +10,15 @@ D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_G
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.exe
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.pdb
 D:\Documents\Visual Studio 2015\Projects\Modelowanie_GUI\obj\Debug\Modelowanie_GUI.csprojResolveAssemblyReference.cache
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\bin\Debug\Modelowanie_GUI.exe.config
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.exe
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.pdb
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\bin\Debug\Modelowanie_GUI.exe
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\bin\Debug\Modelowanie_GUI.pdb
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.csprojResolveAssemblyReference.cache
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.CAWindow.resources
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.ChoiceWindow.resources
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.Automaton.resources
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.GameOfLife.resources
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.Properties.Resources.resources
+C:\Users\rafal\Documents\Visual Studio 2015\Projects\Modelowanie\obj\Debug\Modelowanie_GUI.csproj.GenerateResource.Cache

@@ -89,6 +89,17 @@ namespace Modelowanie_GUI
             return max;
         }
 
+        public int getMaxEnergy()
+        {
+            int max = 0;
+            for (int i = 0; i < sizeM; i++)
+            {
+                for (int j = 0; j < sizeN; j++)
+                    max = max < board[i, j].Energy ? board[i, j].Energy : max;
+            }
+            return max;
+        }
+
 
 
     }
