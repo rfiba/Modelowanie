@@ -83,11 +83,10 @@ namespace Modelowanie_GUI
                 pictureBox1.Refresh();
                 pictureBox1.Image = image;
                 double tmp = 0;
-                //MessageBox.Show($"{4.21584E+12 / (board.SizeM * board.SizeN)}");
                 if (offset > 0)
-                    ;// board.computeStepAbsorbingBoundaryCondition(boardCounter % 2, radius, neighbourhood);
+                    tmp = board.computeRecrystalizationStepAbsorbingCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep * stepCounter, 0.10, 4.21584E+12 / (board.SizeM * board.SizeN), neighbourhood);
                 else
-                    tmp = board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.10, 4.21584E+12 / (board.SizeM * board.SizeN));
+                    tmp = board.computeRecrystalizationStepPeriodicCondition(boardCounter % 2, 8.6711E+13, 9.41268203527779, timeStep *stepCounter, 0.10, 4.21584E+12 / (board.SizeM * board.SizeN), neighbourhood);
                 roes.Add(tmp);
                 board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
                 stepCounter++;
@@ -460,8 +459,14 @@ namespace Modelowanie_GUI
 
         private void button9_Click(object sender, EventArgs e)
         {
-            //board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
-            board.drawRecrystalizationOnGraphicsAbsorbingCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+            board.drawDislocationDensityOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
+           
+            pictureBox1.Image = image;
+        }
+
+        private void mikrostrukturaButton_Click(object sender, EventArgs e)
+        {
+            board.drawRecrystalizationOnGraphicsPeriodicCondition(brush, graphics, pictureBox1, grid, boardCounter % 2);
             pictureBox1.Image = image;
         }
 

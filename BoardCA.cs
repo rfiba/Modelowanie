@@ -291,7 +291,7 @@ namespace Modelowanie_GUI
             }
         }
 
-        public void drawRecrystalizationOnGraphicsAbsorbingCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
+        public void drawRecrystalizationOnGraphicsPeriodicCondition(SolidBrush brush, Graphics graphics, PictureBox pictureBox, Grid grid, int numberOfBoard)
         {
             int factor = 255 / 8;
             brush.Color = Color.Aqua;
@@ -299,8 +299,15 @@ namespace Modelowanie_GUI
             {
                 for (int j = 0; j < boards[numberOfBoard].SizeN ; j++)
                 {
-                    if(boards[numberOfBoard].checkRecrystalizated(i,j))
-                        graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
+                    var tmp = boards[numberOfBoard].getValue(i, j);
+
+
+
+                    if (boards[numberOfBoard].checkRecrystalizated(i, j))
+                        brush.Color = Color.Black;//getColorForValue(tmp + 200);
+                    else if (tmp > 0)
+                        brush.Color = getColorForValue(tmp);
+                    graphics.FillRectangle(brush, j * grid.cellSize + 1, i * grid.cellSize + 1, grid.cellSize - 1, grid.cellSize - 1);
                 }
             }
         }
@@ -513,6 +520,15 @@ namespace Modelowanie_GUI
             }
         }
 
+        private void scatterAverageRoToBoardAbsorbingCondition(int numberOfBoard, double averageRo)
+        {
+            for (int i = 1; i < sizeM-1; i++)
+            {
+                for (int j = 1; j < sizeN-1; j++)
+                    boards[numberOfBoard].addDislocationDensity(i, j, averageRo);
+            }
+        }
+
         private void scatterRoWithProbabilityPeriodicCondition(int numberOfBoard, double ro) {
             int numberOfPackages = (int)(ro / 100000);
             int i, j;
@@ -543,6 +559,37 @@ namespace Modelowanie_GUI
             }
         }
 
+        private void scatterRoWithProbabilityAbsorbingCondition(int numberOfBoard, double ro)
+        {
+            int numberOfPackages = (int)(ro / 100000);
+            int i, j;
+            int randomed;
+            for (int k = 0; k < numberOfPackages; k++)
+            {
+                i = rnd.Next(1, sizeM-1);
+                j = rnd.Next(1, sizeN-1);
+                randomed = rnd.Next(0, 100);
+                var tmp = boards[numberOfBoard].getEnergy(i, j);
+                if (tmp != 0)
+                {
+
+                    if (randomed >= 20)
+                        boards[numberOfBoard].addDislocationDensity(i, j, 100000);
+                    else {
+                        k--;
+                        continue;
+                    }
+                }
+                else {
+                    if (randomed < 20)
+                        boards[numberOfBoard].addDislocationDensity(i, j, 100000);
+                    else {
+                        k--;
+                        continue;
+                    }
+                }
+            }
+        }
         public void scatterRoToBoardPeriodicCondition(int numberOfBoard, int numberOfSteps, double A, double B, double timeFactor, double xPercentage) {
             double previousRo = 0, deltaRo, tmp, roForEqualScatter; ;
             for (int i = 0; i < numberOfSteps; i++)
@@ -556,7 +603,7 @@ namespace Modelowanie_GUI
             }
         }
 
-        public double computeRecrystalizationStepPeriodicCondition(int numberOfBoard, double A, double B, double timeStep, double xPercentage, double criticalRo) {
+        public double computeRecrystalizationStepPeriodicCondition(int numberOfBoard, double A, double B, double timeStep, double xPercentage, double criticalRo, int neighbourhood) {
             bool[,] tmpRecrystalizationBoard = new bool[sizeM, sizeN]; 
             var arr = new List<TemporaryCell>();
             var arrRecrystalizated = new List<bool>();
@@ -577,19 +624,29 @@ namespace Modelowanie_GUI
                         tmpRecrystalizationBoard[i, j] = true;
                         continue;
                     }
-                    if (isAnyNeighbourRecrystlizated(i, j, 0, numberOfBoard))
+                    if (isAnyNeighbourRecrystlizatedPeriodicCondition(i, j, 0, numberOfBoard))
                     {
-                        arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i - 1, sizeM), j));
-                        arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
-                        arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
-                        arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
-                        
-                        if (arr.Count(x => x.dislocationDensity < boards[numberOfBoard].getDislocationDensity(i, j)) == 4)
+                        if (neighbourhood == 0 || neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
                         {
-                            boards[(numberOfBoard+1)%2].setDislocationDensity(i, j, 0);
-                            boards[(numberOfBoard + 1) % 2].makeRecrystalizated(i, j);
-                            recrystalizationBoard[(numberOfBoard+1)%2,i, j] = true;
-                            continue;
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i - 1, sizeM), j));
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM), j));
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i, BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i, BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            if (neighbourhood == 1 || neighbourhood == 2)
+                            {
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                    BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                    BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                            }
+
+                            if (neighbourhood == 1 || neighbourhood == 3)
+                            {
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                                    BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)));
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                                    BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)));
+                            }
                         }
                     }
                     boards[(numberOfBoard + 1) % 2].setDislocationDensity(i, j, boards[numberOfBoard].getDislocationDensity(i, j));
@@ -611,11 +668,108 @@ namespace Modelowanie_GUI
             return ro;
         }
 
-        private bool isAnyNeighbourRecrystlizated(int i , int j, int neighbourhood, int numberOfBoard) {
+        private bool isAnyNeighbourRecrystlizatedPeriodicCondition(int i , int j, int neighbourhood, int numberOfBoard) {
             if (recrystalizationBoard[numberOfBoard,BoardGameOfLife.mod(i - 1, sizeM), j]) return true;
             if (recrystalizationBoard[numberOfBoard,BoardGameOfLife.mod(i + 1, sizeM), j]) return true;
             if (recrystalizationBoard[numberOfBoard,i, BoardGameOfLife.mod(j + 1, sizeN)]) return true;
             if (recrystalizationBoard[numberOfBoard,i, BoardGameOfLife.mod(j - 1, sizeN)]) return true;
+            if (neighbourhood == 1 || neighbourhood == 2)
+            {
+                if (recrystalizationBoard[numberOfBoard, BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                    BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)]) return true;
+                if (recrystalizationBoard[numberOfBoard, BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                    BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)]) return true;
+            }
+
+            if (neighbourhood == 1 || neighbourhood == 3)
+            {
+                if (recrystalizationBoard[numberOfBoard, BoardGameOfLife.mod(i + 1, boards[numberOfBoard].SizeM),
+                    BoardGameOfLife.mod(j + 1, boards[numberOfBoard].SizeN)]) return true;
+                if (recrystalizationBoard[numberOfBoard, BoardGameOfLife.mod(i - 1, boards[numberOfBoard].SizeM),
+                    BoardGameOfLife.mod(j - 1, boards[numberOfBoard].SizeN)]) return true;
+            }
+            return false;
+        }
+
+        public double computeRecrystalizationStepAbsorbingCondition(int numberOfBoard, double A, double B, double timeStep, double xPercentage, double criticalRo, int neighbourhood)
+        {
+            bool[,] tmpRecrystalizationBoard = new bool[sizeM, sizeN];
+            var arr = new List<TemporaryCell>();
+            var arrRecrystalizated = new List<bool>();
+            double ro = calculateRo(A, B, timeStep);
+            double deltaRo = ro - previousRo;
+            double averageRo = deltaRo / ((sizeM-2) * (sizeN-2));
+            scatterAverageRoToBoardAbsorbingCondition(numberOfBoard, averageRo * xPercentage);
+            scatterRoWithProbabilityAbsorbingCondition(numberOfBoard, averageRo - averageRo * xPercentage);
+            for (int i = 0; i < sizeM; i++)
+            {
+                for (int j = 0; j < sizeN; j++)
+                {
+
+                    if (boards[numberOfBoard].getDislocationDensity(i, j) > criticalRo)
+                    {
+                        boards[(numberOfBoard + 1) % 2].setDislocationDensity(i, j, 0);
+                        boards[(numberOfBoard + 1) % 2].makeRecrystalizated(i, j);
+                        tmpRecrystalizationBoard[i, j] = true;
+                        continue;
+                    }
+                    if (isAnyNeighbourRecrystlizatedPeriodicCondition(i, j, 0, numberOfBoard))
+                    {
+                        if (neighbourhood == 0 || neighbourhood == 1 || neighbourhood == 2 || neighbourhood == 3)
+                        {
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i - 1, j));
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i + 1, j));
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i, j + 1));
+                            arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i, j - 1));
+                            if (neighbourhood == 1 || neighbourhood == 2)
+                            {
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i + 1, j - 1));
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i - 1,j + 1));
+                            }
+
+                            if (neighbourhood == 1 || neighbourhood == 3)
+                            {
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i + 1, j + 1));
+                                arr.Add(boards[numberOfBoard].getDislocationDensityAndRecrystalizated(i - 1, j - 1));
+                            }
+                        }
+                    }
+                    boards[(numberOfBoard + 1) % 2].setDislocationDensity(i, j, boards[numberOfBoard].getDislocationDensity(i, j));
+                }
+
+
+            }
+
+            //for (int i = 0; i < sizeM; i++)
+            //{
+            //    for (int j = 0; j < sizeN; j++)
+            //    {
+            //        recrystalizationBoard[i, j] = tmpRecrystalizationBoard[i, j];
+            //    }
+            //}
+            //recrystalizationBoard = tmpRecrystalizationBoard;
+
+            previousRo = deltaRo;
+            return ro;
+        }
+
+        private bool isAnyNeighbourRecrystlizatedAbsorbingCondition(int i, int j, int neighbourhood, int numberOfBoard)
+        {
+            if (recrystalizationBoard[numberOfBoard, i - 1, j]) return true;
+            if (recrystalizationBoard[numberOfBoard, i + 1, j]) return true;
+            if (recrystalizationBoard[numberOfBoard, i, j + 1]) return true;
+            if (recrystalizationBoard[numberOfBoard, i, j - 1]) return true;
+            if (neighbourhood == 1 || neighbourhood == 2)
+            {
+                if (recrystalizationBoard[numberOfBoard,i + 1, j - 1]) return true;
+                if (recrystalizationBoard[numberOfBoard, i - 1, j + 1]) return true;
+            }
+
+            if (neighbourhood == 1 || neighbourhood == 3)
+            {
+                if (recrystalizationBoard[numberOfBoard, i + 1,j + 1]) return true;
+                if (recrystalizationBoard[numberOfBoard, i - 1, j - 1]) return true;
+            }
             return false;
         }
 

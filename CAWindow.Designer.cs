@@ -64,6 +64,7 @@ namespace Modelowanie_GUI
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.amountMCIteration = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
+            this.mikrostrukturaButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OY)).BeginInit();
@@ -460,11 +461,23 @@ namespace Modelowanie_GUI
             this.label11.TabIndex = 37;
             this.label11.Text = "Ilość iteracji";
             // 
+            // mikrostrukturaButton
+            // 
+            this.mikrostrukturaButton.Location = new System.Drawing.Point(702, 581);
+            this.mikrostrukturaButton.Name = "mikrostrukturaButton";
+            this.mikrostrukturaButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.mikrostrukturaButton.Size = new System.Drawing.Size(163, 23);
+            this.mikrostrukturaButton.TabIndex = 38;
+            this.mikrostrukturaButton.Text = "Mikrostruktura";
+            this.mikrostrukturaButton.UseVisualStyleBackColor = true;
+            this.mikrostrukturaButton.Click += new System.EventHandler(this.mikrostrukturaButton_Click);
+            // 
             // CAWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(957, 586);
+            this.ClientSize = new System.Drawing.Size(964, 622);
+            this.Controls.Add(this.mikrostrukturaButton);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.amountMCIteration);
             this.Controls.Add(this.textBox3);
@@ -555,5 +568,6 @@ namespace Modelowanie_GUI
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.NumericUpDown amountMCIteration;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button mikrostrukturaButton;
     }
 }
